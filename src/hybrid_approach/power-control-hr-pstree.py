@@ -28,7 +28,7 @@ class PowerControl:
         self.PerfFileLength = 0
         self.CurCore= 0
         self.CurFreq= 16
-        print self.AppNameShort
+        print(self.AppNameShort)
     
     def PwrBSearch(self,lowbound, highbound, PwrCap):
         head = lowbound
@@ -106,7 +106,7 @@ class PowerControl:
             
     def GetPowerDistAndSet(self,CoreNumber):
         power1 =0.0
-        pwoer2 =0.0
+        power2 =0.0
         if CoreNumber <9 or (CoreNumber >33):
             power1 = self.PwrCap-40.0
             power2 = 0
@@ -159,7 +159,7 @@ class PowerControl:
                 
 #get the heartbeat info
     def GetFeedback(self,config):
-        print config
+        print(config)
         #PowerFileName = self.CurFolder+'socket_power.txt'
         PowerFileName = 'socket_power.txt'
         #PerfFileName = self.CurFolder+'heartbeat.log'
@@ -182,53 +182,53 @@ class PowerControl:
             time.sleep(2)
            # if int(config[0]) == 40 and int(config[1]==1):
             #    time.sleep(4)
-            #    print "sleep 5"
+            #    print("sleep 5"
          #   counter = 0
-            print "len(PerfFileLines)", len(PerfFileLines)
-            print "self.PerfFileLength",self.PerfFileLength
-            print "wait...."
+            print("len(PerfFileLines)", len(PerfFileLines))
+            print("self.PerfFileLength",self.PerfFileLength)
+            print("wait....")
             while ((len(PerfFileLines) - self.PerfFileLength) <10)and((len(PerfFileLines) - self.PerfFileLength) < 2 or (time.time()- TmpTime < 10)):
               #  PowerFile.close()
                 PerfFile.close()
                 #get Socket Power
                 time.sleep(0.1)
-              #  print "sleep 0.1"
-               # print "get Socket Power"
+              #  print("sleep 0.1"
+               # print("get Socket Power"
               #  os.system("sudo "+RAPL_POWER_MON)
               #  PowerFile = open(PowerFileName,'r')
                 PerfFile = open(PerfFileName,'r')
              #   PowerFileLines= PowerFile.readlines()
                 PerfFileLines= PerfFile.readlines()[2:]
              #   counter += 1
-             #   print PowerFileLines
+             #   print(PowerFileLines
                 # if counter % 10 == 0:
                 #   os.system(POWER_MON+" stop > power.txt")
-            print "waiting time: "+str(time.time() - TmpTime)
+            print("waiting time: "+str(time.time() - TmpTime))
             os.system("sudo "+RAPL_POWER_MON)
             PowerFile = open(PowerFileName,'r')
             PowerFileLines= PowerFile.readlines()
             
             CurLength = len(PerfFileLines) - self.PerfFileLength
 
-            print "CurLength=",CurLength
-                # print "sleep 0.1"
-            #os.system("ps -ef | grep "+self.CurFolder+self.AppName+" | awk '{print $2}' | sudo xargs kill -9")
-           # os.system("ps -ef | grep "+self.CurFolder+self.AppName+" | awk '{print $2}' | sudo xargs kill -9")
+            print("CurLength=",CurLength)
+                # print("sleep 0.1"
+            #os.system("ps -ef | grep "+self.CurFolder+self.AppName+" | awk '{print($2}' | sudo xargs kill -9")
+           # os.system("ps -ef | grep "+self.CurFolder+self.AppName+" | awk '{print($2}' | sudo xargs kill -9")
             SumPerf = 0
             j =0
             AvergeInterval = 0.0
             heartbeat = 0.0
             if self.PerfFileLength == 0:
                 CurLength = CurLength -1
-           # print "long(PerfFileLines[-1].split()[2])=",long(PerfFileLines[-1].split()[2])
-           # print "long(PerfFileLines[-CurLength-1].split()[2])=",long(PerfFileLines[-CurLength-1].split()[2])
-            TotalInterval =(long(PerfFileLines[-1].split()[2]) - long(PerfFileLines[-CurLength-1].split()[2]))
+           # print("int(PerfFileLines[-1].split()[2])=",int(PerfFileLines[-1].split()[2])
+           # print("int(PerfFileLines[-CurLength-1].split()[2])=",int(PerfFileLines[-CurLength-1].split()[2])
+            TotalInterval =(int(PerfFileLines[-1].split()[2]) - int(PerfFileLines[-CurLength-1].split()[2]))
 
             AvergeInterval = TotalInterval/ float(CurLength)
             TimeIntervalList =[]
             for i in range(-CurLength,0):
                 LinePerf = PerfFileLines[i].split()
-                TimeInterval = long(LinePerf[2]) - long(PerfFileLines[i-1].split()[2])
+                TimeInterval = int(LinePerf[2]) - int(PerfFileLines[i-1].split()[2])
                 TimeIntervalList.append(TimeInterval)
                 
              #   heartbeat = heartbeat + 1
@@ -248,7 +248,7 @@ class PowerControl:
                 SumPwr += float(LinePwr[0])
                 j +=1
             AvgPwr = float(SumPwr)/j
-            print AvgPerf, AvgPwr
+            print(AvgPerf, AvgPwr)
             return float(AvgPerf), float(AvgPwr)
 
 
@@ -257,7 +257,7 @@ class PowerControl:
         if CoreNumber <33:
             os.system(SET_SPEED+' -S '+str(16-freq))
             #os.system(POWER_MON+" start")
-            print "sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-"+str(CoreNumber-1)+" "+self.CommandLine+" &"
+            print("sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-"+str(CoreNumber-1)+" "+self.CommandLine+" &")
             os.system("sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-"+str(CoreNumber-1)+" "+self.CommandLine+" &")
         else:
             os.system(SET_SPEED+' -S '+str(16-freq))
@@ -268,41 +268,41 @@ class PowerControl:
         self.GetPowerDistAndSet(CoreNumber)
 
     def AdjustConfig(self, CoreNumber,freq,MemoCtrl):
-          StartTime = time.time()
+        StartTime = time.time()
 
         if self.CurFreq != freq:
             os.system(SET_SPEED+' -S '+str(16-freq))
         
         if self.CurCore != CoreNumber:
             if CoreNumber <33:
-                print "for i in $(pgrep "+self.AppNameShort+" | xargs pstree -p|grep -o \"([[:digit:]]*)\" |grep -o \"[[:digit:]]*\");do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i & done"
-                print self.AppNameShort
-            #    os.system("for i in $(pgrep "+self.AppName+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print $2}');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i > /dev/null & done")
+                print("for i in $(pgrep "+self.AppNameShort+" | xargs pstree -p|grep -o \"([[:digit:]]*)\" |grep -o \"[[:digit:]]*\");do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i & done")
+                print(self.AppNameShort)
+            #    os.system("for i in $(pgrep "+self.AppName+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print($2}');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i > /dev/null & done")
                 result1 = subprocess.check_output("for i in $(pgrep "+self.AppNameShort+" | xargs pstree -p|grep -o \"([[:digit:]]*)\" |grep -o \"[[:digit:]]*\");do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i & done",shell=True)
             else:
-                #os.system("for i in $(pgrep "+self.AppName+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print $2}');do sudo taskset -pc 0-7,16-"+str(CoreNumber-17)+" $i > /dev/null & done")
+                #os.system("for i in $(pgrep "+self.AppName+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print($2}');do sudo taskset -pc 0-7,16-"+str(CoreNumber-17)+" $i > /dev/null & done")
                 result1 = subprocess.check_output("for i in $(pgrep "+self.AppNameShort+" | xargs pstree -p|grep -o \"([[:digit:]]*)\" |grep -o \"[[:digit:]]*\");do sudo taskset -pc 0-7,16-"+str(CoreNumber-17)+" $i & done",shell=True)
         self.GetPowerDistAndSet(CoreNumber)
         self.CurCore = CoreNumber
         self.CurFreq = freq
         EndTime = time.time()
-        print (EndTime - StartTime)
+        print((EndTime - StartTime))
 
 CommandLine =""
 os.system("sudo /var/tmp/RAPL/RaplPowerLimitDisable")
 for i in range(3,len(sys.argv)):
     CommandLine  = CommandLine+" "+sys.argv[i]
 PC= PowerControl(sys.argv[1],sys.argv[2],CommandLine)
-print "CommandLine", CommandLine
+print("CommandLine", CommandLine)
 tmp1 = PC.Decision()
-print PC.PerfDictionary
-print PC.PwrDictionary
-print PC.CoreNumber,PC.frequency,PC.MemoCtrl
+print(PC.PerfDictionary)
+print(PC.PwrDictionary)
+print(PC.CoreNumber,PC.frequency,PC.MemoCtrl)
 PC.AdjustConfig(PC.CoreNumber,PC.frequency,PC.MemoCtrl)
 file = open("heartbeat.log",'r')
 StartLength= len(file.readlines()[1:])
 file.close()
-print (time.time() - StartTime)
+print((time.time() - StartTime))
 result = subprocess.check_output("pgrep "+PC.AppNameShort+" > /dev/null; echo $?", shell=True)
 while (result =='0\n'):
     result = subprocess.check_output("pgrep "+PC.AppNameShort+" > /dev/null; echo $?", shell=True)
@@ -315,5 +315,5 @@ os.system("echo "+str(Endlength - StartLength)+" >> Length.txt")
 
 file = open("converged_configuration",'a')
 file.write(str(PC.PwrCap)+" ("+str(PC.CoreNumber)+","+str(PC.frequency)+","+str(PC.MemoCtrl)+")")
-print result,"finished"
+print(result,"finished")
 

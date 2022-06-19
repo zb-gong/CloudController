@@ -4,8 +4,8 @@ import os
 import sys
 import math
 StartTime = time.time()
-SET_SPEED = "/home/hankhoffmann/tools/powerQoS/pySetCPUSpeed.py"
-POWER_MON = "/home/hankhoffmann/tools/powerQoS/pyWattsup-hank.py"
+SET_SPEED = "/home/zibo/Projects/PUPIL/tools/powerQoS/pySetCPUSpeed.py"
+POWER_MON = "/home/zibo/Projects/PUPIL/tools/powerQoS/pyWattsup-hank.py"
 RAPL_POWER_MON = "/local/huazhe/decision_tree/RaplPowerMonitor"
 
 class PowerControl:
@@ -35,7 +35,7 @@ class PowerControl:
         self.PerfFileLength = [0,0,0,0]
         self.CurCore= 0
         self.CurFreq= 16
-        print self.AppNameShort
+        print(self.AppNameShort)
     
     def PwrBSearch(self,lowbound, highbound, PwrCap):
         head = lowbound
@@ -161,7 +161,7 @@ class PowerControl:
                 
     #get the heartbeat info
     def GetFeedback(self,config):
-        print config
+        print(config)
         PerfFileName = []
         for name in self.HeartbeatFileName:
             PerfFileName.append(name+'_heartbeat.log')
@@ -185,9 +185,9 @@ class PowerControl:
             for i in range(len(PerfFileName)):
                 PerfFile = open(PerfFileName[i],'r')
                 PerfFileLines= PerfFile.readlines()[1:]
-                print "len(PerfFileLines)", len(PerfFileLines)
-                print "self.PerfFileLength",self.PerfFileLength
-                print "wait...."
+                print("len(PerfFileLines)", len(PerfFileLines))
+                print("self.PerfFileLength",self.PerfFileLength)
+                print("wait....")
                 while ((len(PerfFileLines) - self.PerfFileLength[i]) <5 or (time.time()- TmpTime < 5))and((len(PerfFileLines) - self.PerfFileLength[i]) < 3 or (time.time()- TmpTime < 10)):
 
                     PerfFile.close()
@@ -195,7 +195,7 @@ class PowerControl:
 
                     PerfFile = open(PerfFileName[i],'r')
                     PerfFileLines= PerfFile.readlines()[1:]
-                print "waiting time: "+str(time.time() - TmpTime)
+                print("waiting time: "+str(time.time() - TmpTime))
                 
 
             for i in range(len(PerfFileName)):
@@ -209,27 +209,27 @@ class PowerControl:
                 heartbeat = 0.0
                 if self.PerfFileLength[i] == 0:
                     CurLength = CurLength -1
-                print "CurLength:"+str(CurLength)+"len(PerfFileLines):"+str(len(PerfFileLines))
-                TotalInterval =(long(PerfFileLines[-1].split()[2]) - long(PerfFileLines[0].split()[2]))
-                CurInterval = (long(PerfFileLines[-1].split()[2]) - long(PerfFileLines[-CurLength-1].split()[2]))
+                print("CurLength:"+str(CurLength)+"len(PerfFileLines):"+str(len(PerfFileLines)))
+                TotalInterval =(int(PerfFileLines[-1].split()[2]) - int(PerfFileLines[0].split()[2]))
+                CurInterval = (int(PerfFileLines[-1].split()[2]) - int(PerfFileLines[-CurLength-1].split()[2]))
                 AvergeInterval = TotalInterval/ float(len(PerfFileLines)-1)
             
                 for j in range(-CurLength,0):
                     LinePerf = PerfFileLines[j].split()
 
-                    TimeInterval = long(LinePerf[2]) - long(PerfFileLines[j-1].split()[2])
+                    TimeInterval = int(LinePerf[2]) - int(PerfFileLines[j-1].split()[2])
                 
                     heartbeat = heartbeat + 1
                     if TimeInterval < AvergeInterval / 100.0:
                         heartbeat = heartbeat - 1
-                print 'heartbeat',heartbeat
-                print 'TotalInterval',TotalInterval
+                print('heartbeat',heartbeat)
+                print('TotalInterval',TotalInterval)
                 AvgPerf = float(heartbeat)* 1000000000/CurInterval
              #   if config[0] == 8:
               #      self.standardPerf[i] = AvgPerf
                 NormolizedPerf += AvgPerf/self.standardPerf[i]
-                print 'self.standardPerf',self.standardPerf
-                print PerfFileName[i],'AvgPerf='+str(AvgPerf)
+                print('self.standardPerf',self.standardPerf)
+                print(PerfFileName[i],'AvgPerf='+str(AvgPerf))
             
             
          #   j = 0
@@ -240,7 +240,7 @@ class PowerControl:
               #  j +=1
            # AvgPwr = float(SumPwr)/j
             
-            print NormolizedPerf, self.PwrCap
+            print(NormolizedPerf, self.PwrCap)
             return float(NormolizedPerf), float(self.PwrCap)
 
 
@@ -250,7 +250,7 @@ class PowerControl:
             #os.system(POWER_MON+" start")
             for commandline in self.CommandLine:
 
-                print "sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-"+str(CoreNumber-1)+" "+commandline+" > /dev/null 2>&1 &"
+                print("sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-"+str(CoreNumber-1)+" "+commandline+" > /dev/null 2>&1 &")
                 os.system("sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-"+str(CoreNumber-1)+" "+commandline+" > /dev/null 2>&1 &")
         else:
             os.system(SET_SPEED+' -S '+str(16-freq))
@@ -270,19 +270,19 @@ class PowerControl:
         if self.CurCore != CoreNumber:
             if CoreNumber <33:
                 for appnameShort in self.AppNameShort:
-                    print "for i in $(pgrep "+appnameShort+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 1  {print $2}');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i > /dev/null & done"
-                    print appnameShort
-            #    os.system("for i in $(pgrep "+self.AppName+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print $2}');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i > /dev/null & done")
+                    print("for i in $(pgrep "+appnameShort+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 1  {print($2}');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i > /dev/null & done")
+                    print(appnameShort)
+            #    os.system("for i in $(pgrep "+self.AppName+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print($2}');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i > /dev/null & done")
                     result1 = subprocess.check_output("for i in $(pgrep "+appnameShort+" | xargs pstree -p|grep -o \"([[:digit:]]*)\" |grep -o \"[[:digit:]]*\");do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i & done",shell=True)
             else:
                 for appnameShort in self.AppNameShort:
-                #os.system("for i in $(pgrep "+self.AppName+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print $2}');do sudo taskset -pc 0-7,16-"+str(CoreNumber-17)+" $i > /dev/null & done")
+                #os.system("for i in $(pgrep "+self.AppName+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print($2}');do sudo taskset -pc 0-7,16-"+str(CoreNumber-17)+" $i > /dev/null & done")
                     result1 = subprocess.check_output("for i in $(pgrep "+appnameShort+" | xargs pstree -p|grep -o \"([[:digit:]]*)\" |grep -o \"[[:digit:]]*\");do sudo taskset -pc 0-7,16-"+str(CoreNumber-17)+" $i & done",shell=True)
         self.GetPowerDistAndSet(CoreNumber)
         self.CurCore = CoreNumber
         self.CurFreq = freq
         EndTime = time.time()
-        print (EndTime - StartTime)
+        print((EndTime - StartTime))
 
 CommandLine =""
 os.system("sudo /var/tmp/RAPL/RaplPowerLimitDisable")
@@ -308,11 +308,11 @@ for line in inputfile.readlines():
 
 
 PC= PowerControl(powercap,AppNameList,HeartbeatFileName,CommandLineList,standardPerf)
-print "CommandLine", CommandLine
+print("CommandLine", CommandLine)
 tmp1 = PC.Decision()
-print PC.PerfDictionary
-print PC.PwrDictionary
-print PC.CoreNumber,PC.frequency,PC.MemoCtrl
+print(PC.PerfDictionary)
+print(PC.PwrDictionary)
+print(PC.CoreNumber,PC.frequency,PC.MemoCtrl)
 PC.AdjustConfig(PC.CoreNumber,PC.frequency,PC.MemoCtrl)
 
 #get heartbeat file length
@@ -323,7 +323,7 @@ for j in range(len(PC.AppNameShort)):
 #file = open("heartbeat.log",'r')
 #StartLength= len(file.readlines()[1:])
 #file.close()
-print (time.time() - StartTime)
+print((time.time() - StartTime))
 result0 = subprocess.check_output("pgrep "+PC.AppNameShort[0]+" > /dev/null; echo $?", shell=True)
 result1 = subprocess.check_output("pgrep "+PC.AppNameShort[1]+" > /dev/null; echo $?", shell=True)
 result2 = subprocess.check_output("pgrep "+PC.AppNameShort[2]+" > /dev/null; echo $?", shell=True)
@@ -336,7 +336,7 @@ while (result0 =='0\n' and result1 =='0\n'and result2 =='0\n' and result3 =='0\n
     result3 = subprocess.check_output("pgrep "+PC.AppNameShort[3]+" > /dev/null; echo $?", shell=True)
 NormolizedPerfList=[0.0, 0.0, 0.0, 0.0]
 NormolizedPerf= 0.0
-print 'PC.standardPerf', PC.standardPerf
+print('PC.standardPerf', PC.standardPerf)
 for j in range(len(PC.AppNameShort)):
     os.system("sudo pkill "+PC.AppNameShort[j])
     file = open(PC.HeartbeatFileName[j]+'_heartbeat.log','r')
@@ -353,13 +353,13 @@ for j in range(len(PC.AppNameShort)):
     heartbeat = 0.0
     SumPerf = 0.0
     AvgPerf = 0.0
-    print "Length",Length
-    print "long(lines[-1].split()[2]",long(lines[-1].split()[2])
-    print "long(lines[-Length-1].split()[2]",long(lines[-Length-1].split()[2])
-    TotalInterval =(long(lines[-1].split()[2]) - long(lines[-Length-1].split()[2]))
+    print("Length",Length)
+    print("int(lines[-1].split()[2]",int(lines[-1].split()[2]))
+    print("int(lines[-Length-1].split()[2]",int(lines[-Length-1].split()[2]))
+    TotalInterval =(int(lines[-1].split()[2]) - int(lines[-Length-1].split()[2]))
     #AvergeInterval = TotalInterval/ float(Length)
    # for i in range(-Length,0):
-    #    TimeInterval = long(lines[i].split()[2]) - long(lines[i-1].split()[2])
+    #    TimeInterval = int(lines[i].split()[2]) - int(lines[i-1].split()[2])
      #   heartbeat = heartbeat + 1
       #  if TimeInterval < AvergeInterval / 100 :
        #     heartbeat = heartbeat - 1
@@ -377,14 +377,14 @@ file.close()
 file = open("Normalizer.txt",'a')
 file.write(str(PC.PwrCap)+" "+str(PC.standardPerf[0])+" "+str(PC.standardPerf[1])+" "+str(PC.standardPerf[2])+" "+str(PC.standardPerf[3])+"\n")
 file.close()
-print "finished"
+print("finished")
 
 
 #pgrep jacobi| sudo xargs taskset -pc 0-13
 #pgrep jacobi | sudo xargs kill -9
 #pgrep jacobi | xargs ps -mo pid,tid,fname,user,psr -p
-#for i in $(pgrep jacobi | xargs ps -mo pid,tid,fname,user,psr -p | awk '// {print $2}'): print $i
-#j= 0;for i in $(pgrep para | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print $2}');do echo $i; sudo taskset -pc $j $i; j=`expr $j + 1`; done
-#j =0;for i in $(pgrep nn | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print $2}');do sudo taskset -pc $j-$j $i; j=`expr $j + 1`; done
+#for i in $(pgrep jacobi | xargs ps -mo pid,tid,fname,user,psr -p | awk '// {print($2}'): print($i
+#j= 0;for i in $(pgrep para | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print($2}');do echo $i; sudo taskset -pc $j $i; j=`expr $j + 1`; done
+#j =0;for i in $(pgrep nn | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print($2}');do sudo taskset -pc $j-$j $i; j=`expr $j + 1`; done
 #j =0;for i in $(pgrep xxxx | xargs pstree -p|grep -o "([[:digit:]]*)" |grep -o "[[:digit:]]*");do sudo taskset -pc 0-31 $i; j=`expr $j + 1`; done
 

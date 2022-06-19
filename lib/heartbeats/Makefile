@@ -1,9 +1,9 @@
 CXX = /usr/bin/gcc
-CXXFLAGS = -Wall -Wno-unknown-pragmas -Iinc -Llib -O6
+CXXFLAGS = -no-pie -Wall -Wno-unknown-pragmas -Iinc -Llib -O6
 DBG = -g
 DEFINES ?= 
 #LDFLAGS = -lpthread -lrt -lhb-file -lhrm-file
-LDFLAGS = -lpthread -lhb-shared -lhrm-shared -lrt
+LDFLAGS = -lpthread -lhb-shared -lhrm-shared -lrt 
 
 DOCDIR = doc
 BINDIR = bin

@@ -1,8 +1,10 @@
 
 
-LDFLAGS=-L/home/hankhoffmann/heartbeats-development/heartbeats-google-code/heartbeats/lib
+# LDFLAGS=-L/home/hankhoffmann/heartbeats-development/heartbeats-google-code/heartbeats/lib
+LDFLAGS=-L/home/zibo/Projects/PUPIL/lib/heartbeats/lib
 CC=gcc
-CFLAGS := -I/home/hankhoffmann/heartbeats-development/heartbeats-google-code/heartbeats/inc/ -O3 -Wall -MD -fopenmp # -g -fno-omit-frame-pointer
+# CFLAGS := -I/home/hankhoffmann/heartbeats-development/heartbeats-google-code/heartbeats/inc/ -O3 -Wall -MD -fopenmp # -g -fno-omit-frame-pointer
+CFLAGS := -I/home/zibo/Projects/PUPIL/lib/heartbeats/inc/ -no-pie -O3 -Wall -MD -fopenmp # -g -fno-omit-frame-pointer
 
 OBJS := dijkstra-pt-b.o
 LIBS=-lhb-shared -lhb-acc-pow-shared

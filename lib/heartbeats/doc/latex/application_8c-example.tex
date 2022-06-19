@@ -1,0 +1,61 @@
+\hypertarget{application_8c-example}{}\doxysection{application.\+c}
+Basic Application Example
+
+
+\begin{DoxyCodeInclude}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include "\mbox{\hyperlink{heartbeat_8h}{heartbeat.h}}"}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{structheartbeat__t}{heartbeat\_t}} \mbox{\hyperlink{application_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int} \mbox{\hyperlink{application_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main}}(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}** argv) \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{   \textcolor{keywordflow}{if} ( argc != 5 )}
+\DoxyCodeLine{   \{}
+\DoxyCodeLine{      printf(\textcolor{stringliteral}{"usage:\(\backslash\)n"});}
+\DoxyCodeLine{      printf(\textcolor{stringliteral}{"  application num\_beats, log\_file, sleep\_interval, buffer\_depth\(\backslash\)n"});}
+\DoxyCodeLine{      \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{   \}}
+\DoxyCodeLine{   \textcolor{keywordflow}{if}(getenv(\textcolor{stringliteral}{"HEARTBEAT\_ENABLED\_DIR"}) == NULL) \{}
+\DoxyCodeLine{     fprintf(stderr, \textcolor{stringliteral}{"ERROR: need to define environment variable HEARTBEAT\_ENABLED\_DIR (see README)\(\backslash\)n"});}
+\DoxyCodeLine{     \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{   \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{   \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{   \textcolor{keywordtype}{int} sleep = atoi(argv[3]);}
+\DoxyCodeLine{   \textcolor{keyword}{const} \textcolor{keywordtype}{int} MAX = atoi(argv[1]);}
+\DoxyCodeLine{   \textcolor{keyword}{const} \textcolor{keywordtype}{int} BD = atoi(argv[4]);}
+\DoxyCodeLine{   \textcolor{keywordtype}{int} rc;}
+\DoxyCodeLine{}
+\DoxyCodeLine{   printf(\textcolor{stringliteral}{"Init\(\backslash\)n"});}
+\DoxyCodeLine{   rc = \mbox{\hyperlink{heartbeat-accuracy-power-shared_8c_a73902a91c7765d7042d556fc9e53034e}{heartbeat\_init}}(\&\mbox{\hyperlink{application_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}}, 0, 1000000, 100, BD, NULL);}
+\DoxyCodeLine{}
+\DoxyCodeLine{   \textcolor{keywordflow}{if}(rc != 0)}
+\DoxyCodeLine{     printf(\textcolor{stringliteral}{"Error allocating heartbeat data \%d\(\backslash\)n"}, rc);}
+\DoxyCodeLine{}
+\DoxyCodeLine{   printf(\textcolor{stringliteral}{"Sleep\(\backslash\)n"});}
+\DoxyCodeLine{   usleep(3000000);}
+\DoxyCodeLine{}
+\DoxyCodeLine{   printf(\textcolor{stringliteral}{"Heartbeats\(\backslash\)n"});}
+\DoxyCodeLine{   \textcolor{keywordflow}{for}(i = 0; i < MAX; i++) \{}
+\DoxyCodeLine{     printf(\textcolor{stringliteral}{"Heartbeat \%d\(\backslash\)n"}, i);}
+\DoxyCodeLine{      \mbox{\hyperlink{heartbeat-accuracy-power-shared_8c_a3f8d6bb09485c347059129331cb4e4a9}{heartbeat}}(\&\mbox{\hyperlink{application_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}}, i);}
+\DoxyCodeLine{     usleep(sleep);}
+\DoxyCodeLine{   \}}
+\DoxyCodeLine{   printf(\textcolor{stringliteral}{"Heartbeats Done\(\backslash\)n"});}
+\DoxyCodeLine{      usleep(sleep);}
+\DoxyCodeLine{      usleep(sleep);}
+\DoxyCodeLine{}
+\DoxyCodeLine{   printf(\textcolor{stringliteral}{"Global heart rate: \%f, Current heart rate: \%f\(\backslash\)n"},}
+\DoxyCodeLine{          \mbox{\hyperlink{heartbeat-accuracy-power-shared_8c_a55b60b6aa61bbb71ee099f2e7180540e}{hb\_get\_global\_rate}}(\&\mbox{\hyperlink{application_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}}), \mbox{\hyperlink{heartbeat-accuracy-power-shared_8c_a7afb09ea470be506247e69e874127be3}{hb\_get\_windowed\_rate}}(\&\mbox{\hyperlink{application_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}}));}
+\DoxyCodeLine{}
+\DoxyCodeLine{   \mbox{\hyperlink{heartbeat-accuracy-power-shared_8c_a472683cf2037492695c74b37944efca9}{heartbeat\_finish}}(\&\mbox{\hyperlink{application_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}});}
+\DoxyCodeLine{   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\}}
+\end{DoxyCodeInclude}
+ 

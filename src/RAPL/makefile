@@ -6,10 +6,10 @@ SRCS= RaplPowerLimitDisable.c RaplSetPowerSeprate.c RaplPowerMonitor.c
 all: RaplPowerLimitDisable RaplSetPowerSeprate RaplPowerMonitor
 
 RaplPowerLimitDisable: RaplPowerLimitDisable.c
-	$(CC) $(CFLAGS) -o RaplPowerLimitDisable -c RaplPowerLimitDisable.c $(LIBS)
+	$(CC) $(CFLAGS) -o RaplPowerLimitDisable RaplPowerLimitDisable.c $(LIBS)
 RaplSetPowerSeprate: RaplSetPowerSeprate.c
-	$(CC) $(CFLAGS) -o RaplSetPowerSeprate -c RaplSetPowerSeprate.c $(LIBS)
+	$(CC) $(CFLAGS) -o RaplSetPowerSeprate RaplSetPowerSeprate.c $(LIBS)
 RaplPowerMonitor: RaplPowerMonitor.c
-	$(CC) $(CFLAGS) -o RaplPowerMonitor -c RaplPowerMonitor.c $(LIBS)
+	$(CC) $(CFLAGS) -o RaplPowerMonitor RaplPowerMonitor.c $(LIBS)
 clean:
 	rm -f RaplPowerMonitor RaplSetPowerSeprate RaplPowerLimitDisable

@@ -48,7 +48,7 @@ for benchmark_name in benchmarkName:
             power = float(words[6])
         training_data_Y.append(power)
         if power > 400:
-            print benchmark_name
+            print(benchmark_name)
       #  if int(words[0]) ==31 and int(words[1]) == 15:
        #     weight_list.append(100)
        # else:
@@ -57,7 +57,7 @@ for benchmark_name in benchmarkName:
     file.close()
 regr = linear_model.LinearRegression()
 regr.fit(training_data_X, training_data_Y, weight_list)
-print regr.predict([[1,15,16,15,1],[1,1,16,15,1]])
+print(regr.predict([[1,15,16,15,1],[1,1,16,15,1]]))
 #system power using kmean's as baseline
 #system_power=[129.7, 180.5, 227.3, 274.7, 336.7]
 system_power=[0,0,0,0,0]
@@ -67,7 +67,7 @@ for i in range(0,5):
         lines = file.readlines()
         system_power[i] += float(lines[i].split()[2])
     system_power[i] = system_power[i] /20.0
-print system_power
+print(system_power)
 #finding the config
 config_power_list =[]
 for socket_number in range(1,3):
@@ -86,7 +86,7 @@ for power in system_power:
             configuration = config_power[0:5]
     config.append(configuration)
 
-print config
+print(config)
 
 
 

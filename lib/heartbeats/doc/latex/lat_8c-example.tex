@@ -1,0 +1,220 @@
+\hypertarget{lat_8c-example}{}\doxysection{lat.\+c}
+Latency Example
+
+
+\begin{DoxyCodeInclude}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <sys/wait.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include "\mbox{\hyperlink{heartbeat_8h}{heartbeat.h}}"}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include "\mbox{\hyperlink{heart__rate__monitor_8h}{heart\_rate\_monitor.h}}"}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{structheartbeat__t}{heartbeat\_t}} \mbox{\hyperlink{lat_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}};}
+\DoxyCodeLine{\mbox{\hyperlink{structheart__rate__monitor__t}{heart\_rate\_monitor\_t}} \mbox{\hyperlink{lat_8c_af6999b2aa30c479bbb16f354ff38c1e5}{hrm}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int} \mbox{\hyperlink{lat_8c_a718ec6ec56d322c1c0c70fdc0e4bde73}{get\_heartbeat\_apps}}(\textcolor{keywordtype}{int}* apps) \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{   pid\_t pid;}
+\DoxyCodeLine{   \textcolor{keywordtype}{int} rv;}
+\DoxyCodeLine{   \textcolor{keywordtype}{int}  commpipe[2];            \textcolor{comment}{/* This holds the fd for the input \& output of the pipe */}}
+\DoxyCodeLine{   \textcolor{keywordtype}{char} \textcolor{keywordtype}{string}[1024][100];}
+\DoxyCodeLine{   \textcolor{keywordtype}{int} count = 0;}
+\DoxyCodeLine{  }
+\DoxyCodeLine{   \textcolor{comment}{/* Setup communication pipeline first */}}
+\DoxyCodeLine{   \textcolor{keywordflow}{if}(pipe(commpipe))\{}
+\DoxyCodeLine{      fprintf(stderr,\textcolor{stringliteral}{"Pipe error!\(\backslash\)n"});}
+\DoxyCodeLine{      exit(1);}
+\DoxyCodeLine{   \}}
+\DoxyCodeLine{  }
+\DoxyCodeLine{   \textcolor{comment}{/* Attempt to fork and check for errors */}}
+\DoxyCodeLine{   \textcolor{keywordflow}{if}( (pid=fork()) < 0 )\{}
+\DoxyCodeLine{      fprintf(stderr,\textcolor{stringliteral}{"Fork error. Exiting.\(\backslash\)n"});  \textcolor{comment}{/* something went wrong */}}
+\DoxyCodeLine{      exit(1);        }
+\DoxyCodeLine{   \}}
+\DoxyCodeLine{  }
+\DoxyCodeLine{   \textcolor{keywordflow}{if}(pid)\{}
+\DoxyCodeLine{      \textcolor{comment}{/* A positive (non-\/negative) PID indicates the parent process */}}
+\DoxyCodeLine{      dup2(commpipe[0],0);      }
+\DoxyCodeLine{      close(commpipe[1]);               }
+\DoxyCodeLine{      \textcolor{keywordflow}{while}(fgets(\textcolor{keywordtype}{string}[count], 100, stdin)) \{}
+\DoxyCodeLine{         apps[count] = atoi(\textcolor{keywordtype}{string}[count]);}
+\DoxyCodeLine{         count++;}
+\DoxyCodeLine{      \}}
+\DoxyCodeLine{    }
+\DoxyCodeLine{      \textcolor{comment}{//printf("From the system: found \%d apps\(\backslash\)n", count);}}
+\DoxyCodeLine{      \textcolor{comment}{//printf("From the system: app is \%d\(\backslash\)n", apps[0]);}}
+\DoxyCodeLine{      \textcolor{comment}{//wait(\&rv);                              /* Wait for child process to end */}}
+\DoxyCodeLine{      wait(\&rv);}
+\DoxyCodeLine{      \textcolor{comment}{//fprintf(stderr,"Child exited with a \%d value\(\backslash\)n",rv);}}
+\DoxyCodeLine{   \}}
+\DoxyCodeLine{   \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{      \textcolor{comment}{/* A zero PID indicates that this is the child process */}}
+\DoxyCodeLine{      dup2(commpipe[1],1);      \textcolor{comment}{/* Replace stdout with the out side of the pipe */}}
+\DoxyCodeLine{      close(commpipe[0]);               \textcolor{comment}{/* Close unused side of pipe (in side) */}}
+\DoxyCodeLine{      \textcolor{comment}{/* Replace the child fork with a new process */}}
+\DoxyCodeLine{      \textcolor{comment}{//FIXME}}
+\DoxyCodeLine{      \textcolor{comment}{//if(execl("/bin/ls","/bin/ls","/scratch/etc/heartbeat/heartbeat-\/enabled-\/apps/",(char*) NULL) == -\/1)\{}}
+\DoxyCodeLine{      \textcolor{keywordflow}{if}(execl(\textcolor{stringliteral}{"/bin/ls"},\textcolor{stringliteral}{"/bin/ls"},getenv(\textcolor{stringliteral}{"HEARTBEAT\_ENABLED\_DIR"}),(\textcolor{keywordtype}{char}*) NULL) == -\/1)\{}
+\DoxyCodeLine{         fprintf(stderr,\textcolor{stringliteral}{"execl Error!"});}
+\DoxyCodeLine{         exit(1);}
+\DoxyCodeLine{      \}}
+\DoxyCodeLine{   \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{   close(commpipe[0]);}
+\DoxyCodeLine{   \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void} \mbox{\hyperlink{lat_8c_acda850128deec11e104b408bae870f3c}{app}}(\textcolor{keywordtype}{char}* logname, \textcolor{keywordtype}{int} iters)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{  \mbox{\hyperlink{structheartbeat__record__t}{heartbeat\_record\_t}} record;}
+\DoxyCodeLine{   \textcolor{comment}{// init heartbeats and a monitor}}
+\DoxyCodeLine{   \textcolor{comment}{//printf("executing the app code\(\backslash\)n");}}
+\DoxyCodeLine{   \mbox{\hyperlink{heartbeat-accuracy-power-shared_8c_a73902a91c7765d7042d556fc9e53034e}{heartbeat\_init}}(\&\mbox{\hyperlink{lat_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}}, 0, 1000000, 10, 100, NULL);}
+\DoxyCodeLine{   \textcolor{keywordtype}{int} apps[2];}
+\DoxyCodeLine{   \textcolor{keywordflow}{while}( \mbox{\hyperlink{lat_8c_a718ec6ec56d322c1c0c70fdc0e4bde73}{get\_heartbeat\_apps}}(apps) != 2 );   }
+\DoxyCodeLine{   \textcolor{keywordtype}{int} pid = getpid();}
+\DoxyCodeLine{   \textcolor{keywordflow}{if} ( apps[0] == pid )}
+\DoxyCodeLine{      \mbox{\hyperlink{heart__rate__monitor-accuracy-shared_8c_ad49db9e81266e365b06d5c818d7e5b63}{heart\_rate\_monitor\_init}}(\&\mbox{\hyperlink{lat_8c_af6999b2aa30c479bbb16f354ff38c1e5}{hrm}}, apps[1]);}
+\DoxyCodeLine{   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{      \mbox{\hyperlink{heart__rate__monitor-accuracy-shared_8c_ad49db9e81266e365b06d5c818d7e5b63}{heart\_rate\_monitor\_init}}(\&\mbox{\hyperlink{lat_8c_af6999b2aa30c479bbb16f354ff38c1e5}{hrm}}, apps[0]);}
+\DoxyCodeLine{}
+\DoxyCodeLine{   \textcolor{comment}{// quiesce for a bit then synchronize}}
+\DoxyCodeLine{   usleep(1000000);}
+\DoxyCodeLine{   }
+\DoxyCodeLine{   \mbox{\hyperlink{heartbeat-accuracy-power-shared_8c_a3f8d6bb09485c347059129331cb4e4a9}{heartbeat}}(\&\mbox{\hyperlink{lat_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}}, -\/2); }
+\DoxyCodeLine{   }
+\DoxyCodeLine{   \textcolor{keywordtype}{int} tag;}
+\DoxyCodeLine{   \textcolor{keywordflow}{do} }
+\DoxyCodeLine{   \{}
+\DoxyCodeLine{      \textcolor{keywordtype}{int} rc = -\/1;}
+\DoxyCodeLine{      \textcolor{keywordflow}{while} (rc != 0)}
+\DoxyCodeLine{       rc = \mbox{\hyperlink{heart__rate__monitor-accuracy-shared_8c_a333f4dfca799e511a797559107dea290}{hrm\_get\_current}}(\&\mbox{\hyperlink{lat_8c_af6999b2aa30c479bbb16f354ff38c1e5}{hrm}}, \&record);}
+\DoxyCodeLine{      tag = record.\mbox{\hyperlink{structheartbeat__record__t_a77ac9f7644a849d9d33905b94bca72be}{tag}};}
+\DoxyCodeLine{   \} \textcolor{keywordflow}{while}( tag != -\/1 );}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{   \textcolor{comment}{// no timer code needed here}}
+\DoxyCodeLine{   \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{   \textcolor{keywordflow}{for}(i = iters; i > 0; i-\/-\/) \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{      \textcolor{comment}{// issue a heartbeat}}
+\DoxyCodeLine{     \mbox{\hyperlink{heartbeat-accuracy-power-shared_8c_a3f8d6bb09485c347059129331cb4e4a9}{heartbeat}}(\&\mbox{\hyperlink{lat_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}}, i);}
+\DoxyCodeLine{     }
+\DoxyCodeLine{     \textcolor{comment}{// wait for a heartbeat}}
+\DoxyCodeLine{     \textcolor{keywordflow}{do} }
+\DoxyCodeLine{       \{}
+\DoxyCodeLine{         \textcolor{keywordtype}{int} rc = -\/1;}
+\DoxyCodeLine{         \textcolor{keywordflow}{while} (rc != 0)}
+\DoxyCodeLine{           rc = \mbox{\hyperlink{heart__rate__monitor-accuracy-shared_8c_a333f4dfca799e511a797559107dea290}{hrm\_get\_current}}(\&\mbox{\hyperlink{lat_8c_af6999b2aa30c479bbb16f354ff38c1e5}{hrm}}, \&record);}
+\DoxyCodeLine{         tag = record.\mbox{\hyperlink{structheartbeat__record__t_a77ac9f7644a849d9d33905b94bca72be}{tag}};}
+\DoxyCodeLine{        }
+\DoxyCodeLine{       \} \textcolor{keywordflow}{while}( tag != (iters -\/ i) );}
+\DoxyCodeLine{   \}  }
+\DoxyCodeLine{      \mbox{\hyperlink{heartbeat-accuracy-power-shared_8c_a472683cf2037492695c74b37944efca9}{heartbeat\_finish}}(\&\mbox{\hyperlink{lat_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}});}
+\DoxyCodeLine{}
+\DoxyCodeLine{   \textcolor{comment}{// no timer code needed here}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void} \mbox{\hyperlink{lat_8c_a826197580f9363339f3b25e47c74976e}{sys}}(\textcolor{keywordtype}{char}* logname, \textcolor{keywordtype}{int} iters)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{  \mbox{\hyperlink{structheartbeat__record__t}{heartbeat\_record\_t}} record;}
+\DoxyCodeLine{   \textcolor{comment}{// init heartbeats and a monitor}}
+\DoxyCodeLine{  \mbox{\hyperlink{heartbeat-accuracy-power-shared_8c_a73902a91c7765d7042d556fc9e53034e}{heartbeat\_init}}(\&\mbox{\hyperlink{lat_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}}, 0, 1000000, 10, 100, NULL);}
+\DoxyCodeLine{  \textcolor{keywordtype}{int} apps[2];}
+\DoxyCodeLine{  \textcolor{keywordflow}{while}( \mbox{\hyperlink{lat_8c_a718ec6ec56d322c1c0c70fdc0e4bde73}{get\_heartbeat\_apps}}(apps) != 2 );   }
+\DoxyCodeLine{  \textcolor{keywordtype}{int} pid = getpid();}
+\DoxyCodeLine{  \textcolor{keywordflow}{if} ( apps[0] == pid )}
+\DoxyCodeLine{    \mbox{\hyperlink{heart__rate__monitor-accuracy-shared_8c_ad49db9e81266e365b06d5c818d7e5b63}{heart\_rate\_monitor\_init}}(\&\mbox{\hyperlink{lat_8c_af6999b2aa30c479bbb16f354ff38c1e5}{hrm}}, apps[1]);}
+\DoxyCodeLine{  \textcolor{keywordflow}{else}}
+\DoxyCodeLine{    \mbox{\hyperlink{heart__rate__monitor-accuracy-shared_8c_ad49db9e81266e365b06d5c818d7e5b63}{heart\_rate\_monitor\_init}}(\&\mbox{\hyperlink{lat_8c_af6999b2aa30c479bbb16f354ff38c1e5}{hrm}}, apps[0]);}
+\DoxyCodeLine{  }
+\DoxyCodeLine{  \textcolor{comment}{// quiesce for a bit then synchronize}}
+\DoxyCodeLine{  usleep(1000000);}
+\DoxyCodeLine{  \textcolor{keywordtype}{int} tag;}
+\DoxyCodeLine{  \textcolor{keywordflow}{do} }
+\DoxyCodeLine{    \{}
+\DoxyCodeLine{      \textcolor{keywordtype}{int} rc = -\/1;}
+\DoxyCodeLine{      \textcolor{keywordflow}{while} (rc != 0)}
+\DoxyCodeLine{        rc = \mbox{\hyperlink{heart__rate__monitor-accuracy-shared_8c_a333f4dfca799e511a797559107dea290}{hrm\_get\_current}}(\&\mbox{\hyperlink{lat_8c_af6999b2aa30c479bbb16f354ff38c1e5}{hrm}}, \&record);}
+\DoxyCodeLine{      tag = record.\mbox{\hyperlink{structheartbeat__record__t_a77ac9f7644a849d9d33905b94bca72be}{tag}};}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while}( tag != -\/2 );}
+\DoxyCodeLine{  \mbox{\hyperlink{heartbeat-accuracy-power-shared_8c_a3f8d6bb09485c347059129331cb4e4a9}{heartbeat}}(\&\mbox{\hyperlink{lat_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}}, -\/1);   }
+\DoxyCodeLine{  }
+\DoxyCodeLine{  \textcolor{comment}{// start timer}}
+\DoxyCodeLine{  \textcolor{keyword}{struct }timespec time\_info;}
+\DoxyCodeLine{  int64\_t time1, time2;}
+\DoxyCodeLine{   clock\_gettime( CLOCK\_REALTIME, \&time\_info );}
+\DoxyCodeLine{   time1 = ( (int64\_t) time\_info.tv\_sec * 1000000000 + (int64\_t) time\_info.tv\_nsec );}
+\DoxyCodeLine{   }
+\DoxyCodeLine{   \textcolor{keywordtype}{int} i;}
+\DoxyCodeLine{   \textcolor{keywordflow}{for}(i = 0; i < iters; i++) \{}
+\DoxyCodeLine{     }
+\DoxyCodeLine{     \textcolor{comment}{// wait for a heartbeat}}
+\DoxyCodeLine{     \textcolor{keywordflow}{do} }
+\DoxyCodeLine{       \{}
+\DoxyCodeLine{         \textcolor{keywordtype}{int} rc = -\/1;}
+\DoxyCodeLine{         \textcolor{keywordflow}{while} (rc != 0)}
+\DoxyCodeLine{           rc = \mbox{\hyperlink{heart__rate__monitor-accuracy-shared_8c_a333f4dfca799e511a797559107dea290}{hrm\_get\_current}}(\&\mbox{\hyperlink{lat_8c_af6999b2aa30c479bbb16f354ff38c1e5}{hrm}}, \&record);}
+\DoxyCodeLine{         tag = record.\mbox{\hyperlink{structheartbeat__record__t_a77ac9f7644a849d9d33905b94bca72be}{tag}};}
+\DoxyCodeLine{       \} \textcolor{keywordflow}{while}( tag != (iters -\/ i) );}
+\DoxyCodeLine{}
+\DoxyCodeLine{     \textcolor{comment}{// issue a heartbeat}}
+\DoxyCodeLine{     \mbox{\hyperlink{heartbeat-accuracy-power-shared_8c_a3f8d6bb09485c347059129331cb4e4a9}{heartbeat}}(\&\mbox{\hyperlink{lat_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}}, i);}
+\DoxyCodeLine{   \}   }
+\DoxyCodeLine{   }
+\DoxyCodeLine{   \textcolor{comment}{// end timer}}
+\DoxyCodeLine{   clock\_gettime( CLOCK\_REALTIME, \&time\_info );}
+\DoxyCodeLine{   time2 = ( (int64\_t) time\_info.tv\_sec * 1000000000 + (int64\_t) time\_info.tv\_nsec );}
+\DoxyCodeLine{}
+\DoxyCodeLine{   \textcolor{comment}{// latency calculation in units of ns}}
+\DoxyCodeLine{   \textcolor{keywordtype}{double} latency = ((double) (time2 -\/ time1)) / ((\textcolor{keywordtype}{double}) (iters * 2)) ;}
+\DoxyCodeLine{   printf(\textcolor{stringliteral}{"average heartbeats latency: \%0.2f ns\(\backslash\)n"}, latency);}
+\DoxyCodeLine{   printf(\textcolor{stringliteral}{"  = \%.0f cycles @ 3.16 GHz\(\backslash\)n"}, 3.16 * latency );}
+\DoxyCodeLine{   \mbox{\hyperlink{heartbeat-accuracy-power-shared_8c_a472683cf2037492695c74b37944efca9}{heartbeat\_finish}}(\&\mbox{\hyperlink{lat_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}});}
+\DoxyCodeLine{  }
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int} \mbox{\hyperlink{lat_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main}}(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}** argv) \{}
+\DoxyCodeLine{   \textcolor{keywordflow}{if} ( argc != 3 )}
+\DoxyCodeLine{   \{}
+\DoxyCodeLine{      printf(\textcolor{stringliteral}{"usage:\(\backslash\)n"});}
+\DoxyCodeLine{      printf(\textcolor{stringliteral}{"  application num\_beats, log\_file\(\backslash\)n"});}
+\DoxyCodeLine{      \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{   \}}
+\DoxyCodeLine{   \textcolor{keywordflow}{if}(getenv(\textcolor{stringliteral}{"HEARTBEAT\_ENABLED\_DIR"}) == NULL) \{}
+\DoxyCodeLine{     fprintf(stderr, \textcolor{stringliteral}{"ERROR: need to define environment variable HEARTBEAT\_ENABLED\_DIR (see README)\(\backslash\)n"});}
+\DoxyCodeLine{     \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{   \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{   \textcolor{comment}{// fork a process. }}
+\DoxyCodeLine{   \textcolor{comment}{// this process models the application (and does cleanup)}}
+\DoxyCodeLine{   \textcolor{comment}{// the child process models the system }}
+\DoxyCodeLine{}
+\DoxyCodeLine{   \textcolor{keywordtype}{int} rv;}
+\DoxyCodeLine{   pid\_t pid = fork();}
+\DoxyCodeLine{}
+\DoxyCodeLine{   \textcolor{keywordflow}{if}( pid < 0 )\{}
+\DoxyCodeLine{      fprintf(stderr,\textcolor{stringliteral}{"Fork error. Exiting.\(\backslash\)n"});  \textcolor{comment}{/* something went wrong */}}
+\DoxyCodeLine{      exit(1);        }
+\DoxyCodeLine{   \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{   \textcolor{keywordflow}{if} ( pid == 0 )}
+\DoxyCodeLine{   \{}
+\DoxyCodeLine{      \mbox{\hyperlink{lat_8c_a826197580f9363339f3b25e47c74976e}{sys}}( argv[2], atoi(argv[1]) );}
+\DoxyCodeLine{      \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{   \}}
+\DoxyCodeLine{   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{   \{}
+\DoxyCodeLine{      \mbox{\hyperlink{lat_8c_acda850128deec11e104b408bae870f3c}{app}}( argv[2], atoi(argv[1]) );}
+\DoxyCodeLine{      wait(\&rv);}
+\DoxyCodeLine{}
+\DoxyCodeLine{      \textcolor{comment}{// cleanup}}
+\DoxyCodeLine{      \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{   \}}
+\DoxyCodeLine{   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\}}
+\end{DoxyCodeInclude}
+ 

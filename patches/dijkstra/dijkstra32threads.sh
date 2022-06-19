@@ -27,7 +27,7 @@ for i in 0
     $SET_SPEED -S $freq
 
 
-    for k in {1..1}
+    for k in {0..0}
       do
       
       #$LOGGER $NUMBER >log.txt &

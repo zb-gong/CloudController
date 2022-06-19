@@ -37,14 +37,14 @@ def setCPUspeed(options):
         #print cpufreq.dump()
        
         if not amIRoot():
-            print "[-] You need to be root to change frequency!"
+            print("[-] You need to be root to change frequency!")
             sys.exit(1)
 
         if options.cpuspeed == "max":
-            print "[+] Setting CPU:%d maximum CPU speed:%s" %(i,cpufreq.speed_max)
+            print("[+] Setting CPU:%d maximum CPU speed:%s" %(i,cpufreq.speed_max))
             cpufreq.setspeed(cpuspeedy.SPEED_MAX(cpufreq.speed_max))
         elif options.cpuspeed == "min":
-            print "[+] Setting CPU:%d minimum CPU speed:%s" %(i,cpufreq.speed_min)
+            print("[+] Setting CPU:%d minimum CPU speed:%s" %(i,cpufreq.speed_min))
             cpufreq.setspeed(cpuspeedy.SPEED_MIN(cpufreq.speed_min))
             
 def parseOptions():
@@ -105,11 +105,11 @@ def setupCPUs():
     return cpulist
 
 def printCurrentCPUSpeeds(cpulist):
-    print "Current CPU speeds"
-    print 80 * '-'
+    print("Current CPU speeds")
+    print(80 * '-')
     for cpu in cpulist:
-            print cpu.speed
-    print 80 * '-'
+        print(cpu.speed)
+    print (80 * '-')
 
 def getAvailableCPUfreq(cpulist):
     cpuspeeds = []
@@ -121,7 +121,7 @@ def getAvailableCPUfreq(cpulist):
 def setCPUSpeed(cpulist, speed):
     for cpu in cpulist:
         if not cpu.setspeed(speed):
-            print "[-] Could not set speed:%d on CPU:%d" %(speed, cpu.cpu)
+            print("[-] Could not set speed:%d on CPU:%d" %(speed, cpu.cpu))
 
 def main(user_args=None):
     parser = parseOptions()
@@ -129,37 +129,37 @@ def main(user_args=None):
    
     # Setup all cpus on machine
     cpulist = setupCPUs()
-       
+
     if options.vector != "none":
         cpuvector = options.vector.split(",")
-        print cpuvector
+        print(cpuvector)
         
         if len(cpuvector) != len(cpulist):
-            print "[-] The vector entered:%d is not equal the number of CPUs on this machine:%d" \
-                    %(len(cpuvector), len(cpulist))
+            print("[-] The vector entered:%d is not equal the number of CPUs on this machine:%d" \
+                    %(len(cpuvector), len(cpulist)))
         
         freqs = getAvailableCPUfreq(cpulist)
 
         for cpunum in range(len(cpulist)):
             speed = int (freqs[int(cpuvector[cpunum])])
-            print "Setting speed:%d for CPU:%d" %(speed, cpunum)
+            print("Setting speed:%d for CPU:%d" %(speed, cpunum))
             cpulist[cpunum].setspeed(speed)
         sys.exit(0)
 
     if options.interactive:
         printCurrentCPUSpeeds(cpulist)
-        print "[!] Available CPU frequencies"
-        print 80 * '-'
+        print("[!] Available CPU frequencies")
+        print(80 * '-')
         freqs = getAvailableCPUfreq(cpulist)
         for i in range(len(freqs)):
-            print "%d.\t %s" %(i, freqs[i])
-        print 80 * '-'
+            print("%d.\t %s" %(i, freqs[i]))
+        print(80 * '-')
 
         input = raw_input("Please select which frequency to switch to: ")
         speed =  int (freqs[int(input)])
-        print "You selected: %d" %(speed)
+        print("You selected: %d" %(speed))
         setCPUSpeed(cpulist, speed)
-        print "[+] Successfully set CPU speeds to %d" %speed
+        print("[+] Successfully set CPU speeds to %d" %speed)
         sys.exit(0)
     
     if options.status:
@@ -167,14 +167,14 @@ def main(user_args=None):
         sys.exit(0)
     
     if options.freqs:
-        print "Available CPU frequencies"
-        print 80 * '-'
+        print ("Available CPU frequencies")
+        print(80 * '-')
         for f in getAvailableCPUfreq(cpulist):
-            print f
+            print(f)
         sys.exit(0)
    
     if options.numfreq:
-        print len(getAvailableCPUfreq(cpulist)) - 1
+        print(len(getAvailableCPUfreq(cpulist)) - 1)
         sys.exit(0)
 
     if options.dump:
@@ -185,7 +185,7 @@ def main(user_args=None):
         freqs = getAvailableCPUfreq(cpulist)
         speed =  int (freqs[int(options.cpustate)])
         setCPUSpeed(cpulist, speed)
-        print speed
+        print(speed)
         sys.exit(0)
     
 

@@ -1,0 +1,152 @@
+\hypertarget{heart__rate__monitor_8h}{}\doxysection{inc/heart\+\_\+rate\+\_\+monitor.h File Reference}
+\label{heart__rate__monitor_8h}\index{inc/heart\_rate\_monitor.h@{inc/heart\_rate\_monitor.h}}
+{\ttfamily \#include \char`\"{}heartbeat.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{heart__rate__monitor_8h_ad49db9e81266e365b06d5c818d7e5b63}{heart\+\_\+rate\+\_\+monitor\+\_\+init}} (\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} $\ast$\mbox{\hyperlink{lat_8c_af6999b2aa30c479bbb16f354ff38c1e5}{hrm}}, int pid)
+\item 
+void \mbox{\hyperlink{heart__rate__monitor_8h_a070d042cdc3717897098cc6ac9682427}{heart\+\_\+rate\+\_\+monitor\+\_\+finish}} (\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} $\ast$\mbox{\hyperlink{tp_8c_a6f3bbe24b9b561560ce8bf9208aeb8a7}{heart}})
+\item 
+int \mbox{\hyperlink{heart__rate__monitor_8h_a333f4dfca799e511a797559107dea290}{hrm\+\_\+get\+\_\+current}} (\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$hb, \mbox{\hyperlink{structheartbeat__record__t}{heartbeat\+\_\+record\+\_\+t}} volatile $\ast$record)
+\item 
+int \mbox{\hyperlink{heart__rate__monitor_8h_a9e7614bee97e7db3cb4e7e4b78c94337}{hrm\+\_\+get\+\_\+history}} (\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$hb, \mbox{\hyperlink{structheartbeat__record__t}{heartbeat\+\_\+record\+\_\+t}} volatile $\ast$record, int n)
+\item 
+double \mbox{\hyperlink{heart__rate__monitor_8h_addc73b92ee482b42aa7a91ea5fc3672c}{hrm\+\_\+get\+\_\+global\+\_\+rate}} (\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$hb)
+\item 
+double \mbox{\hyperlink{heart__rate__monitor_8h_a4fb2684671956dfa63ea54ce58ac8748}{hrm\+\_\+get\+\_\+windowed\+\_\+rate}} (\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$hb)
+\item 
+double \mbox{\hyperlink{heart__rate__monitor_8h_ad0ea463faa51e1bf20b3f5efbc4c91c3}{hrm\+\_\+get\+\_\+min\+\_\+rate}} (\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$hb)
+\item 
+double \mbox{\hyperlink{heart__rate__monitor_8h_af7f779cd6a79780479064da8b6eb05e7}{hrm\+\_\+get\+\_\+max\+\_\+rate}} (\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$hb)
+\item 
+int64\+\_\+t \mbox{\hyperlink{heart__rate__monitor_8h_a1249c1ba65c775d2701de15b4415fded}{hrm\+\_\+get\+\_\+window\+\_\+size}} (\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$hb)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{heart__rate__monitor_8h_a070d042cdc3717897098cc6ac9682427}\label{heart__rate__monitor_8h_a070d042cdc3717897098cc6ac9682427}} 
+\index{heart\_rate\_monitor.h@{heart\_rate\_monitor.h}!heart\_rate\_monitor\_finish@{heart\_rate\_monitor\_finish}}
+\index{heart\_rate\_monitor\_finish@{heart\_rate\_monitor\_finish}!heart\_rate\_monitor.h@{heart\_rate\_monitor.h}}
+\doxysubsubsection{\texorpdfstring{heart\_rate\_monitor\_finish()}{heart\_rate\_monitor\_finish()}}
+{\footnotesize\ttfamily void heart\+\_\+rate\+\_\+monitor\+\_\+finish (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} $\ast$}]{heart }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em heart} & pointer to \mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{heart__rate__monitor_8h_ad49db9e81266e365b06d5c818d7e5b63}\label{heart__rate__monitor_8h_ad49db9e81266e365b06d5c818d7e5b63}} 
+\index{heart\_rate\_monitor.h@{heart\_rate\_monitor.h}!heart\_rate\_monitor\_init@{heart\_rate\_monitor\_init}}
+\index{heart\_rate\_monitor\_init@{heart\_rate\_monitor\_init}!heart\_rate\_monitor.h@{heart\_rate\_monitor.h}}
+\doxysubsubsection{\texorpdfstring{heart\_rate\_monitor\_init()}{heart\_rate\_monitor\_init()}}
+{\footnotesize\ttfamily int heart\+\_\+rate\+\_\+monitor\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} $\ast$}]{hrm,  }\item[{int}]{pid }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em hrm} & pointer to \mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} \\
+\hline
+{\em pid} & integer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{heart__rate__monitor_8h_a333f4dfca799e511a797559107dea290}\label{heart__rate__monitor_8h_a333f4dfca799e511a797559107dea290}} 
+\index{heart\_rate\_monitor.h@{heart\_rate\_monitor.h}!hrm\_get\_current@{hrm\_get\_current}}
+\index{hrm\_get\_current@{hrm\_get\_current}!heart\_rate\_monitor.h@{heart\_rate\_monitor.h}}
+\doxysubsubsection{\texorpdfstring{hrm\_get\_current()}{hrm\_get\_current()}}
+{\footnotesize\ttfamily int hrm\+\_\+get\+\_\+current (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$}]{hb,  }\item[{\mbox{\hyperlink{structheartbeat__record__t}{heartbeat\+\_\+record\+\_\+t}} volatile $\ast$}]{record }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} \\
+\hline
+{\em record} & pointer to \mbox{\hyperlink{structheartbeat__record__t}{heartbeat\+\_\+record\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{heart__rate__monitor_8h_addc73b92ee482b42aa7a91ea5fc3672c}\label{heart__rate__monitor_8h_addc73b92ee482b42aa7a91ea5fc3672c}} 
+\index{heart\_rate\_monitor.h@{heart\_rate\_monitor.h}!hrm\_get\_global\_rate@{hrm\_get\_global\_rate}}
+\index{hrm\_get\_global\_rate@{hrm\_get\_global\_rate}!heart\_rate\_monitor.h@{heart\_rate\_monitor.h}}
+\doxysubsubsection{\texorpdfstring{hrm\_get\_global\_rate()}{hrm\_get\_global\_rate()}}
+{\footnotesize\ttfamily double hrm\+\_\+get\+\_\+global\+\_\+rate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$}]{hb }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\mbox{\Hypertarget{heart__rate__monitor_8h_a9e7614bee97e7db3cb4e7e4b78c94337}\label{heart__rate__monitor_8h_a9e7614bee97e7db3cb4e7e4b78c94337}} 
+\index{heart\_rate\_monitor.h@{heart\_rate\_monitor.h}!hrm\_get\_history@{hrm\_get\_history}}
+\index{hrm\_get\_history@{hrm\_get\_history}!heart\_rate\_monitor.h@{heart\_rate\_monitor.h}}
+\doxysubsubsection{\texorpdfstring{hrm\_get\_history()}{hrm\_get\_history()}}
+{\footnotesize\ttfamily int hrm\+\_\+get\+\_\+history (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$}]{hb,  }\item[{\mbox{\hyperlink{structheartbeat__record__t}{heartbeat\+\_\+record\+\_\+t}} volatile $\ast$}]{record,  }\item[{int}]{n }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} \\
+\hline
+{\em record} & pointer to \mbox{\hyperlink{structheartbeat__record__t}{heartbeat\+\_\+record\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{heart__rate__monitor_8h_af7f779cd6a79780479064da8b6eb05e7}\label{heart__rate__monitor_8h_af7f779cd6a79780479064da8b6eb05e7}} 
+\index{heart\_rate\_monitor.h@{heart\_rate\_monitor.h}!hrm\_get\_max\_rate@{hrm\_get\_max\_rate}}
+\index{hrm\_get\_max\_rate@{hrm\_get\_max\_rate}!heart\_rate\_monitor.h@{heart\_rate\_monitor.h}}
+\doxysubsubsection{\texorpdfstring{hrm\_get\_max\_rate()}{hrm\_get\_max\_rate()}}
+{\footnotesize\ttfamily double hrm\+\_\+get\+\_\+max\+\_\+rate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$}]{hb }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\mbox{\Hypertarget{heart__rate__monitor_8h_ad0ea463faa51e1bf20b3f5efbc4c91c3}\label{heart__rate__monitor_8h_ad0ea463faa51e1bf20b3f5efbc4c91c3}} 
+\index{heart\_rate\_monitor.h@{heart\_rate\_monitor.h}!hrm\_get\_min\_rate@{hrm\_get\_min\_rate}}
+\index{hrm\_get\_min\_rate@{hrm\_get\_min\_rate}!heart\_rate\_monitor.h@{heart\_rate\_monitor.h}}
+\doxysubsubsection{\texorpdfstring{hrm\_get\_min\_rate()}{hrm\_get\_min\_rate()}}
+{\footnotesize\ttfamily double hrm\+\_\+get\+\_\+min\+\_\+rate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$}]{hb }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\mbox{\Hypertarget{heart__rate__monitor_8h_a1249c1ba65c775d2701de15b4415fded}\label{heart__rate__monitor_8h_a1249c1ba65c775d2701de15b4415fded}} 
+\index{heart\_rate\_monitor.h@{heart\_rate\_monitor.h}!hrm\_get\_window\_size@{hrm\_get\_window\_size}}
+\index{hrm\_get\_window\_size@{hrm\_get\_window\_size}!heart\_rate\_monitor.h@{heart\_rate\_monitor.h}}
+\doxysubsubsection{\texorpdfstring{hrm\_get\_window\_size()}{hrm\_get\_window\_size()}}
+{\footnotesize\ttfamily int64\+\_\+t hrm\+\_\+get\+\_\+window\+\_\+size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$}]{hb }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\mbox{\Hypertarget{heart__rate__monitor_8h_a4fb2684671956dfa63ea54ce58ac8748}\label{heart__rate__monitor_8h_a4fb2684671956dfa63ea54ce58ac8748}} 
+\index{heart\_rate\_monitor.h@{heart\_rate\_monitor.h}!hrm\_get\_windowed\_rate@{hrm\_get\_windowed\_rate}}
+\index{hrm\_get\_windowed\_rate@{hrm\_get\_windowed\_rate}!heart\_rate\_monitor.h@{heart\_rate\_monitor.h}}
+\doxysubsubsection{\texorpdfstring{hrm\_get\_windowed\_rate()}{hrm\_get\_windowed\_rate()}}
+{\footnotesize\ttfamily double hrm\+\_\+get\+\_\+windowed\+\_\+rate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} volatile $\ast$}]{hb }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheart__rate__monitor__t}{heart\+\_\+rate\+\_\+monitor\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}

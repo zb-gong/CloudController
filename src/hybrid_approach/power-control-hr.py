@@ -27,7 +27,7 @@ class PowerControl:
         self.PerfFileLength = 0
         self.CurCore= 0
         self.CurFreq= 16
-        print self.AppNameShort
+        print(self.AppNameShort)
     
     def PwrBSearch(self,lowbound, highbound, PwrCap):
         head = lowbound
@@ -77,8 +77,8 @@ class PowerControl:
         while (head +1 <tail):
             MidPointer = (head + tail)/2
             self.PerfDictionary[(CoreNumber,MidPointer,2)],self.PwrDictionary[(CoreNumber,MidPointer,2)] = self.GetFeedback((CoreNumber,MidPointer,2))
-            print 11111111111,self.PwrDictionary[(CoreNumber,MidPointer,2)], self.PwrCap
-            print 11111111111,(self.PwrDictionary[(CoreNumber,MidPointer,2)] < self.PwrCap)
+            print(11111111111,self.PwrDictionary[(CoreNumber,MidPointer,2)], self.PwrCap)
+            print(11111111111,(self.PwrDictionary[(CoreNumber,MidPointer,2)] < self.PwrCap))
             if (self.PwrDictionary[(CoreNumber,MidPointer,2)] < self.PwrCap):
                 head = MidPointer
             else:
@@ -90,7 +90,7 @@ class PowerControl:
             
     def GetPowerDistAndSet(self,CoreNumber):
         power1 =0.0
-        pwoer2 =0.0
+        power2 =0.0
         if CoreNumber <9 or (CoreNumber >33):
             power1 = self.PwrCap-40.0
             power2 = 0
@@ -143,7 +143,7 @@ class PowerControl:
                 
 #get the heartbeat info
     def GetFeedback(self,config):
-        print config
+        print(config)
         #PowerFileName = self.CurFolder+'socket_power.txt'
         #PowerFileName = 'socket_power.txt'
         #PerfFileName = self.CurFolder+'heartbeat.log'
@@ -168,9 +168,9 @@ class PowerControl:
           #      time.sleep(4)
         #        print "sleep 5"
          #   counter = 0
-            print "len(PerfFileLines)", len(PerfFileLines)
-            print "self.PerfFileLength",self.PerfFileLength
-            print "wait...."
+            print("len(PerfFileLines)", len(PerfFileLines))
+            print("self.PerfFileLength",self.PerfFileLength)
+            print("wait....")
             while ((len(PerfFileLines) - self.PerfFileLength) <10)and((len(PerfFileLines) - self.PerfFileLength) < 2 or (time.time()- TmpTime < 10)):
               #  PowerFile.close()
                 PerfFile.close()
@@ -187,7 +187,7 @@ class PowerControl:
              #   print PowerFileLines
                 # if counter % 10 == 0:
                 #   os.system(POWER_MON+" stop > power.txt")
-            print "waiting time: "+str(time.time() - TmpTime)
+            print("waiting time: "+str(time.time() - TmpTime))
            # os.system("sudo "+RAPL_POWER_MON)
            # PowerFile = open(PowerFileName,'r')
            # PowerFileLines= PowerFile.readlines()
@@ -204,15 +204,15 @@ class PowerControl:
             heartbeat = 0.0
             if self.PerfFileLength == 0:
                 CurLength = CurLength -1
-            print "CurLength:"+str(CurLength)+"len(PerfFileLines):"+str(len(PerfFileLines))
-            TotalInterval =(long(PerfFileLines[-1].split()[2]) - long(PerfFileLines[-CurLength-1].split()[2]))
+            print("CurLength:"+str(CurLength)+"len(PerfFileLines):"+str(len(PerfFileLines)))
+            TotalInterval =(int(PerfFileLines[-1].split()[2]) - int(PerfFileLines[-CurLength-1].split()[2]))
 
             AvergeInterval = TotalInterval/ float(CurLength)
             
             for i in range(-CurLength,0):
                 LinePerf = PerfFileLines[i].split()
 
-                TimeInterval = long(LinePerf[2]) - long(PerfFileLines[i-1].split()[2])
+                TimeInterval = int(LinePerf[2]) - int(PerfFileLines[i-1].split()[2])
                 
                 heartbeat = heartbeat + 1
                 if TimeInterval < AvergeInterval / 100 :
@@ -227,7 +227,7 @@ class PowerControl:
              #   SumPwr += float(LinePwr[0])
               #  j +=1
            # AvgPwr = float(SumPwr)/j
-            print AvgPerf, 0
+            print(AvgPerf, 0)
             return float(AvgPerf), float(0)
 
 
@@ -235,7 +235,7 @@ class PowerControl:
         if CoreNumber <33:
             os.system(SET_SPEED+' -S '+str(16-freq))
             #os.system(POWER_MON+" start")
-            print "sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-"+str(CoreNumber-1)+" "+self.CommandLine+" &"
+            print("sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-"+str(CoreNumber-1)+" "+self.CommandLine+" &")
             os.system("sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-"+str(CoreNumber-1)+" "+self.CommandLine+" &")
         else:
             os.system(SET_SPEED+' -S '+str(16-freq))
@@ -253,8 +253,8 @@ class PowerControl:
         
         if self.CurCore != CoreNumber:
             if CoreNumber <33:
-                print "for i in $(pgrep "+self.AppNameShort+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 1  {print $2}');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i > /dev/null & done"
-                print self.AppNameShort
+                print("for i in $(pgrep "+self.AppNameShort+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 1  {print $2}');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i > /dev/null & done")
+                print(self.AppNameShort)
             #    os.system("for i in $(pgrep "+self.AppName+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print $2}');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i > /dev/null & done")
                 result1 = subprocess.check_output("for i in $(pgrep "+self.AppNameShort+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 1  {print $2}');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i & done",shell=True)
             else:
@@ -271,11 +271,11 @@ os.system("sudo /var/tmp/RAPL/RaplPowerLimitDisable")
 for i in range(3,len(sys.argv)):
     CommandLine  = CommandLine+" "+sys.argv[i]
 PC= PowerControl(sys.argv[1],sys.argv[2],CommandLine)
-print "CommandLine", CommandLine
+print("CommandLine", CommandLine)
 tmp1 = PC.Decision()
-print PC.PerfDictionary
-print PC.PwrDictionary
-print PC.CoreNumber,PC.frequency,PC.MemoCtrl
+print(PC.PerfDictionary)
+print(PC.PwrDictionary)
+print(PC.CoreNumber,PC.frequency,PC.MemoCtrl)
 PC.AdjustConfig(PC.CoreNumber,PC.frequency,PC.MemoCtrl)
 file = open("heartbeat.log",'r')
 StartLength= len(file.readlines()[1:])
@@ -293,7 +293,7 @@ os.system("echo "+str(Endlength - StartLength)+" >> Length.txt")
 
 file = open("converged_configuration",'a')
 file.write(str(PC.PwrCap)+" ("+str(PC.CoreNumber)+","+str(PC.frequency)+","+str(PC.MemoCtrl)+")")
-print result,"finished"
+print(result,"finished")
 
 
 #pgrep jacobi| sudo xargs taskset -pc 0-13

@@ -1,0 +1,218 @@
+\hypertarget{heartbeat-accuracy-shared_8c}{}\doxysection{src/heartbeat-\/accuracy-\/shared.c File Reference}
+\label{heartbeat-accuracy-shared_8c}\index{src/heartbeat-\/accuracy-\/shared.c@{src/heartbeat-\/accuracy-\/shared.c}}
+{\ttfamily \#include \char`\"{}heartbeat-\/accuracy.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{heartbeat-accuracy-shared_8c_ab0215f451a25327778cf2469bbf17808}{heartbeat\+\_\+init}} (\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} $\ast$hb, double min\+\_\+target, double max\+\_\+target, int64\+\_\+t window\+\_\+size, int64\+\_\+t buffer\+\_\+depth, char $\ast$log\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Initialization function for process that wants to register heartbeats. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{heartbeat-accuracy-shared_8c_a472683cf2037492695c74b37944efca9}{heartbeat\+\_\+finish}} (\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} $\ast$hb)
+\begin{DoxyCompactList}\small\item\em Cleanup function for process that wants to register heartbeats. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{heartbeat-accuracy-shared_8c_a75042acfdcb08a614964eab511fe6299}{hb\+\_\+get\+\_\+current}} (\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$hb, \mbox{\hyperlink{structheartbeat__record__t}{heartbeat\+\_\+record\+\_\+t}} volatile $\ast$record)
+\begin{DoxyCompactList}\small\item\em Returns the record for the current heartbeat currently may read old data. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{heartbeat-accuracy-shared_8c_ad75f7029162a84476c6e7411f59f86f2}{hb\+\_\+get\+\_\+history}} (\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$hb, \mbox{\hyperlink{structheartbeat__record__t}{heartbeat\+\_\+record\+\_\+t}} volatile $\ast$record, int n)
+\begin{DoxyCompactList}\small\item\em Returns all heartbeat information for the last n heartbeats. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{heartbeat-accuracy-shared_8c_a55b60b6aa61bbb71ee099f2e7180540e}{hb\+\_\+get\+\_\+global\+\_\+rate}} (\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$hb)
+\begin{DoxyCompactList}\small\item\em Returns the heart rate over the life of the entire application. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{heartbeat-accuracy-shared_8c_a7afb09ea470be506247e69e874127be3}{hb\+\_\+get\+\_\+windowed\+\_\+rate}} (\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$hb)
+\begin{DoxyCompactList}\small\item\em Returns the heart rate over the last window (as specified to init) heartbeats. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{heartbeat-accuracy-shared_8c_a96fa03d16ef34067e63860cea57b71db}{hb\+\_\+get\+\_\+min\+\_\+rate}} (\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$hb)
+\begin{DoxyCompactList}\small\item\em Returns the minimum desired heart rate. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{heartbeat-accuracy-shared_8c_a566d7911466aa84b09b1cb5c16fd1bb0}{hb\+\_\+get\+\_\+max\+\_\+rate}} (\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$hb)
+\begin{DoxyCompactList}\small\item\em Returns the maximum desired heart rate. \end{DoxyCompactList}\item 
+int64\+\_\+t \mbox{\hyperlink{heartbeat-accuracy-shared_8c_a1e6ea5f3c95dd936082274969dba0ee8}{hb\+\_\+get\+\_\+window\+\_\+size}} (\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$hb)
+\begin{DoxyCompactList}\small\item\em Returns the size of the sliding window used to compute the current heart rate. \end{DoxyCompactList}\item 
+int64\+\_\+t \mbox{\hyperlink{heartbeat-accuracy-shared_8c_a3f8d6bb09485c347059129331cb4e4a9}{heartbeat}} (\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} $\ast$hb, int tag, double accuracy)
+\begin{DoxyCompactList}\small\item\em Registers a heartbeat. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{heartbeat-accuracy-shared_8c_a75042acfdcb08a614964eab511fe6299}\label{heartbeat-accuracy-shared_8c_a75042acfdcb08a614964eab511fe6299}} 
+\index{heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}!hb\_get\_current@{hb\_get\_current}}
+\index{hb\_get\_current@{hb\_get\_current}!heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}}
+\doxysubsubsection{\texorpdfstring{hb\_get\_current()}{hb\_get\_current()}}
+{\footnotesize\ttfamily void hb\+\_\+get\+\_\+current (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$}]{hb,  }\item[{\mbox{\hyperlink{structheartbeat__record__t}{heartbeat\+\_\+record\+\_\+t}} volatile $\ast$}]{record }\end{DoxyParamCaption})}
+
+
+
+Returns the record for the current heartbeat currently may read old data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{heartbeat-accuracy-shared_8c_a55b60b6aa61bbb71ee099f2e7180540e}\label{heartbeat-accuracy-shared_8c_a55b60b6aa61bbb71ee099f2e7180540e}} 
+\index{heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}!hb\_get\_global\_rate@{hb\_get\_global\_rate}}
+\index{hb\_get\_global\_rate@{hb\_get\_global\_rate}!heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}}
+\doxysubsubsection{\texorpdfstring{hb\_get\_global\_rate()}{hb\_get\_global\_rate()}}
+{\footnotesize\ttfamily double hb\+\_\+get\+\_\+global\+\_\+rate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$}]{hb }\end{DoxyParamCaption})}
+
+
+
+Returns the heart rate over the life of the entire application. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the heart rate (double) over the entire life of the application 
+\end{DoxyReturn}
+\mbox{\Hypertarget{heartbeat-accuracy-shared_8c_ad75f7029162a84476c6e7411f59f86f2}\label{heartbeat-accuracy-shared_8c_ad75f7029162a84476c6e7411f59f86f2}} 
+\index{heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}!hb\_get\_history@{hb\_get\_history}}
+\index{hb\_get\_history@{hb\_get\_history}!heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}}
+\doxysubsubsection{\texorpdfstring{hb\_get\_history()}{hb\_get\_history()}}
+{\footnotesize\ttfamily int hb\+\_\+get\+\_\+history (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$}]{hb,  }\item[{\mbox{\hyperlink{structheartbeat__record__t}{heartbeat\+\_\+record\+\_\+t}} volatile $\ast$}]{record,  }\item[{int}]{n }\end{DoxyParamCaption})}
+
+
+
+Returns all heartbeat information for the last n heartbeats. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} \\
+\hline
+{\em record} & pointer to \mbox{\hyperlink{structheartbeat__record__t}{heartbeat\+\_\+record\+\_\+t}} \\
+\hline
+{\em n} & integer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{heartbeat-accuracy-shared_8c_a566d7911466aa84b09b1cb5c16fd1bb0}\label{heartbeat-accuracy-shared_8c_a566d7911466aa84b09b1cb5c16fd1bb0}} 
+\index{heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}!hb\_get\_max\_rate@{hb\_get\_max\_rate}}
+\index{hb\_get\_max\_rate@{hb\_get\_max\_rate}!heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}}
+\doxysubsubsection{\texorpdfstring{hb\_get\_max\_rate()}{hb\_get\_max\_rate()}}
+{\footnotesize\ttfamily double hb\+\_\+get\+\_\+max\+\_\+rate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$}]{hb }\end{DoxyParamCaption})}
+
+
+
+Returns the maximum desired heart rate. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the maximum desired heart rate (double) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{heartbeat-accuracy-shared_8c_a96fa03d16ef34067e63860cea57b71db}\label{heartbeat-accuracy-shared_8c_a96fa03d16ef34067e63860cea57b71db}} 
+\index{heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}!hb\_get\_min\_rate@{hb\_get\_min\_rate}}
+\index{hb\_get\_min\_rate@{hb\_get\_min\_rate}!heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}}
+\doxysubsubsection{\texorpdfstring{hb\_get\_min\_rate()}{hb\_get\_min\_rate()}}
+{\footnotesize\ttfamily double hb\+\_\+get\+\_\+min\+\_\+rate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$}]{hb }\end{DoxyParamCaption})}
+
+
+
+Returns the minimum desired heart rate. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the minimum desired heart rate (double) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{heartbeat-accuracy-shared_8c_a1e6ea5f3c95dd936082274969dba0ee8}\label{heartbeat-accuracy-shared_8c_a1e6ea5f3c95dd936082274969dba0ee8}} 
+\index{heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}!hb\_get\_window\_size@{hb\_get\_window\_size}}
+\index{hb\_get\_window\_size@{hb\_get\_window\_size}!heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}}
+\doxysubsubsection{\texorpdfstring{hb\_get\_window\_size()}{hb\_get\_window\_size()}}
+{\footnotesize\ttfamily int64\+\_\+t hb\+\_\+get\+\_\+window\+\_\+size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$}]{hb }\end{DoxyParamCaption})}
+
+
+
+Returns the size of the sliding window used to compute the current heart rate. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the size of the sliding window (int64\+\_\+t) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{heartbeat-accuracy-shared_8c_a7afb09ea470be506247e69e874127be3}\label{heartbeat-accuracy-shared_8c_a7afb09ea470be506247e69e874127be3}} 
+\index{heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}!hb\_get\_windowed\_rate@{hb\_get\_windowed\_rate}}
+\index{hb\_get\_windowed\_rate@{hb\_get\_windowed\_rate}!heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}}
+\doxysubsubsection{\texorpdfstring{hb\_get\_windowed\_rate()}{hb\_get\_windowed\_rate()}}
+{\footnotesize\ttfamily double hb\+\_\+get\+\_\+windowed\+\_\+rate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} volatile $\ast$}]{hb }\end{DoxyParamCaption})}
+
+
+
+Returns the heart rate over the last window (as specified to init) heartbeats. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the heart rate (double) over the last window 
+\end{DoxyReturn}
+\mbox{\Hypertarget{heartbeat-accuracy-shared_8c_a3f8d6bb09485c347059129331cb4e4a9}\label{heartbeat-accuracy-shared_8c_a3f8d6bb09485c347059129331cb4e4a9}} 
+\index{heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}!heartbeat@{heartbeat}}
+\index{heartbeat@{heartbeat}!heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}}
+\doxysubsubsection{\texorpdfstring{heartbeat()}{heartbeat()}}
+{\footnotesize\ttfamily int64\+\_\+t heartbeat (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} $\ast$}]{hb,  }\item[{int}]{tag,  }\item[{double}]{accuracy }\end{DoxyParamCaption})}
+
+
+
+Registers a heartbeat. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} \\
+\hline
+{\em tag} & integer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{heartbeat-accuracy-shared_8c_a472683cf2037492695c74b37944efca9}\label{heartbeat-accuracy-shared_8c_a472683cf2037492695c74b37944efca9}} 
+\index{heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}!heartbeat\_finish@{heartbeat\_finish}}
+\index{heartbeat\_finish@{heartbeat\_finish}!heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}}
+\doxysubsubsection{\texorpdfstring{heartbeat\_finish()}{heartbeat\_finish()}}
+{\footnotesize\ttfamily void heartbeat\+\_\+finish (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} $\ast$}]{hb }\end{DoxyParamCaption})}
+
+
+
+Cleanup function for process that wants to register heartbeats. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{heartbeat-accuracy-shared_8c_ab0215f451a25327778cf2469bbf17808}\label{heartbeat-accuracy-shared_8c_ab0215f451a25327778cf2469bbf17808}} 
+\index{heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}!heartbeat\_init@{heartbeat\_init}}
+\index{heartbeat\_init@{heartbeat\_init}!heartbeat-\/accuracy-\/shared.c@{heartbeat-\/accuracy-\/shared.c}}
+\doxysubsubsection{\texorpdfstring{heartbeat\_init()}{heartbeat\_init()}}
+{\footnotesize\ttfamily int heartbeat\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} $\ast$}]{hb,  }\item[{double}]{min\+\_\+target,  }\item[{double}]{max\+\_\+target,  }\item[{int64\+\_\+t}]{window\+\_\+size,  }\item[{int64\+\_\+t}]{buffer\+\_\+depth,  }\item[{char $\ast$}]{log\+\_\+name }\end{DoxyParamCaption})}
+
+
+
+Initialization function for process that wants to register heartbeats. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hb} & pointer to \mbox{\hyperlink{structheartbeat__t}{heartbeat\+\_\+t}} \\
+\hline
+{\em min\+\_\+target} & double \\
+\hline
+{\em max\+\_\+target} & double \\
+\hline
+{\em window\+\_\+size} & int64\+\_\+t \\
+\hline
+{\em buffer\+\_\+depth} & int64\+\_\+t \\
+\hline
+{\em log\+\_\+name} & pointer to char \\
+\hline
+\end{DoxyParams}

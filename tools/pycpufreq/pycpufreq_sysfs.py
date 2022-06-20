@@ -73,11 +73,11 @@ class sysfs:
         # reads cpuinfo_min_freq
         f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)+"/cpufreq/cpuinfo_min_freq","r")
         self.cpuinfo_min_freq=string.rstrip(f.readline())
-        f.close
+        f.close()
         # reads scaling_max_freq
         f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)+"/cpufreq/scaling_max_freq","r")
         self.scaling_max_freq=string.rstrip(f.readline())
-        f.close
+        f.close()
         # reads scaling_min_freq
         f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)+"/cpufreq/scaling_min_freq","r")
         self.scaling_min_freq=string.rstrip(f.readline())
@@ -112,7 +112,8 @@ class sysfs:
             # SCALING_SETSPEED only exists in userspace governors 
             f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)\
                 +"/cpufreq/scaling_setspeed","r")
-            self.scaling_setspeed=string.rstrip(f.readline())
+            if string.rstrip(f.readline()) != '<unsupported>':
+                self.scaling_setspeed=string.rstrip(f.readline())
             f.close()
         except:
             pass

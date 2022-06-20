@@ -21,6 +21,8 @@
 
 import os,string
 import errors
+import sys
+
 
 class proc:
     """ """
@@ -37,7 +39,7 @@ class proc:
         
     def status(self):
         """ """ 
-        f=file("/proc/cpufreq","r")
+        f=open("/proc/cpufreq","r")
         # header: minimum CPU frequency  os.getuid()os.getuid()-  maximum CPU frequency  -  policy
         line=f.readline()
         # FIXME: first CPU only !
@@ -67,7 +69,7 @@ class proc:
         if max >= self.cpuinfo_max_freq:
             max = self.cpuinfo_max_freq
             
-        f=file("/proc/cpufreq","w")
+        f=open("/proc/cpufreq","w")
         f.write(str(self.cpu)+":"+str(min)+":"+str(max)+":"+"userspace")
         f.close()
         

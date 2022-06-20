@@ -308,13 +308,13 @@ class PowerControl:
             os.system(SET_SPEED+' -S '+str(16-freq))
         if self.CurCore != CoreNumber:
             if CoreNumber <33:
-                print("for i in $(pgrep "+self.AppNameShort+" | xargs pstree -p|grep -o \"([[:digit:]]*)\" |grep -o \"[[:digit:]]*\");do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i & done")
+                print("for i in $(pgrep "+self.AppNameShort+" | xargs pstree -p|grep -o '[[:digit:]]*' |grep -o '[[:digit:]]*');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i & done")
                 print(self.AppNameShort)
             #    os.system("for i in $(pgrep "+self.AppName+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print $2}');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i > /dev/null & done")
-                result1 = subprocess.check_output("for i in $(pgrep "+self.AppNameShort+" | xargs pstree -p|grep -o \"([[:digit:]]*)\" |grep -o \"[[:digit:]]*\");do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i & done",shell=True)
+                result1 = subprocess.check_output("for i in $(pgrep "+self.AppNameShort+" | xargs pstree -p|grep -o '[[:digit:]]*' |grep -o '[[:digit:]]*');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i & done",shell=True)
             else:
                 #os.system("for i in $(pgrep "+self.AppName+" | xargs ps -mo pid,tid,fname,user,psr -p | awk 'NR > 2  {print $2}');do sudo taskset -pc 0-7,16-"+str(CoreNumber-17)+" $i > /dev/null & done")
-                result1 = subprocess.check_output("for i in $(pgrep "+self.AppNameShort+" | xargs pstree -p|grep -o \"([[:digit:]]*)\" |grep -o \"[[:digit:]]*\");do sudo taskset -pc 0-7,16-"+str(CoreNumber-17)+" $i & done",shell=True)
+                result1 = subprocess.check_output("for i in $(pgrep "+self.AppNameShort+" | xargs pstree -p|grep -o '[[:digit:]]*' |grep -o '[[:digit:]]*');do sudo taskset -pc 0-7,16-"+str(CoreNumber-17)+" $i & done",shell=True)
         self.CurCore = CoreNumber
         self.CurFreq = freq
         EndTime = time.time()

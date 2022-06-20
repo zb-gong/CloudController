@@ -56,9 +56,9 @@ class sysfs:
         if not os.path.isfile(SYSFS_PREFIX+"cpu"+str(self.cpu)\
                 +"/cpufreq/scaling_available_governors"):
             raise errors.ERROR_INVALID_INTERFACE
-            
+
         # CPUfreq governors list check
-        f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)\
+        f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)\
             +"/cpufreq/scaling_available_governors","r")
         governors=\
             string.split(string.rstrip(f.readline()), " ")
@@ -71,46 +71,46 @@ class sysfs:
     def status(self):
         """ """
         # reads cpuinfo_min_freq
-        f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)+"/cpufreq/cpuinfo_min_freq","r")
+        f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)+"/cpufreq/cpuinfo_min_freq","r")
         self.cpuinfo_min_freq=string.rstrip(f.readline())
         f.close
         # reads scaling_max_freq
-        f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)+"/cpufreq/scaling_max_freq","r")
+        f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)+"/cpufreq/scaling_max_freq","r")
         self.scaling_max_freq=string.rstrip(f.readline())
         f.close
         # reads scaling_min_freq
-        f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)+"/cpufreq/scaling_min_freq","r")
+        f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)+"/cpufreq/scaling_min_freq","r")
         self.scaling_min_freq=string.rstrip(f.readline())
         f.close()
         # reads cpuinfo_max_freq
-        f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)+"/cpufreq/cpuinfo_max_freq","r")
+        f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)+"/cpufreq/cpuinfo_max_freq","r")
         self.cpuinfo_max_freq=string.rstrip(f.readline())
         f.close()
         # reads scaling_driver
-        f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)+"/cpufreq/scaling_driver","r")
+        f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)+"/cpufreq/scaling_driver","r")
         self.scaling_driver=string.rstrip(f.readline())
         f.close()
         # reads CPUfreq governors list
-        f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)\
+        f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)\
             +"/cpufreq/scaling_available_governors","r")
         self.scaling_available_governors=\
             string.split(string.rstrip(f.readline()), " ")
         f.close()
         # reads CPUfreq governors list
-        f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)\
+        f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)\
             +"/cpufreq/scaling_available_frequencies","r")
         self.scaling_available_frequencies=\
             string.split(string.rstrip(f.readline()), " ")
         f.close()
         # reads scaling governor
-        f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)\
+        f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)\
             +"/cpufreq/scaling_governor","r")
         self.scaling_governor=string.rstrip(f.readline())
         f.close()
         # reads scaling_setspeed
         try:
             # SCALING_SETSPEED only exists in userspace governors 
-            f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)\
+            f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)\
                 +"/cpufreq/scaling_setspeed","r")
             self.scaling_setspeed=string.rstrip(f.readline())
             f.close()
@@ -127,7 +127,7 @@ class sysfs:
         if self.scaling_governor != "userspace":
             # if the userspace governor is available then is set
             if "userspace" in self.scaling_available_governors:
-                f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)\
+                f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)\
                     +"/cpufreq/scaling_governor","w")
                 f.write("userspace")
                 f.close()
@@ -137,17 +137,17 @@ class sysfs:
         # set the frequency value
         if int(frequency) >= int(self.cpuinfo_min_freq) \
             and int(frequency) <= int(self.cpuinfo_max_freq):
-            f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)\
+            f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)\
                 +"/cpufreq/scaling_setspeed","w")
             f.write(str(frequency))
             f.close()
             
-        f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)\
+        f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)\
             +"/cpufreq/scaling_min_freq","w")
         f.write(self.cpuinfo_min_freq)
         f.close()
         
-        f=file(SYSFS_PREFIX+"cpu"+str(self.cpu)\
+        f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)\
             +"/cpufreq/scaling_max_freq","w")
         f.write(self.cpuinfo_max_freq)
         f.close()

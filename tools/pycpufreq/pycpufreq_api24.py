@@ -38,15 +38,15 @@ class api24:
     def status (self):
         """ """
         # reads speed
-        f=file("/proc/sys/cpu/"+str(self.cpu)+"/speed","r")
+        f=open("/proc/sys/cpu/"+str(self.cpu)+"/speed","r")
         self.speed=string.rstrip(f.readline())
         f.close
         # reads speed min
-        f=file("/proc/sys/cpu/"+str(self.cpu)+"/speed-min","r")
+        f=open("/proc/sys/cpu/"+str(self.cpu)+"/speed-min","r")
         self.speed_min=string.rstrip(f.readline())
         f.close
         # reads speed_max
-        f=file("/proc/sys/cpu/"+str(self.cpu)+"/speed-max","r")
+        f=open("/proc/sys/cpu/"+str(self.cpu)+"/speed-max","r")
         self.speed_max=string.rstrip(f.readline())
         f.close
         return True
@@ -56,17 +56,17 @@ class api24:
         if int(frequency) >= int(self.speed_min) \
             and int(frequency) <= int(self.speed_max):
             try:
-                f=file("/proc/sys/cpu/"+str(self.cpu)+"/speed","w")
+                f=open("/proc/sys/cpu/"+str(self.cpu)+"/speed","w")
                 f.write(str(frequency))
                 f.close()
             except:
                 return False
                 
-        f=file("/proc/sys/cpu/"+str(self.cpu)+"/speed-min","w")
+        f=open("/proc/sys/cpu/"+str(self.cpu)+"/speed-min","w")
         f.write(str(self.speed_min))
         f.close()        
         
-        f=file("/proc/sys/cpu/"+str(self.cpu)+"/speed-max","w")
+        f=open("/proc/sys/cpu/"+str(self.cpu)+"/speed-max","w")
         f.write(str(self.speed_max))
         f.close()         
         self.status()

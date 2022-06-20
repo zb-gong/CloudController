@@ -344,6 +344,8 @@ static void hb_flush_buffer(heartbeat_t volatile * hb) {
        */
 int64_t heartbeat( heartbeat_t* hb, int tag, double accuracy )
 {
+    printf("shitty happening");
+
     struct timespec time_info;
     int64_t time;
     int64_t old_last_time = hb->last_timestamp;

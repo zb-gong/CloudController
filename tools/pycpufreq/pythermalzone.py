@@ -65,7 +65,7 @@ class pythermalzone:
         if not os.path.isfile (self.temperaturefile):
             return None
         try:
-            f=file(self.temperaturefile,"r")
+            f=open(self.temperaturefile,"r")
         except:
             return None
         tmp=string.rstrip(f.readline())

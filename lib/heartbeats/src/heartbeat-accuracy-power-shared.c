@@ -82,7 +82,7 @@ static long long read_msr(int fd, int which) {
 #if 1
   uint64_t data_size = pread(fd, &data, sizeof data, which);
 
-  //printf("Data size = %lld, fd = %d\n", data_size,fd);
+  // printf("Data size = %lld, fd = %d\n", data_size,fd);
 
   if ( data_size != sizeof data ) {
     perror("rdmsr:pread");

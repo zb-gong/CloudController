@@ -95,7 +95,7 @@ def parseOptions():
 def setupCPUs():
     cpus    = detectCPUs() 
     cpulist = []
-    
+    print(cpus)
     #print "[+] This machine has %d CPUs" %cpus
     for i in range(0,cpus):
         cpufreq = pycpufreq.pycpufreq(cpu = i)
@@ -155,7 +155,7 @@ def main(user_args=None):
             print("%d.\t %s" %(i, freqs[i]))
         print(80 * '-')
 
-        input = raw_input("Please select which frequency to switch to: ")
+        input = input("Please select which frequency to switch to: ")
         speed =  int (freqs[int(input)])
         print("You selected: %d" %(speed))
         setCPUSpeed(cpulist, speed)

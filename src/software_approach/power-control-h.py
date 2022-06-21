@@ -27,7 +27,8 @@ class PowerControl:
         self.PerfFileLength = 0
         self.CurCore= 0
         self.CurFreq= 0
-        self.HeartbeatFileName = HeartbeatFileName
+        # self.HeartbeatFileName = HeartbeatFileName
+        self.HeartbeatFileName = "jacobi_heartbeat.log"
     
     def PwrBSearch(self,lowbound, highbound, PwrCap):
         head = lowbound
@@ -85,7 +86,7 @@ class PowerControl:
 
     def FreqBsearch(self,CoreNumber):
         head = 1
-        tail =16
+        tail = 12
         self.PerfDictionary[(CoreNumber,head,1)],self.PwrDictionary[(CoreNumber,head,1)] = self.GetFeedback((CoreNumber,head,1))
         self.PerfDictionary[(CoreNumber,tail,1)],self.PwrDictionary[(CoreNumber,tail,1)] = self.GetFeedback((CoreNumber,tail,1))
         while (head +1 <tail):
@@ -103,14 +104,14 @@ class PowerControl:
             return tail
 
     def Decision(self):
-        self.RunApp(8,1,1)
+        self.RunApp(4,1,1)
         if self.phase == 0:
-            self.CurConfig = (8,1,1)
+            self.CurConfig = (4,1,1)
             self.PerfDictionary[self.CurConfig],self.PwrDictionary[self.CurConfig] = self.GetFeedback(self.CurConfig)
             if self.PwrDictionary[self.CurConfig] > self.PwrCap:
                 self.phase = 3
                 # Power binary search core number in (1,8)
-                TmpCoreNumber = self.PwrBSearch(1,8,self.PwrCap)
+                TmpCoreNumber = self.PwrBSearch(1,4,self.PwrCap)
                 # Perf BS
                 self.CoreNumber = self.PerfBSearch(1,TmpCoreNumber)
                 # BS frequency
@@ -119,16 +120,16 @@ class PowerControl:
             
             else:
                 self.phase = 1
-                self.CurConfig = (16,1,1)
+                self.CurConfig = (6,1,1)
                 self.PerfDictionary[self.CurConfig],self.PwrDictionary[self.CurConfig] = self.GetFeedback(self.CurConfig)
-                if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(8,1,1)]:
-                    self.CurConfig = (40,1,1)
+                if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(4,1,1)]:
+                    self.CurConfig = (8,1,1)
                     self.phase = 2
                     self.PerfDictionary[self.CurConfig],self.PwrDictionary[self.CurConfig] = self.GetFeedback(self.CurConfig)
-                    if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(8,1,1)]:
+                    if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(4,1,1)]:
                         self.phase = 3
                         # binary search core number in (1,8)
-                        self.CoreNumber = self.PerfBSearch(1,8)
+                        self.CoreNumber = self.PerfBSearch(1,4)
                         #BS frequency
                         self.frequency = self.FreqBsearch(self.CoreNumber)
 
@@ -136,47 +137,47 @@ class PowerControl:
                         if self.PwrDictionary[self.CurConfig] > self.PwrCap:
                             self.phase = 3
                             # Power binary search core number in (33,40)
-                            TmpCoreNumber = self.PwrBSearch(33,40,self.PwrCap)
+                            TmpCoreNumber = self.PwrBSearch(7,8,self.PwrCap)
                             # binary search core number in (33,tmpCoreNumber)
-                            self.CoreNumber = self.PerfBSearch(33,TmpCoreNumber)
+                            self.CoreNumber = self.PerfBSearch(7,TmpCoreNumber)
                             #BS frequency
                             self.frequency = self.FreqBsearch(self.CoreNumber)
                         else:
                             #binary search core number in (33,40)
-                            self.CoreNumber = self.PerfBSearch(33,40)
+                            self.CoreNumber = self.PerfBSearch(7,8)
                             #BS frequency
                             self.frequency = self.FreqBsearch(self.CoreNumber)
 
                 else:
                     if self.PwrDictionary[self.CurConfig] > self.PwrCap:
                         # Power binary search core number in (9,16)
-                        TmpCoreNumber = self.PwrBSearch(8,16,self.PwrCap)
+                        TmpCoreNumber = self.PwrBSearch(4,6,self.PwrCap)
                         # binary search core number in (9,tmpCoreNumber)
-                        self.CoreNumber = self.PerfBSearch(8,TmpCoreNumber)
+                        self.CoreNumber = self.PerfBSearch(4,TmpCoreNumber)
                         #BS frequency
                         self.frequency = self.FreqBsearch(self.CoreNumber)
                     else:
-                        self.CurConfig = (32,1,1)
+                        self.CurConfig = (7,1,1)
                         self.phase = 2
                         self.PerfDictionary[self.CurConfig],self.PwrDictionary[self.CurConfig] = self.GetFeedback(self.CurConfig)
-                        if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(16,1,1)]:
+                        if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(6,1,1)]:
                             print("binary search core number in (9, 16)")
-                            self.CoreNumber = self.PerfBSearch(9,16)
+                            self.CoreNumber = self.PerfBSearch(5,6)
                             #BS frequency
                             self.frequency = self.FreqBsearch(self.CoreNumber)
                         else:
 
                             if self.PwrDictionary[self.CurConfig] > self.PwrCap:
                                 print("11111111-Power binary search core number in (17,32)")
-                                TmpCoreNumber = self.PwrBSearch(17,32,self.PwrCap)
+                                TmpCoreNumber = self.PwrBSearch(6,7,self.PwrCap)
                                 print("111111111-binary search core number in (17,tmpCoreNumber)")
-                                self.CoreNumber = self.PerfBSearch(17,TmpCoreNumber)
+                                self.CoreNumber = self.PerfBSearch(7,TmpCoreNumber)
                                 #BS frequency
                                 self.frequency = self.FreqBsearch(self.CoreNumber)
 
                             else:
                                 print("22222222-binary search core number in (17,32)")
-                                self.CoreNumber = self.PerfBSearch(17,32)
+                                self.CoreNumber = self.PerfBSearch(7,7)
                                 #BS frequency
                                 self.frequency = self.FreqBsearch(self.CoreNumber)
                         
@@ -214,6 +215,7 @@ class PowerControl:
             print("self.PerfFileLength",self.PerfFileLength)
             print("wait....")
             while ((len(PerfFileLines) - self.PerfFileLength) <10)and((len(PerfFileLines) - self.PerfFileLength) < 3 or (time.time()- TmpTime < 10)):
+            # while (len(PerfFileLines) <10)and(len(PerfFileLines) < 3 or (time.time()- TmpTime < 10)):
               #  PowerFile.close()
                 PerfFile.close()
                 #get Socket Power
@@ -236,6 +238,7 @@ class PowerControl:
             PowerFileLines= PowerFile.readlines()
             
             CurLength = len(PerfFileLines) - self.PerfFileLength
+            # CurLength = len(PerfFileLines)
 
 
                 # print "sleep 0.1"
@@ -291,12 +294,12 @@ class PowerControl:
 
     def RunApp(self,CoreNumber, freq, MemoCtrl):
         if CoreNumber <33:
-            os.system(SET_SPEED+' -S '+str(16-freq))
+            os.system(SET_SPEED+' -S '+str(12-freq))
             #os.system(POWER_MON+" start")
             print("sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-"+str(CoreNumber-1)+" "+self.CommandLine+" &")
             os.system("sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-"+str(CoreNumber-1)+" "+self.CommandLine+" &")
         else:
-            os.system(SET_SPEED+' -S '+str(16-freq))
+            os.system(SET_SPEED+' -S '+str(12-freq))
             #os.system(POWER_MON+" start")
             os.system("sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-7,16-"+str(CoreNumber-17)+" "+self.CommandLine+" &")
            # os.system(POWER_MON+" stop > power.txt")
@@ -305,7 +308,7 @@ class PowerControl:
     def AdjustConfig(self, CoreNumber,freq,MemoCtrl):
         StartTime = time.time()
         if self.CurFreq != freq:
-            os.system(SET_SPEED+' -S '+str(16-freq))
+            os.system(SET_SPEED+' -S '+str(12-freq))
         if self.CurCore != CoreNumber:
             if CoreNumber <33:
                 print("for i in $(pgrep "+self.AppNameShort+" | xargs pstree -p|grep -o '[[:digit:]]*' |grep -o '[[:digit:]]*');do sudo taskset -pc 0-"+str(CoreNumber-1)+" $i & done")

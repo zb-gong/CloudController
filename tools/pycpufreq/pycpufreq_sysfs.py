@@ -112,8 +112,9 @@ class sysfs:
             # SCALING_SETSPEED only exists in userspace governors 
             f=open(SYSFS_PREFIX+"cpu"+str(self.cpu)\
                 +"/cpufreq/scaling_setspeed","r")
-            if string.rstrip(f.readline()) != '<unsupported>':
-                self.scaling_setspeed=string.rstrip(f.readline())
+            tmp = string.rstrip(f.readline())
+            if tmp.isdigit():
+                self.scaling_setspeed=tmp
             f.close()
         except:
             pass

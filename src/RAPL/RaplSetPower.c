@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <math.h>
 //#include <asm/msr.h>
-//gcc -O2 -Wall -o rapl-read rapl-read.c -lm
+
 #define MSR_RAPL_POWER_UNIT		0x606
 
 /*
@@ -141,6 +141,7 @@ void set_power_limit(int fd, int watts, double pu)
 	reg = (reg & 0xFFFFFFFFFFFF0000) | setpoint | 0x8000;
 	reg = (reg & 0xFFFFFFFF0000FFFF) | 0xD0000;
 	wrmsr(fd, MSR_PKG_RAPL_POWER_LIMIT, reg);
+            
 
 
 }
@@ -153,53 +154,29 @@ void set_power_limit(int fd, int watts, double pu)
 
 
 
-int main(void) {
-  int fd;
+int main(int argc, char **argv) {
+  int fd1;
+  int core1=0;
   long long result;
   double power_units,energy_units,time_units;
-  double package_before,package_after;
-  double pp0_before,pp0_after;
-  double pp1_before=0.0,pp1_after;
-  double dram_before=0.0,dram_after;
-  double thermal_spec_power,minimum_power,maximum_power,time_window;
-  int cpu_model;
+  // double package_before,package_after;
+  // double dram_before=0.0,dram_after;
+  // double thermal_spec_power,minimum_power,maximum_power,time_window;
+  // int cpu_model;
   
+  double power_target1 = atoi(argv[1]);
+  printf("Starting to set package power to %fW\n",power_target1);
 
-  double power_target = 40;
-  printf("Starting set each package power to %fW\n",power_target);
-
-    fd=open_msr(0);
-
+  fd1=open_msr(core1);	
   /* Calculate the units used */
-  result=read_msr(fd,MSR_RAPL_POWER_UNIT);
+  result=read_msr(fd1,MSR_RAPL_POWER_UNIT);
   
   power_units=pow(0.5,(double)(result&0xf));
- // printf("Power units = %.3fW\n",power_units);
- // printf("\n");
   energy_units=pow(0.5,(double)((result>>8)&0x1f));
- // printf("Energy units = %.8fJ\n",energy_units);
- // printf("\n");
   time_units=pow(0.5,(double)((result>>16)&0xf));
- // printf("Time units = %.8fs, %.8fKs\n",time_units, time_units*1000.0);
- // printf("\n");
-  set_power_limit(fd, power_target, power_units);
 
-  //   fd=open_msr(8);
+  set_power_limit(fd1, power_target1, power_units);
 
-  // /* Calculate the units used */
-  // result=read_msr(fd,MSR_RAPL_POWER_UNIT);
-  
-  // power_units=pow(0.5,(double)(result&0xf));
-
-  // energy_units=pow(0.5,(double)((result>>8)&0x1f));
-
-  // time_units=pow(0.5,(double)((result>>16)&0xf));
-
-  // set_power_limit(fd, power_target, power_units);
- 
- 
-
-
-return 1;
+  return 1;
 
 }

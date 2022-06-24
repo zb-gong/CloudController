@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -O3 -I/home/hankhoffmann/heartbeats-development/heartbeats-google-code/heartbeats/inc/ -L/home/hankhoffmann/heartbeats-development/heartbeats-google-code/heartbeats/lib
+CFLAGS = -O3 -I/home/zibo/Projects/PUPIL/lib/heartbeats/inc/ -L/home/zibo/Projects/PUPIL/lib/heartbeats/lib
 
 FF = g77
 FFLAGS = -O3

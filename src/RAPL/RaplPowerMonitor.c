@@ -146,12 +146,11 @@ void set_power_limit(int fd, int watts, double pu) {
 #define CPU_IVYBRIDGE_EP 62
 
 void main(int argc, char **argv) {
-  int fd1, fd2;
-  long long result1, result2;
+  int fd1;
+  long long result1;
   double power_units, energy_units, time_units;
-  double package1_before, package1_after, package2_before, package2_after;
+  double package1_before, package1_after;
   double pp0_before, pp0_after;
-  double pp1_before = 0.0, pp1_after;
   double dram_before = 0.0, dram_after;
   double thermal_spec_power, minimum_power, maximum_power, time_window;
   int cpu_model;
@@ -159,7 +158,10 @@ void main(int argc, char **argv) {
   struct timeval currentime1, currentime2, beginningtime;
   struct timespec interval_1s, interval_1ms, interval_10ms, interval_100ms,
       interval_500ms;
-  long double nowtime, power1, power2, tmp_max;
+  long double nowtime, power1, tmp_max;
+
+  double cpu_util = 0.0, tmp_cpu;
+  FILE *fp = NULL;
   // char *filename;
   gettimeofday(&beginningtime, NULL);
   // printf("beginningtime.tv_sec= %ld \n",beginningtime.tv_sec);
@@ -176,7 +178,6 @@ void main(int argc, char **argv) {
   interval_10ms.tv_nsec = 10000000;
 
   fd1 = open_msr(0);
-  fd2 = open_msr(7);
 
   /* Calculate the units used */
   result1 = read_msr(fd1, MSR_RAPL_POWER_UNIT);
@@ -189,9 +190,6 @@ void main(int argc, char **argv) {
   currentval = read_msr(fd1, MSR_PKG_RAPL_POWER_LIMIT);
   // printf("RAPL power limit1 = %.6fW\n",
   // power_units*(double)(currentval&0x7fff));
-  currentval = read_msr(fd2, MSR_PKG_RAPL_POWER_LIMIT);
-  // printf("RAPL power limit2 = %.6fW\n",
-  // power_units*(double)(currentval&0x7fff));
   FILE *PowerFilePointer;
   PowerFilePointer = fopen("socket_power.txt", "w");
   fclose(PowerFilePointer);
@@ -203,24 +201,17 @@ void main(int argc, char **argv) {
     PowerFilePointer = fopen("socket_power.txt", "a");
 
     result1 = read_msr(fd1, MSR_PKG_ENERGY_STATUS);
-    result2 = read_msr(fd2, MSR_PKG_ENERGY_STATUS);
     package1_before = (double)result1 * energy_units;
-    package2_before = (double)result2 * energy_units;
     gettimeofday(&currentime1, NULL);
 
     nanosleep(&interval_100ms, NULL);
 
     result1 = read_msr(fd1, MSR_PKG_ENERGY_STATUS);
-    result2 = read_msr(fd2, MSR_PKG_ENERGY_STATUS);
     gettimeofday(&currentime2, NULL);
 
     package1_after = (double)result1 * energy_units;
     // 	printf("Package1 energy after: %.6f  (%.6fJ consumed)\n",
     //	package1_after,package1_after-package1_before);
-
-    package2_after = (double)result2 * energy_units;
-    //     printf("Package2 energy after: %.6f  (%.6fJ consumed)\n",
-    //      package2_after,package2_after-package2_before);
 
     nowtime = ((long)((currentime2.tv_usec - beginningtime.tv_usec) +
                       (currentime2.tv_sec - beginningtime.tv_sec) * 1000000)) /
@@ -231,15 +222,119 @@ void main(int argc, char **argv) {
                (currentime2.tv_sec - currentime1.tv_sec) * 1000000)) *
              1000000;
     //    printf("power1 =%LF\n", power1);
-    power2 = ((package2_after - package2_before) /
-              ((currentime2.tv_usec - currentime1.tv_usec) +
-               (currentime2.tv_sec - currentime1.tv_sec) * 1000000)) *
-             1000000;
     long double SocketPower = power1;
-    fprintf(PowerFilePointer, "%LF\n", SocketPower);
-    //        printf("power1 = %lF, power2= %lF, sum = %lF",
-    //        power1,power2,SocketPower);
+    fprintf(PowerFilePointer, "%Lf ", SocketPower);
+
+    for (int j=0; j<1; j++) {
+      fp = popen("pgrep jacobi | xargs -I {} ps -p {} -o %cpu | awk 'NR==2 {print}'", "r");
+      fscanf(fp, "%lf", &tmp_cpu);
+      cpu_util += tmp_cpu;
+    }
+    pclose(fp);
+    cpu_util /= 1.0;
+    fprintf(PowerFilePointer, "%lf\n", cpu_util);
+    cpu_util = 0.0;
+
     sleep(1);
     fclose(PowerFilePointer);
   }
+
+  /****** two socket case ****/
+  // int fd1, fd2;
+  // long long result1, result2;
+  // double power_units, energy_units, time_units;
+  // double package1_before, package1_after, package2_before, package2_after;
+  // double pp0_before, pp0_after;
+  // double pp1_before = 0.0, pp1_after;
+  // double dram_before = 0.0, dram_after;
+  // double thermal_spec_power, minimum_power, maximum_power, time_window;
+  // int cpu_model;
+  // // printf("Starting\n");
+  // struct timeval currentime1, currentime2, beginningtime;
+  // struct timespec interval_1s, interval_1ms, interval_10ms, interval_100ms,
+  //     interval_500ms;
+  // long double nowtime, power1, power2, tmp_max;
+  // // char *filename;
+  // gettimeofday(&beginningtime, NULL);
+  // // printf("beginningtime.tv_sec= %ld \n",beginningtime.tv_sec);
+  // // printf("beginningtime.tv_usec= %ld \n",beginningtime.tv_usec);
+  // interval_500ms.tv_sec = 0;
+  // interval_500ms.tv_nsec = 500000000;
+  // interval_100ms.tv_sec = 0;
+  // interval_100ms.tv_nsec = 100000000;
+  // interval_1s.tv_sec = 1;
+  // interval_1s.tv_nsec = 0;
+  // interval_1ms.tv_sec = 0;
+  // interval_1ms.tv_nsec = 1000000;
+  // interval_10ms.tv_sec = 0;
+  // interval_10ms.tv_nsec = 10000000;
+
+  // fd1 = open_msr(0);
+  // fd2 = open_msr(8);
+
+  // /* Calculate the units used */
+  // result1 = read_msr(fd1, MSR_RAPL_POWER_UNIT);
+
+  // power_units = pow(0.5, (double)(result1 & 0xf));
+  // energy_units = pow(0.5, (double)((result1 >> 8) & 0x1f));
+  // time_units = pow(0.5, (double)((result1 >> 16) & 0xf));
+
+  // uint64_t currentval, newval, mask = 0, offset = 0;
+  // currentval = read_msr(fd1, MSR_PKG_RAPL_POWER_LIMIT);
+  // // printf("RAPL power limit1 = %.6fW\n",
+  // // power_units*(double)(currentval&0x7fff));
+  // currentval = read_msr(fd2, MSR_PKG_RAPL_POWER_LIMIT);
+  // // printf("RAPL power limit2 = %.6fW\n",
+  // // power_units*(double)(currentval&0x7fff));
+  // FILE *PowerFilePointer;
+  // PowerFilePointer = fopen("socket_power.txt", "w");
+  // fclose(PowerFilePointer);
+
+  // int i;
+  // i = 0;
+  // while (i < 20) {
+  //   i++;
+  //   PowerFilePointer = fopen("socket_power.txt", "a");
+
+  //   result1 = read_msr(fd1, MSR_PKG_ENERGY_STATUS);
+  //   result2 = read_msr(fd2, MSR_PKG_ENERGY_STATUS);
+  //   package1_before = (double)result1 * energy_units;
+  //   package2_before = (double)result2 * energy_units;
+  //   gettimeofday(&currentime1, NULL);
+
+  //   nanosleep(&interval_100ms, NULL);
+
+  //   result1 = read_msr(fd1, MSR_PKG_ENERGY_STATUS);
+  //   result2 = read_msr(fd2, MSR_PKG_ENERGY_STATUS);
+  //   gettimeofday(&currentime2, NULL);
+
+  //   package1_after = (double)result1 * energy_units;
+  //   // 	printf("Package1 energy after: %.6f  (%.6fJ consumed)\n",
+  //   //	package1_after,package1_after-package1_before);
+
+  //   package2_after = (double)result2 * energy_units;
+  //   //     printf("Package2 energy after: %.6f  (%.6fJ consumed)\n",
+  //   //      package2_after,package2_after-package2_before);
+
+  //   nowtime = ((long)((currentime2.tv_usec - beginningtime.tv_usec) +
+  //                     (currentime2.tv_sec - beginningtime.tv_sec) * 1000000))
+  //                     /
+  //             1000000.000000;
+  //   //   printf("nowtime =%.6LF\n", nowtime);
+  //   power1 = ((package1_after - package1_before) /
+  //             ((currentime2.tv_usec - currentime1.tv_usec) +
+  //              (currentime2.tv_sec - currentime1.tv_sec) * 1000000)) *
+  //            1000000;
+  //   //    printf("power1 =%LF\n", power1);
+  //   power2 = ((package2_after - package2_before) /
+  //             ((currentime2.tv_usec - currentime1.tv_usec) +
+  //              (currentime2.tv_sec - currentime1.tv_sec) * 1000000)) *
+  //            1000000;
+  //   long double SocketPower = power1 + power2;
+  //   fprintf(PowerFilePointer, "%LF\n", SocketPower);
+  //   //        printf("power1 = %lF, power2= %lF, sum = %lF",
+  //   //        power1,power2,SocketPower);
+  //   sleep(1);
+  //   fclose(PowerFilePointer);
+  // }
 }

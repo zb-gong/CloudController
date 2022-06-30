@@ -160,8 +160,6 @@ void main(int argc, char **argv) {
       interval_500ms;
   long double nowtime, power1, tmp_max;
 
-  double cpu_util = 0.0, tmp_cpu;
-  FILE *fp = NULL;
   // char *filename;
   gettimeofday(&beginningtime, NULL);
   // printf("beginningtime.tv_sec= %ld \n",beginningtime.tv_sec);
@@ -196,7 +194,7 @@ void main(int argc, char **argv) {
 
   int i;
   i = 0;
-  while (i < 20) {
+  while (i < 40) {
     i++;
     PowerFilePointer = fopen("socket_power.txt", "a");
 
@@ -225,15 +223,16 @@ void main(int argc, char **argv) {
     long double SocketPower = power1;
     fprintf(PowerFilePointer, "%Lf ", SocketPower);
 
-    for (int j=0; j<1; j++) {
-      fp = popen("pgrep jacobi | xargs -I {} ps -p {} -o %cpu | awk 'NR==2 {print}'", "r");
-      fscanf(fp, "%lf", &tmp_cpu);
-      cpu_util += tmp_cpu;
+    float util;
+    int i = 0;
+    char tmp_buf[128];
+    FILE *fp = popen("pgrep jacobi | xargs -I {} ps -p {} -L -o pcpu | awk 'NR>1 {print}'", "r");
+    while (fgets(tmp_buf, 128, fp)) {
+      sscanf(tmp_buf, "%f", &util);
+      fprintf(PowerFilePointer, "cpu%d: %f ", i++, util);
     }
+    fprintf(PowerFilePointer, "\n");
     pclose(fp);
-    cpu_util /= 1.0;
-    fprintf(PowerFilePointer, "%lf\n", cpu_util);
-    cpu_util = 0.0;
 
     sleep(1);
     fclose(PowerFilePointer);

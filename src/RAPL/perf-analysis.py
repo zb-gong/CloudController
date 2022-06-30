@@ -1,8 +1,8 @@
 import numpy
-# PerfFile = open("jacobi_heartbeat.log", 'r')
-PerfFile = open("STREAM_heartbeat.log", 'r')
+PerfFile = open("jacobi_heartbeat.log", 'r')
+# PerfFile = open("STREAM_heartbeat.log", 'r')
 PerfFileLines = PerfFile.readlines()[1:]
-CurLength = 400
+CurLength = len(PerfFileLines) - 1
 TotalInterval =(int(PerfFileLines[-1].split()[2]) - int(PerfFileLines[-CurLength-1].split()[2]))
 AvergeInterval = TotalInterval/ float(CurLength)
 TimeIntervalList =[]

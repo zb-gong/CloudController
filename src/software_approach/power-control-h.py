@@ -20,11 +20,11 @@ class PowerControl:
         self.PerfDictionary = {(0, 0, 0): 0}
         self.PwrDictionary = {(0, 0, 0): 0}
         self.CurConfig = (0, 0, 0)
-        # self.NextConfig = (0,0,0)
+        # self.NextConfig = (0,0,0
         self.CoreNumber = 0
         self.frequency = 0
         self.CommandLine = CommandLine
-        self.MemoCtrl = 1
+        self.MemoCtrl = 2
         self.PerfFileLength = 0
         self.CurCore = 0
         self.CurFreq = 0
@@ -34,42 +34,42 @@ class PowerControl:
     def PwrBSearch(self, lowbound, highbound, PwrCap):
         head = lowbound
         tail = highbound
-        self.PerfDictionary[(head, 1, 1)], self.PwrDictionary[(
-            head, 1, 1)] = self.GetFeedback((head, 1, 1))
-        self.PerfDictionary[(tail, 1, 1)], self.PwrDictionary[(
-            tail, 1, 1)] = self.GetFeedback((tail, 1, 1))
+        self.PerfDictionary[(head, 1, 2)], self.PwrDictionary[(
+            head, 1, 2)] = self.GetFeedback((head, 1, 2))
+        self.PerfDictionary[(tail, 1, 2)], self.PwrDictionary[(
+            tail, 1, 2)] = self.GetFeedback((tail, 1, 2))
         while(head + 1 < tail):
             MidPointer = int((head + tail)/2)
-            self.PerfDictionary[(MidPointer, 1, 1)], self.PwrDictionary[(
-                MidPointer, 1, 1)] = self.GetFeedback((MidPointer, 1, 1))
-            if self.PwrDictionary[(MidPointer, 1, 1)] < PwrCap:
+            self.PerfDictionary[(MidPointer, 1, 2)], self.PwrDictionary[(
+                MidPointer, 1, 2)] = self.GetFeedback((MidPointer, 1, 2))
+            if self.PwrDictionary[(MidPointer, 1, 2)] < PwrCap:
                 head = MidPointer
             else:
                 tail = MidPointer
-        if self.PwrDictionary[(tail, 1, 1)] > PwrCap:
+        if self.PwrDictionary[(tail, 1, 2)] > PwrCap:
             return head
         else:
             return tail
 
     def PerfBSearch(self, lowbound, highbound):
-        self.PerfDictionary[(highbound, 1, 1)], self.PwrDictionary[(
-            highbound, 1, 1)] = self.GetFeedback((highbound, 1, 1))
-        self.PerfDictionary[(lowbound, 1, 1)], self.PwrDictionary[(
-            lowbound, 1, 1)] = self.GetFeedback((lowbound, 1, 1))
+        self.PerfDictionary[(highbound, 1, 2)], self.PwrDictionary[(
+            highbound, 1, 2)] = self.GetFeedback((highbound, 1, 2))
+        self.PerfDictionary[(lowbound, 1, 2)], self.PwrDictionary[(
+            lowbound, 1, 2)] = self.GetFeedback((lowbound, 1, 2))
         head = lowbound
         tail = highbound
-        if self.PerfDictionary[(highbound, 1, 1)] > self.PerfDictionary[(lowbound, 1, 1)]:
+        if self.PerfDictionary[(highbound, 1, 2)] > self.PerfDictionary[(lowbound, 1, 2)]:
             while(head+1 < tail):
                 MidPointer = int((head + tail)/2)
-                self.PerfDictionary[(MidPointer, 1, 1)], self.PwrDictionary[(
-                    MidPointer, 1, 1)] = self.GetFeedback((MidPointer, 1, 1))
-                if self.PerfDictionary[(MidPointer, 1, 1)] < self.PerfDictionary[(tail, 1, 1)]:
+                self.PerfDictionary[(MidPointer, 1, 2)], self.PwrDictionary[(
+                    MidPointer, 1, 2)] = self.GetFeedback((MidPointer, 1, 2))
+                if self.PerfDictionary[(MidPointer, 1, 2)] < self.PerfDictionary[(tail, 1, 2)]:
                     head = MidPointer
                 else:
                     TmpPointer = MidPointer + 1
-                    self.PerfDictionary[(TmpPointer, 1, 1)], self.PwrDictionary[(
-                        TmpPointer, 1, 1)] = self.GetFeedback((TmpPointer, 1, 1))
-                    if self.PerfDictionary[(TmpPointer, 1, 1)] > self.PerfDictionary[(MidPointer, 1, 1)]:
+                    self.PerfDictionary[(TmpPointer, 1, 2)], self.PwrDictionary[(
+                        TmpPointer, 1, 2)] = self.GetFeedback((TmpPointer, 1, 2))
+                    if self.PerfDictionary[(TmpPointer, 1, 2)] > self.PerfDictionary[(MidPointer, 1, 2)]:
                         head = TmpPointer
                     else:
                         tail = MidPointer
@@ -77,49 +77,49 @@ class PowerControl:
         else:
             while(head+1 < tail):
                 MidPointer = int((head + tail)/2)
-                self.PerfDictionary[(MidPointer, 1, 1)], self.PwrDictionary[(
-                    MidPointer, 1, 1)] = self.GetFeedback((MidPointer, 1, 1))
-                if self.PerfDictionary[(MidPointer, 1, 1)] < self.PerfDictionary[(head, 1, 1)]:
+                self.PerfDictionary[(MidPointer, 1, 2)], self.PwrDictionary[(
+                    MidPointer, 1, 2)] = self.GetFeedback((MidPointer, 1, 2))
+                if self.PerfDictionary[(MidPointer, 1, 2)] < self.PerfDictionary[(head, 1, 2)]:
                     tail = MidPointer
                 else:
                     TmpPointer = MidPointer - 1
-                    self.PerfDictionary[(TmpPointer, 1, 1)], self.PwrDictionary[(
-                        TmpPointer, 1, 1)] = self.GetFeedback((TmpPointer, 1, 1))
-                    if self.PerfDictionary[(TmpPointer, 1, 1)] > self.PerfDictionary[(MidPointer, 1, 1)]:
+                    self.PerfDictionary[(TmpPointer, 1, 2)], self.PwrDictionary[(
+                        TmpPointer, 1, 2)] = self.GetFeedback((TmpPointer, 1, 2))
+                    if self.PerfDictionary[(TmpPointer, 1, 2)] > self.PerfDictionary[(MidPointer, 1, 2)]:
                         tail = TmpPointer
                     else:
                         head = MidPointer
-        if self.PerfDictionary[(head, 1, 1)] > self.PerfDictionary[(tail, 1, 1)]:
+        if self.PerfDictionary[(head, 1, 2)] > self.PerfDictionary[(tail, 1, 2)]:
             return head
         else:
             return tail
 
     def FreqBsearch(self, CoreNumber):
         head = 1
-        tail = 12
-        self.PerfDictionary[(CoreNumber, head, 1)], self.PwrDictionary[(
-            CoreNumber, head, 1)] = self.GetFeedback((CoreNumber, head, 1))
-        self.PerfDictionary[(CoreNumber, tail, 1)], self.PwrDictionary[(
-            CoreNumber, tail, 1)] = self.GetFeedback((CoreNumber, tail, 1))
+        tail = 16
+        self.PerfDictionary[(CoreNumber, head, 2)], self.PwrDictionary[(
+            CoreNumber, head, 2)] = self.GetFeedback((CoreNumber, head, 2))
+        self.PerfDictionary[(CoreNumber, tail, 2)], self.PwrDictionary[(
+            CoreNumber, tail, 2)] = self.GetFeedback((CoreNumber, tail, 2))
         while (head + 1 < tail):
             MidPointer = int((head + tail)/2)
-            self.PerfDictionary[(CoreNumber, MidPointer, 1)], self.PwrDictionary[(
-                CoreNumber, MidPointer, 1)] = self.GetFeedback((CoreNumber, MidPointer, 1))
+            self.PerfDictionary[(CoreNumber, MidPointer, 2)], self.PwrDictionary[(
+                CoreNumber, MidPointer, 2)] = self.GetFeedback((CoreNumber, MidPointer, 2))
             print("[FreqBsearch] Curr power:", self.PwrDictionary[(CoreNumber,
-                  MidPointer, 1)], " PowerCap:", self.PwrCap)
-            if (self.PwrDictionary[(CoreNumber, MidPointer, 1)] < self.PwrCap):
+                  MidPointer, 2)], " PowerCap:", self.PwrCap)
+            if (self.PwrDictionary[(CoreNumber, MidPointer, 2)] < self.PwrCap):
                 head = MidPointer
             else:
                 tail = MidPointer
-        if self.PwrDictionary[(CoreNumber, tail, 1)] > self.PwrCap:
+        if self.PwrDictionary[(CoreNumber, tail, 2)] > self.PwrCap:
             return head
         else:
             return tail
 
     def Decision(self):
-        self.RunApp(2, 1, 1)
+        self.RunApp(, 1, 2)
         if self.phase == 0:
-            self.CurConfig = (2, 1, 1)
+            self.CurConfig = (2, 1, 2)
             self.PerfDictionary[self.CurConfig], self.PwrDictionary[self.CurConfig] = self.GetFeedback(
                 self.CurConfig)
             if self.PwrDictionary[self.CurConfig] > self.PwrCap:
@@ -133,15 +133,15 @@ class PowerControl:
 
             else:
                 self.phase = 1
-                self.CurConfig = (4, 1, 1)
+                self.CurConfig = (4, 1, 2)
                 self.PerfDictionary[self.CurConfig], self.PwrDictionary[self.CurConfig] = self.GetFeedback(
                     self.CurConfig)
-                if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(2, 1, 1)]:
-                    self.CurConfig = (8, 1, 1)
+                if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(2, 1, 2)]:
+                    self.CurConfig = (8, 1, 2)
                     self.phase = 2
                     self.PerfDictionary[self.CurConfig], self.PwrDictionary[self.CurConfig] = self.GetFeedback(
                         self.CurConfig)
-                    if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(2, 1, 1)]:
+                    if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(2, 1, 2)]:
                         self.phase = 3
                         # binary search core number in (1,8)
                         self.CoreNumber = self.PerfBSearch(1, 2)
@@ -173,11 +173,11 @@ class PowerControl:
                         # BS frequency
                         self.frequency = self.FreqBsearch(self.CoreNumber)
                     else:
-                        self.CurConfig = (6, 1, 1)
+                        self.CurConfig = (6, 1, 2)
                         self.phase = 2
                         self.PerfDictionary[self.CurConfig], self.PwrDictionary[self.CurConfig] = self.GetFeedback(
                             self.CurConfig)
-                        if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(4, 1, 1)]:
+                        if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(4, 1, 2)]:
                             print("[Decision]binary search core number in (9, 16)")
                             self.CoreNumber = self.PerfBSearch(3, 4)
                             # BS frequency
@@ -313,26 +313,26 @@ class PowerControl:
 
     # def RunApp(self,CoreNumber, freq, MemoCtrl):
     #     if CoreNumber <33:
-    #         os.system(SET_SPEED+' -S '+str(12-freq))
+    #         os.system(SET_SPEED+' -S '+str(16-freq))
     #         #os.system(POWER_MON+" start")
     #         print("sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-"+str(CoreNumber-1)+" "+self.CommandLine+" &")
     #         os.system("sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-"+str(CoreNumber-1)+" "+self.CommandLine+" &")
     #     else:
-    #         os.system(SET_SPEED+' -S '+str(12-freq))
+    #         os.system(SET_SPEED+' -S '+str(16-freq))
     #         #os.system(POWER_MON+" start")
     #         os.system("sudo -E numactl --interleave=0-"+str(MemoCtrl-1)+" --physcpubind=0-7,16-"+str(CoreNumber-17)+" "+self.CommandLine+" &")
     #        # os.system(POWER_MON+" stop > power.txt")
     #     self.CurCore = CoreNumber
     def RunApp(self, CoreNumber, freq, MemoCtrl):
         if CoreNumber < 33:
-            os.system(SET_SPEED+' -S '+str(12-freq))
+            os.system(SET_SPEED+' -S '+str(16-freq))
             # os.system(POWER_MON+" start")
             print("sudo -E numactl --interleave=0-"+str(MemoCtrl-1) +
                   " --physcpubind=0-"+str(CoreNumber-1)+" "+self.CommandLine+" &")
             os.system("sudo -E numactl --interleave=0-"+str(MemoCtrl-1) +
                       " --physcpubind=0-"+str(CoreNumber-1)+" "+self.CommandLine+" &")
         else:
-            os.system(SET_SPEED+' -S '+str(12-freq))
+            os.system(SET_SPEED+' -S '+str(16-freq))
             # os.system(POWER_MON+" start")
             os.system("sudo -E numactl --interleave=0-"+str(MemoCtrl-1) +
                       " --physcpubind=0-7,16-"+str(CoreNumber-17)+" "+self.CommandLine+" &")
@@ -342,7 +342,7 @@ class PowerControl:
     def AdjustConfig(self, CoreNumber, freq, MemoCtrl):
         StartTime = time.time()
         if self.CurFreq != freq:
-            os.system(SET_SPEED+' -S '+str(12-freq))
+            os.system(SET_SPEED+' -S '+str(16-freq))
         if self.CurCore != CoreNumber:
             if CoreNumber < 33:
                 print("[AdjustConfig]: (", CoreNumber, ",", freq, ",", MemoCtrl, ")")

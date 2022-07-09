@@ -19,6 +19,7 @@ void resetCPUSpeed(int core) {
   status = fscanf(f, "%d", &cpuinfo_max_freq);
   fclose(f);
 
+  // reset freq bound in [cpuinfo_min_freq, cpuinfo_max_freq]
   memset(buf, 0, sizeof(buf));
   sprintf(buf, "sudo cpupower -c %d frequency-set -u %dmhz", core, cpuinfo_max_freq/1000);
   status = system(buf);
@@ -26,6 +27,7 @@ void resetCPUSpeed(int core) {
   sprintf(buf, "sudo cpupower -c %d frequency-set -d %dmhz", core, cpuinfo_min_freq/1000);
   status = system(buf);
 
+  // reset scaling governor to be powersave
   memset(buf, 0, sizeof(buf));
   sprintf(buf, "/sys/devices/system/cpu/cpu%d/cpufreq/scaling_governor", core);
   f = fopen(buf, "r");

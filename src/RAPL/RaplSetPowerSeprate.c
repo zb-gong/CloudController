@@ -157,7 +157,7 @@ void set_power_limit(int fd, int watts, double pu)
 int main(int argc, char **argv) {
   int fd1,fd2;
   int core1=0;
-  int core2=8;
+  int core2=1;
   long long result;
   double power_units,energy_units,time_units;
   double package_before,package_after;

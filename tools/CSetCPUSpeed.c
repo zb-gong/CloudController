@@ -6,7 +6,6 @@
 #include <getopt.h>
 #include <omp.h>
 
-
 void setCPUSpeed(int core, int freq) {
   int cpuinfo_min_freq, status;
   char buf[100], governor[20];
@@ -45,9 +44,10 @@ void gc(int *a, int *b, char *c, char *d) {
 
 int main(int argc, char *argv[]) {
   if (argc <=1) {
-    fprintf(stderr, "usage: setspeed -c [c1,c2,...] -f f1[,f2,...]\n"
-    "set all cores frequency if c has no args\n"
-    "set consistent freq to core list if f has one arg\n");
+    fprintf(stderr, "usage: setspeed -a -c [c1,c2,...] -f f1[,f2,...]\n"
+    "-a: set all cores\n"
+    "-c: set centain cores\n"
+    "-f set consistent freq to core list if f has one arg\n");
     exit(1);
   }
 
@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
     {0,0,0,0}
   };
 
-  while ((o = getopt_long(argc, argv, "hc:f:", long_option, NULL)) != -1) {
+  while ((o = getopt_long(argc, argv, "hac:f:", long_option, NULL)) != -1) {
     switch(o) {
       case 'c': {
         if (optarg) {
@@ -106,9 +106,10 @@ int main(int argc, char *argv[]) {
   }
 
   if (all_core) {
+    int all_freq = atoi(freq_list); 
     #pragma omp parallel for num_threads(num_cores)
     for (int i=0; i<num_cores; i++) {
-      setCPUSpeed(i, atoi(freq_list));
+      setCPUSpeed(i, all_freq);
     }
   } else {
     int count = 0;

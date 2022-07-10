@@ -1,1 +1,0 @@
-sudo truncate -s 0 jacobi_heartbeat.log

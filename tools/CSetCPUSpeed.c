@@ -27,10 +27,10 @@ void setCPUSpeed(int core, int freq) {
 
   if (freq >= cpuinfo_min_freq/1000) {
     memset(buf, 0, sizeof(buf));
-    sprintf(buf, "sudo cpupower -c %d frequency-set -u %dmhz", core, freq);
+    sprintf(buf, "sudo cpupower -c %d frequency-set -u %dmhz > /dev/null", core, freq);
     status = system(buf);
     memset(buf, 0, sizeof(buf));
-    sprintf(buf, "sudo cpupower -c %d frequency-set -d %dmhz", core, freq);
+    sprintf(buf, "sudo cpupower -c %d frequency-set -d %dmhz > /dev/null", core, freq);
     status = system(buf);    
   }
 }

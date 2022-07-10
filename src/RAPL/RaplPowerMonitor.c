@@ -223,13 +223,14 @@ void main(int argc, char **argv) {
   //   long double SocketPower = power1;
   //   fprintf(PowerFilePointer, "%Lf ", SocketPower);
 
-  //   float util;
-  //   int i = 0;
+  //   float tmp_util, util[8];
+  //   int proc;
   //   char tmp_buf[128];
-  //   FILE *fp = popen("pgrep jacobi | xargs -I {} ps -p {} -L -o pcpu | awk 'NR>1 {print}'", "r");
+  //   FILE *fp = popen("pgrep jacobi | xargs -I {} ps -p {} -L -o psr pcpu | awk 'NR>1 {print}'", "r");
   //   while (fgets(tmp_buf, 128, fp)) {
-  //     sscanf(tmp_buf, "%f", &util);
-  //     fprintf(PowerFilePointer, "cpu%d: %f ", i++, util);
+  //     sscanf(tmp_buf, "%d %f", &proc, &tmp_util);
+  //     util[proc] += tmp_util;
+  //     fprintf(PowerFilePointer, "cpu%d: %f ", proc, tmp_util);
   //   }
   //   fprintf(PowerFilePointer, "\n");
   //   pclose(fp);
@@ -330,9 +331,22 @@ void main(int argc, char **argv) {
                (currentime2.tv_sec - currentime1.tv_sec) * 1000000)) *
              1000000;
     long double SocketPower = power1 + power2;
-    fprintf(PowerFilePointer, "%LF\n", SocketPower);
+    fprintf(PowerFilePointer, "%LF ", SocketPower);
     //        printf("power1 = %lF, power2= %lF, sum = %lF",
     //        power1,power2,SocketPower);
+
+    float tmp_util, util[8];
+    int proc;
+    char tmp_buf[128];
+    FILE *fp = popen("pgrep jacobi | xargs -I {} ps -p {} -L -o psr,pcpu | awk 'NR>1 {print}'", "r");
+    while (fgets(tmp_buf, 128, fp)) {
+      sscanf(tmp_buf, "%d %f", &proc, &tmp_util);
+      util[proc] += tmp_util;
+      fprintf(PowerFilePointer, "cpu%d: %f ", proc, tmp_util);
+    }
+    fprintf(PowerFilePointer, "\n");
+    pclose(fp);
+
     sleep(1);
     fclose(PowerFilePointer);
   }

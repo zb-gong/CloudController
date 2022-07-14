@@ -22,46 +22,46 @@ class PowerControl:
         self.CurConfig = (0,0,0)
         # self.NextConfig = (0,0,0)
         self.CoreNumber = 0
-        self.frequency = 3700
+        self.frequency = 1000
         self.CommandLine = CommandLine
         self.MemoCtrl = 2
         self.PerfFileLength = 0
         self.CurCore= 0
-        self.CurFreq= 3700
+        self.CurFreq= 1000
         print(self.AppNameShort)
     
-    def PwrBSearch(self,lowbound, highbound, PwrCap):
-        head = lowbound
-        tail = highbound
-        self.PerfDictionary[(head,1000,2)],self.PwrDictionary[(head,1000,2)] = self.GetFeedback((head,1000,2))
-        self.PerfDictionary[(tail,1000,2)],self.PwrDictionary[(tail,1000,2)] = self.GetFeedback((tail,1000,2))
-        while(head +1 < tail):
-            MidPointer = int((head + tail )/2)
-            self.PerfDictionary[(MidPointer,1000,2)],self.PwrDictionary[(MidPointer,1000,2)] = self.GetFeedback((MidPointer,1000,2))
-            if self.PwrDictionary[(MidPointer,1000,2)] < PwrCap:
-                head = MidPointer
-            else:
-                tail = MidPointer
-        if self.PwrDictionary[(tail,1000,2)] > PwrCap:
-            return head
-        else:
-            return tail
+    # def PwrBSearch(self,lowbound, highbound, PwrCap):
+    #     head = lowbound
+    #     tail = highbound
+    #     self.PerfDictionary[(head,1000,2)],self.PwrDictionary[(head,1000,2)] = self.GetFeedback((head,1000,2))
+    #     self.PerfDictionary[(tail,1000,2)],self.PwrDictionary[(tail,1000,2)] = self.GetFeedback((tail,1000,2))
+    #     while(head +1 < tail):
+    #         MidPointer = int((head + tail )/2)
+    #         self.PerfDictionary[(MidPointer,1000,2)],self.PwrDictionary[(MidPointer,1000,2)] = self.GetFeedback((MidPointer,1000,2))
+    #         if self.PwrDictionary[(MidPointer,1000,2)] < PwrCap:
+    #             head = MidPointer
+    #         else:
+    #             tail = MidPointer
+    #     if self.PwrDictionary[(tail,1000,2)] > PwrCap:
+    #         return head
+    #     else:
+    #         return tail
     
     def PerfBSearch(self,lowbound, highbound):
-        self.PerfDictionary[(highbound,3700,2)],self.PwrDictionary[(highbound,3700,2)] = self.GetFeedback((highbound,3700,2))
-        self.PerfDictionary[(lowbound,3700,2)],self.PwrDictionary[(lowbound,3700,2)] = self.GetFeedback((lowbound,3700,2))
+        self.PerfDictionary[(highbound,1000,2)],self.PwrDictionary[(highbound,1000,2)] = self.GetFeedback((highbound,1000,2))
+        self.PerfDictionary[(lowbound,1000,2)],self.PwrDictionary[(lowbound,1000,2)] = self.GetFeedback((lowbound,1000,2))
         head = lowbound
         tail = highbound
-        if self.PerfDictionary[(highbound,3700,2)] > self.PerfDictionary[(lowbound,3700,2)]:
+        if self.PerfDictionary[(highbound,1000,2)] > self.PerfDictionary[(lowbound,1000,2)]:
             while(head+1<tail):
                 MidPointer = int((head +tail)/2)
-                self.PerfDictionary[(MidPointer,3700,2)],self.PwrDictionary[(MidPointer,3700,2)] = self.GetFeedback((MidPointer,3700,2))
-                if self.PerfDictionary[(MidPointer,3700,2)] < self.PerfDictionary[(tail,3700,2)]:
+                self.PerfDictionary[(MidPointer,1000,2)],self.PwrDictionary[(MidPointer,1000,2)] = self.GetFeedback((MidPointer,1000,2))
+                if self.PerfDictionary[(MidPointer,1000,2)] < self.PerfDictionary[(tail,1000,2)]:
                     head = MidPointer
                 else:
                     TmpPointer = MidPointer +1
-                    self.PerfDictionary[(TmpPointer,3700,2)],self.PwrDictionary[(TmpPointer,3700,2)] = self.GetFeedback((TmpPointer,3700,2))
-                    if self.PerfDictionary[(TmpPointer,3700,2)] > self.PerfDictionary[(MidPointer,3700,2)]:
+                    self.PerfDictionary[(TmpPointer,1000,2)],self.PwrDictionary[(TmpPointer,1000,2)] = self.GetFeedback((TmpPointer,1000,2))
+                    if self.PerfDictionary[(TmpPointer,1000,2)] > self.PerfDictionary[(MidPointer,1000,2)]:
                         head = TmpPointer
                     else:
                         tail = MidPointer
@@ -69,38 +69,38 @@ class PowerControl:
         else:
             while(head+1<tail):
                 MidPointer = int((head +tail)/2)
-                self.PerfDictionary[(MidPointer,3700,2)],self.PwrDictionary[(MidPointer,3700,2)] = self.GetFeedback((MidPointer,3700,2))
-                if self.PerfDictionary[(MidPointer,3700,2)] < self.PerfDictionary[(head,3700,2)]:
+                self.PerfDictionary[(MidPointer,1000,2)],self.PwrDictionary[(MidPointer,1000,2)] = self.GetFeedback((MidPointer,1000,2))
+                if self.PerfDictionary[(MidPointer,1000,2)] < self.PerfDictionary[(head,1000,2)]:
                     tail = MidPointer
                 else:
                     TmpPointer = MidPointer -1
-                    self.PerfDictionary[(TmpPointer,3700,2)],self.PwrDictionary[(TmpPointer,3700,2)] = self.GetFeedback((TmpPointer,3700,2))
-                    if self.PerfDictionary[(TmpPointer,3700,2)] > self.PerfDictionary[(MidPointer,3700,2)]:
+                    self.PerfDictionary[(TmpPointer,1000,2)],self.PwrDictionary[(TmpPointer,1000,2)] = self.GetFeedback((TmpPointer,1000,2))
+                    if self.PerfDictionary[(TmpPointer,1000,2)] > self.PerfDictionary[(MidPointer,1000,2)]:
                         tail = TmpPointer
                     else:
                         head = MidPointer
-        if self.PerfDictionary[(head,3700,2)] > self.PerfDictionary[(tail,3700,2)]:
+        if self.PerfDictionary[(head,1000,2)] > self.PerfDictionary[(tail,1000,2)]:
             return head
         else:
             return tail
 
 
-    def FreqBsearch(self,CoreNumber):
-        head = 1000
-        tail = 3700
-        self.PerfDictionary[(CoreNumber,head,2)],self.PwrDictionary[(CoreNumber,head,2)] = self.GetFeedback((CoreNumber,head,2))
-        self.PerfDictionary[(CoreNumber,tail,2)],self.PwrDictionary[(CoreNumber,tail,2)] = self.GetFeedback((CoreNumber,tail,2))
-        while (head +1 <tail):
-            MidPointer = int((head + tail)/200)*100
-            self.PerfDictionary[(CoreNumber,MidPointer,2)],self.PwrDictionary[(CoreNumber,MidPointer,2)] = self.GetFeedback((CoreNumber,MidPointer,2))
-            if (self.PwrDictionary[(CoreNumber,MidPointer,2)] < self.PwrCap):
-                head = MidPointer
-            else:
-                tail = MidPointer
-        if self.PwrDictionary[(CoreNumber,tail,2)] > self.PwrCap:
-            return head
-        else:
-            return tail
+    # def FreqBsearch(self,CoreNumber):
+    #     head = 1000
+    #     tail = 1000
+    #     self.PerfDictionary[(CoreNumber,head,2)],self.PwrDictionary[(CoreNumber,head,2)] = self.GetFeedback((CoreNumber,head,2))
+    #     self.PerfDictionary[(CoreNumber,tail,2)],self.PwrDictionary[(CoreNumber,tail,2)] = self.GetFeedback((CoreNumber,tail,2))
+    #     while (head +1 <tail):
+    #         MidPointer = int((head + tail)/200)*100
+    #         self.PerfDictionary[(CoreNumber,MidPointer,2)],self.PwrDictionary[(CoreNumber,MidPointer,2)] = self.GetFeedback((CoreNumber,MidPointer,2))
+    #         if (self.PwrDictionary[(CoreNumber,MidPointer,2)] < self.PwrCap):
+    #             head = MidPointer
+    #         else:
+    #             tail = MidPointer
+    #     if self.PwrDictionary[(CoreNumber,tail,2)] > self.PwrCap:
+    #         return head
+    #     else:
+    #         return tail
 
     def GetPowerDistAndSet(self,CoreNumber):
         power1 =0.0
@@ -123,34 +123,37 @@ class PowerControl:
 
 
     def Decision(self):
-        self.RunApp(8,3700,2)
+        # self.RunApp(8,1000,2)
+        self.RunApp(16,1000,2)
         if self.phase == 0:
-            self.CurConfig = (8,3700,2)
+            # self.CurConfig = (8,1000,2)
+            self.CurConfig = (16,1000,2)
             self.PerfDictionary[self.CurConfig],self.PwrDictionary[self.CurConfig] = self.GetFeedback(self.CurConfig)
-            self.CurConfig = (16,3700,2)
-            self.PerfDictionary[self.CurConfig],self.PwrDictionary[self.CurConfig] = self.GetFeedback(self.CurConfig)
+            # self.CurConfig = (16,1000,2)
+            # self.PerfDictionary[self.CurConfig],self.PwrDictionary[self.CurConfig] = self.GetFeedback(self.CurConfig)
             
-            if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(8,3700,2)]:
-                self.CurConfig = (1,3700,2)
-                self.PerfDictionary[self.CurConfig],self.PwrDictionary[self.CurConfig] = self.GetFeedback(self.CurConfig)
-                self.CurConfig = (48,3700,2)
-                self.PerfDictionary[self.CurConfig],self.PwrDictionary[self.CurConfig] = self.GetFeedback(self.CurConfig)
-                if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(8,3700,2)]or self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(1,3700,2)]:
-                    #bs 1,8
-                    self.CoreNumber = self.PerfBSearch(1, 8)
-                else:
-                    #bs 33,40
-                    self.CoreNumber = self.PerfBSearch(33,48)
-            else:
-                self.CurConfig = (32,3700,2)
-                self.PerfDictionary[self.CurConfig],self.PwrDictionary[self.CurConfig] = self.GetFeedback(self.CurConfig)
-                if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(16,3700,2)]:
-                    #bs 8,16
-                    self.CoreNumber = self.PerfBSearch(8,16)
-                else:
-                    #bs 16,32
-                    self.CoreNumber = self.PerfBSearch(16,32)
+            # if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(8,1000,2)]:
+            #     self.CurConfig = (1,1000,2)
+            #     self.PerfDictionary[self.CurConfig],self.PwrDictionary[self.CurConfig] = self.GetFeedback(self.CurConfig)
+            #     self.CurConfig = (48,1000,2)
+            #     self.PerfDictionary[self.CurConfig],self.PwrDictionary[self.CurConfig] = self.GetFeedback(self.CurConfig)
+            #     if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(8,1000,2)]or self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(1,1000,2)]:
+            #         #bs 1,8
+            #         self.CoreNumber = self.PerfBSearch(1, 8)
+            #     else:
+            #         #bs 33,40
+            #         self.CoreNumber = self.PerfBSearch(33,48)
+            # else:
+            #     self.CurConfig = (32,1000,2)
+            #     self.PerfDictionary[self.CurConfig],self.PwrDictionary[self.CurConfig] = self.GetFeedback(self.CurConfig)
+            #     if self.PerfDictionary[self.CurConfig] < self.PerfDictionary[(16,1000,2)]:
+            #         #bs 8,16
+            #         self.CoreNumber = self.PerfBSearch(8,16)
+            #     else:
+            #         #bs 16,32
+            #         self.CoreNumber = self.PerfBSearch(16,32)
 
+            self.CoreNumber = self.CurConfig[0]
             return 1
                 
 #get the heartbeat info

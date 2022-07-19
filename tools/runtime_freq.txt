@@ -1,0 +1,980 @@
+  current CPU frequency: 1.88 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.76 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.70 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.65 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.60 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.69 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.77 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.67 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.31 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 3.05 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.99 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.26 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.87 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.88 GHz (asserted by call to kernel)
+200.0
+--------------------------------------------------
+  current CPU frequency: 3.36 GHz (asserted by call to kernel)
+160.0
+--------------------------------------------------
+  current CPU frequency: 1.15 GHz (asserted by call to kernel)
+105.0
+--------------------------------------------------
+  current CPU frequency: 2.02 GHz (asserted by call to kernel)
+185.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+245.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+120.0
+--------------------------------------------------
+  current CPU frequency: 1.01 GHz (asserted by call to kernel)
+110.0
+--------------------------------------------------
+  current CPU frequency: 2.76 GHz (asserted by call to kernel)
+90.0
+--------------------------------------------------
+  current CPU frequency: 1.02 GHz (asserted by call to kernel)
+110.0
+--------------------------------------------------
+  current CPU frequency: 1.06 GHz (asserted by call to kernel)
+290.5
+--------------------------------------------------
+  current CPU frequency: 1.16 GHz (asserted by call to kernel)
+75.0
+--------------------------------------------------
+  current CPU frequency: 1.03 GHz (asserted by call to kernel)
+70.0
+--------------------------------------------------
+  current CPU frequency: 1.01 GHz (asserted by call to kernel)
+190.0
+--------------------------------------------------
+  current CPU frequency: 3.17 GHz (asserted by call to kernel)
+175.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+95.0
+--------------------------------------------------
+  current CPU frequency: 1.14 GHz (asserted by call to kernel)
+50.0
+--------------------------------------------------
+  current CPU frequency: 3.62 GHz (asserted by call to kernel)
+65.0
+--------------------------------------------------
+  current CPU frequency: 1.18 GHz (asserted by call to kernel)
+180.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+160.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+40.0
+--------------------------------------------------
+  current CPU frequency: 1.54 GHz (asserted by call to kernel)
+180.0
+--------------------------------------------------
+  current CPU frequency: 3.37 GHz (asserted by call to kernel)
+50.0
+--------------------------------------------------
+  current CPU frequency: 3.22 GHz (asserted by call to kernel)
+180.0
+--------------------------------------------------
+  current CPU frequency: 1.35 GHz (asserted by call to kernel)
+165.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+35.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+75.0
+--------------------------------------------------
+  current CPU frequency: 2.08 GHz (asserted by call to kernel)
+90.5
+--------------------------------------------------
+  current CPU frequency: 1.65 GHz (asserted by call to kernel)
+205.0
+--------------------------------------------------
+  current CPU frequency: 3.23 GHz (asserted by call to kernel)
+150.0
+--------------------------------------------------
+  current CPU frequency: 2.96 GHz (asserted by call to kernel)
+170.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+100.0
+--------------------------------------------------
+  current CPU frequency: 1.01 GHz (asserted by call to kernel)
+190.0
+--------------------------------------------------
+  current CPU frequency: 2.48 GHz (asserted by call to kernel)
+171.4
+--------------------------------------------------
+  current CPU frequency: 2.23 GHz (asserted by call to kernel)
+145.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+205.0
+--------------------------------------------------
+  current CPU frequency: 1.65 GHz (asserted by call to kernel)
+115.0
+--------------------------------------------------
+  current CPU frequency: 2.59 GHz (asserted by call to kernel)
+120.0
+--------------------------------------------------
+  current CPU frequency: 3.33 GHz (asserted by call to kernel)
+220.0
+--------------------------------------------------
+  current CPU frequency: 3.37 GHz (asserted by call to kernel)
+180.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+240.0
+--------------------------------------------------
+  current CPU frequency: 1.57 GHz (asserted by call to kernel)
+130.0
+--------------------------------------------------
+  current CPU frequency: 3.00 GHz (asserted by call to kernel)
+140.0
+--------------------------------------------------
+  current CPU frequency: 3.14 GHz (asserted by call to kernel)
+285.0
+--------------------------------------------------
+  current CPU frequency: 1.62 GHz (asserted by call to kernel)
+80.0
+--------------------------------------------------
+  current CPU frequency: 1.11 GHz (asserted by call to kernel)
+166.7
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+195.0
+--------------------------------------------------
+  current CPU frequency: 2.73 GHz (asserted by call to kernel)
+75.0
+--------------------------------------------------
+  current CPU frequency: 1.20 GHz (asserted by call to kernel)
+65.0
+--------------------------------------------------
+  current CPU frequency: 3.22 GHz (asserted by call to kernel)
+195.0
+--------------------------------------------------
+  current CPU frequency: 1.38 GHz (asserted by call to kernel)
+160.0
+--------------------------------------------------
+  current CPU frequency: 2.29 GHz (asserted by call to kernel)
+155.0
+--------------------------------------------------
+  current CPU frequency: 3.13 GHz (asserted by call to kernel)
+155.0
+--------------------------------------------------
+  current CPU frequency: 1.30 GHz (asserted by call to kernel)
+125.0
+--------------------------------------------------
+  current CPU frequency: 1.89 GHz (asserted by call to kernel)
+40.0
+--------------------------------------------------
+  current CPU frequency: 2.25 GHz (asserted by call to kernel)
+175.0
+--------------------------------------------------
+  current CPU frequency: 1.45 GHz (asserted by call to kernel)
+5.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.23 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.66 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.69 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.17 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.77 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.03 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.77 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.85 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.05 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.33 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.01 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.30 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.10 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.04 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.10 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.97 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.96 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.94 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.38 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.18 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 3.23 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.01 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.96 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.74 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.73 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.67 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.70 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.65 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.71 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.70 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.70 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.80 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.28 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.25 GHz (asserted by call to kernel)
+795.0
+--------------------------------------------------
+  current CPU frequency: 3.44 GHz (asserted by call to kernel)
+85.0
+--------------------------------------------------
+  current CPU frequency: 1.01 GHz (asserted by call to kernel)
+135.0
+--------------------------------------------------
+  current CPU frequency: 1.01 GHz (asserted by call to kernel)
+90.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+195.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+120.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+135.0
+--------------------------------------------------
+  current CPU frequency: 1.67 GHz (asserted by call to kernel)
+265.0
+--------------------------------------------------
+  current CPU frequency: 1.16 GHz (asserted by call to kernel)
+80.0
+--------------------------------------------------
+  current CPU frequency: 1.01 GHz (asserted by call to kernel)
+300.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+100.0
+--------------------------------------------------
+  current CPU frequency: 1.18 GHz (asserted by call to kernel)
+150.0
+--------------------------------------------------
+  current CPU frequency: 2.26 GHz (asserted by call to kernel)
+150.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+76.2
+--------------------------------------------------
+  current CPU frequency: 3.23 GHz (asserted by call to kernel)
+140.0
+--------------------------------------------------
+  current CPU frequency: 1.79 GHz (asserted by call to kernel)
+90.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+45.0
+--------------------------------------------------
+  current CPU frequency: 3.52 GHz (asserted by call to kernel)
+25.0
+--------------------------------------------------
+  current CPU frequency: 2.90 GHz (asserted by call to kernel)
+240.0
+--------------------------------------------------
+  current CPU frequency: 1.32 GHz (asserted by call to kernel)
+65.0
+--------------------------------------------------
+  current CPU frequency: 3.57 GHz (asserted by call to kernel)
+105.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+230.0
+--------------------------------------------------
+  current CPU frequency: 3.09 GHz (asserted by call to kernel)
+105.0
+--------------------------------------------------
+  current CPU frequency: 1.48 GHz (asserted by call to kernel)
+180.0
+--------------------------------------------------
+  current CPU frequency: 2.50 GHz (asserted by call to kernel)
+110.0
+--------------------------------------------------
+  current CPU frequency: 3.25 GHz (asserted by call to kernel)
+110.0
+--------------------------------------------------
+  current CPU frequency: 1.26 GHz (asserted by call to kernel)
+280.0
+--------------------------------------------------
+  current CPU frequency: 2.88 GHz (asserted by call to kernel)
+161.9
+--------------------------------------------------
+  current CPU frequency: 3.24 GHz (asserted by call to kernel)
+120.0
+--------------------------------------------------
+  current CPU frequency: 1.39 GHz (asserted by call to kernel)
+155.0
+--------------------------------------------------
+  current CPU frequency: 3.36 GHz (asserted by call to kernel)
+138.1
+--------------------------------------------------
+  current CPU frequency: 2.56 GHz (asserted by call to kernel)
+85.0
+--------------------------------------------------
+  current CPU frequency: 1.80 GHz (asserted by call to kernel)
+150.0
+--------------------------------------------------
+  current CPU frequency: 2.58 GHz (asserted by call to kernel)
+205.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+175.0
+--------------------------------------------------
+  current CPU frequency: 3.23 GHz (asserted by call to kernel)
+240.0
+--------------------------------------------------
+  current CPU frequency: 3.43 GHz (asserted by call to kernel)
+260.0
+--------------------------------------------------
+  current CPU frequency: 1.90 GHz (asserted by call to kernel)
+165.0
+--------------------------------------------------
+  current CPU frequency: 3.35 GHz (asserted by call to kernel)
+138.1
+--------------------------------------------------
+  current CPU frequency: 1.36 GHz (asserted by call to kernel)
+120.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+160.0
+--------------------------------------------------
+  current CPU frequency: 3.30 GHz (asserted by call to kernel)
+181.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.78 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.43 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.07 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.94 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+--------------------------------------------------
+  current CPU frequency: 3.60 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.55 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.04 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.03 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.03 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.02 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.20 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.10 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.80 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.01 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.04 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.39 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.45 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.06 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.01 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.03 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.37 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.24 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.91 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.01 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.28 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 2.68 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.10 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+5.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.82 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+285.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+40.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+805.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+550.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+495.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+445.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+385.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+280.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+580.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+650.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+615.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+395.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+561.9
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+400.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+555.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+635.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+240.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+385.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+295.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+525.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+680.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+395.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+380.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+725.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+660.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+680.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+535.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+670.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+405.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+560.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+400.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+370.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+275.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+565.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+385.7
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+570.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+430.0
+--------------------------------------------------
+  current CPU frequency: 1000 MHz (asserted by call to kernel)
+225.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+500.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+5.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------
+  current CPU frequency: 1.00 GHz (asserted by call to kernel)
+0.0
+--------------------------------------------------

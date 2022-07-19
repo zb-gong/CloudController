@@ -1,0 +1,1755 @@
+Starting Faban Server
+Please point your browser to http://79ab1be74c3f:9980/
+Buildfile: /usr/src/faban/search/build.xml
+
+init:
+    [mkdir] Created dir: /usr/src/faban/search/build/classes
+
+compile:
+    [javac] /usr/src/faban/search/build.xml:35: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 1 source file to /usr/src/faban/search/build/classes
+    [javac] 
+    [javac]           WARNING
+    [javac] 
+    [javac] The -source switch defaults to 1.7 in JDK 1.7.
+    [javac] If you specify -target 1.5 you now must also specify -source 1.5.
+    [javac] Ant will implicitly add -source 1.5 for you.  Please change your build file.
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] 1 warning
+
+bench.jar:
+    [mkdir] Created dir: /usr/src/faban/search/build/lib
+      [jar] Building jar: /usr/src/faban/search/build/lib/search.jar
+
+deploy.jar:
+      [jar] Building jar: /usr/src/faban/search/build/search.jar
+
+deploy:
+
+BUILD FAILED
+/usr/src/faban/search/build.xml:69: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:197)
+	at java.net.SocketInputStream.read(SocketInputStream.java:122)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:235)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:254)
+	at org.apache.commons.httpclient.HttpParser.readRawLine(HttpParser.java:78)
+	at org.apache.commons.httpclient.HttpParser.readLine(HttpParser.java:106)
+	at org.apache.commons.httpclient.HttpConnection.readLine(HttpConnection.java:1116)
+	at org.apache.commons.httpclient.HttpMethodBase.readStatusLine(HttpMethodBase.java:1973)
+	at org.apache.commons.httpclient.HttpMethodBase.readResponse(HttpMethodBase.java:1735)
+	at org.apache.commons.httpclient.HttpMethodBase.execute(HttpMethodBase.java:1098)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:398)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:323)
+	at com.sun.faban.harness.util.DeployTask.execute(DeployTask.java:147)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:293)
+	at sun.reflect.GeneratedMethodAccessor4.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:435)
+	at org.apache.tools.ant.Target.performTasks(Target.java:456)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1405)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1376)
+	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1260)
+	at org.apache.tools.ant.Main.runBuild(Main.java:853)
+	at org.apache.tools.ant.Main.startAnt(Main.java:235)
+	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:285)
+	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:112)
+
+Total time: 4 seconds
+Print= 172.18.0.3:1
+Jul 19, 2022 2:51:20 AM com.sun.faban.common.RegistryImpl main
+INFO: Registry started.
+Jul 19, 2022 2:51:24 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering Master on 172.18.0.3
+Jul 19, 2022 2:51:24 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering SearchDriver.1 (type: SearchDriverAgent) on 172.18.0.3
+Jul 19, 2022 2:51:24 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: RunID for this run is : 1
+Jul 19, 2022 2:51:24 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: Output directory for this run is : /usr/src/outputFaban/1
+Jul 19, 2022 2:51:24 AM com.sun.faban.common.RegistryImpl getServices
+INFO: Get services by type: SearchDriverAgent
+Jul 19, 2022 2:51:24 AM com.sun.faban.driver.engine.MasterImpl configureAgents
+INFO: Configuring 1 SearchDriverAgents...
+Jul 19, 2022 2:51:24 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Performing idle timer check
+Jul 19, 2022 2:51:25 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Idle timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=46.0,
+med. invocation cost (phys)=46,
+avg. invocation cost=49.0814,
+max. invocation cost=515,
+variance of invocation cost=132.93037403999867.
+Jul 19, 2022 2:51:28 AM com.sun.faban.driver.engine.AgentImpl run
+INFO: SearchDriverAgent[1]: Successfully started 100 driver threads.
+Jul 19, 2022 2:51:33 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Started all threads; run commences in 2997 ms
+Jul 19, 2022 2:52:21 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Performing busy timer check
+Jul 19, 2022 2:52:22 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Busy timer characteristics:
+Accuracy=3,
+min. invocation cost=44,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=48.0934,
+max. invocation cost=404,
+variance of invocation cost=40.37687643999996.
+Jul 19, 2022 2:53:06 AM com.sun.faban.driver.util.Timer$SleepCalibrator run
+INFO: SearchDriverAgent[1]: Calibration succeeded. Sleep time deviation: 0.15991140751944682 ms, compensation: 1 ms.
+Jul 19, 2022 2:53:06 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp up completed
+Jul 19, 2022 2:54:06 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Steady state completed
+Jul 19, 2022 2:55:06 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp down completed
+Jul 19, 2022 2:55:06 AM com.sun.faban.driver.engine.MasterImpl getDriverMetrics
+INFO: Gathering SearchDriverStats ...
+Jul 19, 2022 2:55:06 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Printing Summary report ...
+Jul 19, 2022 2:55:06 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Summary finished. Now printing detail ...
+Jul 19, 2022 2:55:06 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Detail finished. Results written to /usr/src/outputFaban/1.
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../xslt/summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="Sample Search Workload" version="0.3">
+        <runId>1</runId>
+        <startTime>Tue Jul 19 02:51:36 UTC 2022</startTime>
+        <endTime>Tue Jul 19 02:55:06 UTC 2022</endTime>
+        <metric unit="ops/sec">50.733</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="SearchDriver">
+        <metric unit="ops/sec">50.733</metric>
+        <startTime>Tue Jul 19 02:51:36 UTC 2022</startTime>
+        <endTime>Tue Jul 19 02:55:06 UTC 2022</endTime>
+        <totalOps unit="operations">3044</totalOps>
+        <users>100</users>
+        <rtXtps>92.9591</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0000">
+            <operation name="GET">
+                <successes>3044</successes>
+                <failures>0</failures>
+                <mix>1.0000</mix>
+                <requiredMix>1.0000</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="GET" r90th="0.500">
+                <avg>0.056</avg>
+                <max>0.393</max>
+                <sd>0.059</sd>
+                <p90th>0.140</p90th>
+                <passed>true</passed>
+                <p99th>0.260</p99th>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="GET" type="cycleTime">
+                <targetedAvg>1.893</targetedAvg>
+                <actualAvg>1.894</actualAvg>
+                <min>0.005</min>
+                <max>10.000</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+    </driverSummary>
+</benchResults>
+Starting Faban Server
+Please point your browser to http://6f3a2a999a21:9980/
+Buildfile: /usr/src/faban/search/build.xml
+
+init:
+    [mkdir] Created dir: /usr/src/faban/search/build/classes
+
+compile:
+    [javac] /usr/src/faban/search/build.xml:35: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 1 source file to /usr/src/faban/search/build/classes
+    [javac] 
+    [javac]           WARNING
+    [javac] 
+    [javac] The -source switch defaults to 1.7 in JDK 1.7.
+    [javac] If you specify -target 1.5 you now must also specify -source 1.5.
+    [javac] Ant will implicitly add -source 1.5 for you.  Please change your build file.
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] 1 warning
+
+bench.jar:
+    [mkdir] Created dir: /usr/src/faban/search/build/lib
+      [jar] Building jar: /usr/src/faban/search/build/lib/search.jar
+
+deploy.jar:
+      [jar] Building jar: /usr/src/faban/search/build/search.jar
+
+deploy:
+
+BUILD SUCCESSFUL
+Total time: 12 seconds
+Print= 172.18.0.3:1
+Jul 19, 2022 2:55:27 AM com.sun.faban.common.RegistryImpl main
+INFO: Registry started.
+Jul 19, 2022 2:55:30 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering SearchDriver.1 (type: SearchDriverAgent) on 172.18.0.3
+Jul 19, 2022 2:55:30 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering Master on 172.18.0.3
+Jul 19, 2022 2:55:30 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: RunID for this run is : 1
+Jul 19, 2022 2:55:30 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: Output directory for this run is : /usr/src/outputFaban/1
+Jul 19, 2022 2:55:30 AM com.sun.faban.common.RegistryImpl getServices
+INFO: Get services by type: SearchDriverAgent
+Jul 19, 2022 2:55:30 AM com.sun.faban.driver.engine.MasterImpl configureAgents
+INFO: Configuring 1 SearchDriverAgents...
+Jul 19, 2022 2:55:30 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Performing idle timer check
+Jul 19, 2022 2:55:32 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Idle timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=49.1618,
+max. invocation cost=224,
+variance of invocation cost=65.82182076000049.
+Jul 19, 2022 2:55:34 AM com.sun.faban.driver.engine.AgentImpl run
+INFO: SearchDriverAgent[1]: Successfully started 100 driver threads.
+Jul 19, 2022 2:55:47 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Started all threads; run commences in 2997 ms
+Jul 19, 2022 2:56:35 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Performing busy timer check
+Jul 19, 2022 2:56:35 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Busy timer characteristics:
+Accuracy=3,
+min. invocation cost=44,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=47.3861,
+max. invocation cost=216,
+variance of invocation cost=15.906426790000024.
+Jul 19, 2022 2:57:20 AM com.sun.faban.driver.util.Timer$SleepCalibrator run
+INFO: SearchDriverAgent[1]: Calibration succeeded. Sleep time deviation: 0.12114245014976466 ms, compensation: 1 ms.
+Jul 19, 2022 2:57:20 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp up completed
+Jul 19, 2022 2:58:20 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Steady state completed
+Jul 19, 2022 2:59:20 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp down completed
+Jul 19, 2022 2:59:20 AM com.sun.faban.driver.engine.MasterImpl getDriverMetrics
+INFO: Gathering SearchDriverStats ...
+Jul 19, 2022 2:59:20 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Printing Summary report ...
+Jul 19, 2022 2:59:20 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Summary finished. Now printing detail ...
+Jul 19, 2022 2:59:20 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Detail finished. Results written to /usr/src/outputFaban/1.
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../xslt/summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="Sample Search Workload" version="0.3">
+        <runId>1</runId>
+        <startTime>Tue Jul 19 02:55:50 UTC 2022</startTime>
+        <endTime>Tue Jul 19 02:59:20 UTC 2022</endTime>
+        <metric unit="ops/sec">49.767</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="SearchDriver">
+        <metric unit="ops/sec">49.767</metric>
+        <startTime>Tue Jul 19 02:55:50 UTC 2022</startTime>
+        <endTime>Tue Jul 19 02:59:20 UTC 2022</endTime>
+        <totalOps unit="operations">2986</totalOps>
+        <users>100</users>
+        <rtXtps>94.1092</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0000">
+            <operation name="GET">
+                <successes>2986</successes>
+                <failures>0</failures>
+                <mix>1.0000</mix>
+                <requiredMix>1.0000</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="GET" r90th="0.500">
+                <avg>0.049</avg>
+                <max>0.328</max>
+                <sd>0.050</sd>
+                <p90th>0.120</p90th>
+                <passed>true</passed>
+                <p99th>0.208</p99th>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="GET" type="cycleTime">
+                <targetedAvg>1.956</targetedAvg>
+                <actualAvg>1.956</actualAvg>
+                <min>0.007</min>
+                <max>10.000</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+    </driverSummary>
+</benchResults>
+OpenJDK 64-Bit Server VM warning: Exception java.lang.OutOfMemoryError occurred dispatching signal SIGHUP to handler- the VM may need to be forcibly terminated
+Starting Faban Server
+Please point your browser to http://f6dbfd7ace28:9980/
+Buildfile: /usr/src/faban/search/build.xml
+
+init:
+    [mkdir] Created dir: /usr/src/faban/search/build/classes
+
+compile:
+    [javac] /usr/src/faban/search/build.xml:35: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 1 source file to /usr/src/faban/search/build/classes
+    [javac] 
+    [javac]           WARNING
+    [javac] 
+    [javac] The -source switch defaults to 1.7 in JDK 1.7.
+    [javac] If you specify -target 1.5 you now must also specify -source 1.5.
+    [javac] Ant will implicitly add -source 1.5 for you.  Please change your build file.
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] 1 warning
+
+bench.jar:
+    [mkdir] Created dir: /usr/src/faban/search/build/lib
+      [jar] Building jar: /usr/src/faban/search/build/lib/search.jar
+
+deploy.jar:
+      [jar] Building jar: /usr/src/faban/search/build/search.jar
+
+deploy:
+
+BUILD SUCCESSFUL
+Total time: 13 seconds
+Print= 172.18.0.3:1
+Jul 19, 2022 2:59:40 AM com.sun.faban.common.RegistryImpl main
+INFO: Registry started.
+Jul 19, 2022 2:59:44 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering Master on 172.18.0.3
+Jul 19, 2022 2:59:44 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering SearchDriver.1 (type: SearchDriverAgent) on 172.18.0.3
+Jul 19, 2022 2:59:44 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: RunID for this run is : 1
+Jul 19, 2022 2:59:44 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: Output directory for this run is : /usr/src/outputFaban/1
+Jul 19, 2022 2:59:44 AM com.sun.faban.common.RegistryImpl getServices
+INFO: Get services by type: SearchDriverAgent
+Jul 19, 2022 2:59:44 AM com.sun.faban.driver.engine.MasterImpl configureAgents
+INFO: Configuring 1 SearchDriverAgents...
+Jul 19, 2022 2:59:44 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Performing idle timer check
+Jul 19, 2022 2:59:45 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Idle timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=49.669,
+max. invocation cost=284,
+variance of invocation cost=69.76583899999812.
+Jul 19, 2022 2:59:48 AM com.sun.faban.driver.engine.AgentImpl run
+INFO: SearchDriverAgent[1]: Successfully started 100 driver threads.
+Jul 19, 2022 2:59:49 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Started all threads; run commences in 2998 ms
+Jul 19, 2022 3:00:37 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Performing busy timer check
+Jul 19, 2022 3:00:38 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Busy timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=47.1886,
+max. invocation cost=118,
+variance of invocation cost=4.150430040000094.
+Jul 19, 2022 3:01:22 AM com.sun.faban.driver.util.Timer$SleepCalibrator run
+INFO: SearchDriverAgent[1]: Calibration succeeded. Sleep time deviation: 0.13139541777680716 ms, compensation: 1 ms.
+Jul 19, 2022 3:01:22 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp up completed
+Jul 19, 2022 3:02:22 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Steady state completed
+Jul 19, 2022 3:03:23 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp down completed
+Jul 19, 2022 3:03:23 AM com.sun.faban.driver.engine.MasterImpl getDriverMetrics
+INFO: Gathering SearchDriverStats ...
+Jul 19, 2022 3:03:23 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Printing Summary report ...
+Jul 19, 2022 3:03:23 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Summary finished. Now printing detail ...
+Jul 19, 2022 3:03:23 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Detail finished. Results written to /usr/src/outputFaban/1.
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../xslt/summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="Sample Search Workload" version="0.3">
+        <runId>1</runId>
+        <startTime>Tue Jul 19 02:59:52 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:03:23 UTC 2022</endTime>
+        <metric unit="ops/sec">52.383</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="SearchDriver">
+        <metric unit="ops/sec">52.383</metric>
+        <startTime>Tue Jul 19 02:59:52 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:03:23 UTC 2022</endTime>
+        <totalOps unit="operations">3143</totalOps>
+        <users>100</users>
+        <rtXtps>94.2766</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0000">
+            <operation name="GET">
+                <successes>3143</successes>
+                <failures>0</failures>
+                <mix>1.0000</mix>
+                <requiredMix>1.0000</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="GET" r90th="0.500">
+                <avg>0.046</avg>
+                <max>0.324</max>
+                <sd>0.048</sd>
+                <p90th>0.113</p90th>
+                <passed>true</passed>
+                <p99th>0.198</p99th>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="GET" type="cycleTime">
+                <targetedAvg>1.856</targetedAvg>
+                <actualAvg>1.856</actualAvg>
+                <min>0.006</min>
+                <max>10.000</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+    </driverSummary>
+</benchResults>
+OpenJDK 64-Bit Server VM warning: Exception java.lang.OutOfMemoryError occurred dispatching signal SIGHUP to handler- the VM may need to be forcibly terminated
+Starting Faban Server
+Please point your browser to http://fd6bf1c6700d:9980/
+Buildfile: /usr/src/faban/search/build.xml
+
+init:
+    [mkdir] Created dir: /usr/src/faban/search/build/classes
+
+compile:
+    [javac] /usr/src/faban/search/build.xml:35: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 1 source file to /usr/src/faban/search/build/classes
+    [javac] 
+    [javac]           WARNING
+    [javac] 
+    [javac] The -source switch defaults to 1.7 in JDK 1.7.
+    [javac] If you specify -target 1.5 you now must also specify -source 1.5.
+    [javac] Ant will implicitly add -source 1.5 for you.  Please change your build file.
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] 1 warning
+
+bench.jar:
+    [mkdir] Created dir: /usr/src/faban/search/build/lib
+      [jar] Building jar: /usr/src/faban/search/build/lib/search.jar
+
+deploy.jar:
+      [jar] Building jar: /usr/src/faban/search/build/search.jar
+
+deploy:
+
+BUILD SUCCESSFUL
+Total time: 12 seconds
+Print= 172.18.0.3:1
+Jul 19, 2022 3:03:43 AM com.sun.faban.common.RegistryImpl main
+INFO: Registry started.
+Jul 19, 2022 3:03:46 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering Master on 172.18.0.3
+Jul 19, 2022 3:03:46 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering SearchDriver.1 (type: SearchDriverAgent) on 172.18.0.3
+Jul 19, 2022 3:03:46 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: RunID for this run is : 1
+Jul 19, 2022 3:03:46 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: Output directory for this run is : /usr/src/outputFaban/1
+Jul 19, 2022 3:03:47 AM com.sun.faban.common.RegistryImpl getServices
+INFO: Get services by type: SearchDriverAgent
+Jul 19, 2022 3:03:47 AM com.sun.faban.driver.engine.MasterImpl configureAgents
+INFO: Configuring 1 SearchDriverAgents...
+Jul 19, 2022 3:03:47 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Performing idle timer check
+Jul 19, 2022 3:03:48 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Idle timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=49.3264,
+max. invocation cost=439,
+variance of invocation cost=98.12926304000118.
+Jul 19, 2022 3:03:51 AM com.sun.faban.driver.engine.AgentImpl run
+INFO: SearchDriverAgent[1]: Successfully started 100 driver threads.
+Jul 19, 2022 3:03:52 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Started all threads; run commences in 2996 ms
+Jul 19, 2022 3:04:40 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Performing busy timer check
+Jul 19, 2022 3:04:41 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Busy timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=46.9734,
+max. invocation cost=358,
+variance of invocation cost=23.123092440000008.
+Jul 19, 2022 3:05:25 AM com.sun.faban.driver.util.Timer$SleepCalibrator run
+INFO: SearchDriverAgent[1]: Calibration succeeded. Sleep time deviation: 0.14318895715213156 ms, compensation: 1 ms.
+Jul 19, 2022 3:05:25 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp up completed
+Jul 19, 2022 3:06:25 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Steady state completed
+Jul 19, 2022 3:07:25 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp down completed
+Jul 19, 2022 3:07:25 AM com.sun.faban.driver.engine.MasterImpl getDriverMetrics
+INFO: Gathering SearchDriverStats ...
+Jul 19, 2022 3:07:25 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Printing Summary report ...
+Jul 19, 2022 3:07:25 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Summary finished. Now printing detail ...
+Jul 19, 2022 3:07:26 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Detail finished. Results written to /usr/src/outputFaban/1.
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../xslt/summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="Sample Search Workload" version="0.3">
+        <runId>1</runId>
+        <startTime>Tue Jul 19 03:03:55 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:07:25 UTC 2022</endTime>
+        <metric unit="ops/sec">34.817</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="SearchDriver">
+        <metric unit="ops/sec">34.817</metric>
+        <startTime>Tue Jul 19 03:03:55 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:07:25 UTC 2022</endTime>
+        <totalOps unit="operations">2089</totalOps>
+        <users>100</users>
+        <rtXtps>63.3380</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0000">
+            <operation name="GET">
+                <successes>2089</successes>
+                <failures>0</failures>
+                <mix>1.0000</mix>
+                <requiredMix>1.0000</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="GET" r90th="0.500">
+                <avg>0.062</avg>
+                <max>1.057</max>
+                <sd>0.111</sd>
+                <p90th>0.123</p90th>
+                <passed>true</passed>
+                <p99th>0.775</p99th>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="GET" type="cycleTime">
+                <targetedAvg>1.905</targetedAvg>
+                <actualAvg>1.908</actualAvg>
+                <min>0.006</min>
+                <max>10.000</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+    </driverSummary>
+</benchResults>
+OpenJDK 64-Bit Server VM warning: Starting Faban Server
+Please point your browser to http://0da5e69c4acb:9980/
+Buildfile: /usr/src/faban/search/build.xml
+
+init:
+    [mkdir] Created dir: /usr/src/faban/search/build/classes
+
+compile:
+    [javac] /usr/src/faban/search/build.xml:35: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 1 source file to /usr/src/faban/search/build/classes
+    [javac] 
+    [javac]           WARNING
+    [javac] 
+    [javac] The -source switch defaults to 1.7 in JDK 1.7.
+    [javac] If you specify -target 1.5 you now must also specify -source 1.5.
+    [javac] Ant will implicitly add -source 1.5 for you.  Please change your build file.
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] 1 warning
+
+bench.jar:
+    [mkdir] Created dir: /usr/src/faban/search/build/lib
+      [jar] Building jar: /usr/src/faban/search/build/lib/search.jar
+
+deploy.jar:
+      [jar] Building jar: /usr/src/faban/search/build/search.jar
+
+deploy:
+
+BUILD FAILED
+/usr/src/faban/search/build.xml:69: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:197)
+	at java.net.SocketInputStream.read(SocketInputStream.java:122)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:235)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:254)
+	at org.apache.commons.httpclient.HttpParser.readRawLine(HttpParser.java:78)
+	at org.apache.commons.httpclient.HttpParser.readLine(HttpParser.java:106)
+	at org.apache.commons.httpclient.HttpConnection.readLine(HttpConnection.java:1116)
+	at org.apache.commons.httpclient.HttpMethodBase.readStatusLine(HttpMethodBase.java:1973)
+	at org.apache.commons.httpclient.HttpMethodBase.readResponse(HttpMethodBase.java:1735)
+	at org.apache.commons.httpclient.HttpMethodBase.execute(HttpMethodBase.java:1098)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:398)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:323)
+	at com.sun.faban.harness.util.DeployTask.execute(DeployTask.java:147)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:293)
+	at sun.reflect.GeneratedMethodAccessor4.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:435)
+	at org.apache.tools.ant.Target.performTasks(Target.java:456)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1405)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1376)
+	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1260)
+	at org.apache.tools.ant.Main.runBuild(Main.java:853)
+	at org.apache.tools.ant.Main.startAnt(Main.java:235)
+	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:285)
+	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:112)
+
+Total time: 4 seconds
+Print= 172.18.0.3:1
+Jul 19, 2022 3:07:37 AM com.sun.faban.common.RegistryImpl main
+INFO: Registry started.
+Jul 19, 2022 3:07:41 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering SearchDriver.1 (type: SearchDriverAgent) on 172.18.0.3
+Jul 19, 2022 3:07:41 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering Master on 172.18.0.3
+Jul 19, 2022 3:07:41 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: RunID for this run is : 1
+Jul 19, 2022 3:07:41 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: Output directory for this run is : /usr/src/outputFaban/1
+Jul 19, 2022 3:07:41 AM com.sun.faban.common.RegistryImpl getServices
+INFO: Get services by type: SearchDriverAgent
+Jul 19, 2022 3:07:41 AM com.sun.faban.driver.engine.MasterImpl configureAgents
+INFO: Configuring 1 SearchDriverAgents...
+Jul 19, 2022 3:07:41 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Performing idle timer check
+Jul 19, 2022 3:07:42 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Idle timer characteristics:
+Accuracy=3,
+min. invocation cost=44,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=48.8645,
+max. invocation cost=391,
+variance of invocation cost=72.98313975000043.
+Jul 19, 2022 3:07:45 AM com.sun.faban.driver.engine.AgentImpl run
+INFO: SearchDriverAgent[1]: Successfully started 100 driver threads.
+Jul 19, 2022 3:07:56 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Started all threads; run commences in 2997 ms
+Jul 19, 2022 3:08:44 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Performing busy timer check
+Jul 19, 2022 3:08:45 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Busy timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=46.9866,
+max. invocation cost=337,
+variance of invocation cost=28.69422043999988.
+Jul 19, 2022 3:09:29 AM com.sun.faban.driver.util.Timer$SleepCalibrator run
+INFO: SearchDriverAgent[1]: Calibration succeeded. Sleep time deviation: 0.13097577537796976 ms, compensation: 1 ms.
+Jul 19, 2022 3:09:29 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp up completed
+Jul 19, 2022 3:10:29 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Steady state completed
+Jul 19, 2022 3:11:29 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp down completed
+Jul 19, 2022 3:11:29 AM com.sun.faban.driver.engine.MasterImpl getDriverMetrics
+INFO: Gathering SearchDriverStats ...
+Jul 19, 2022 3:11:29 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Printing Summary report ...
+Jul 19, 2022 3:11:29 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Summary finished. Now printing detail ...
+Jul 19, 2022 3:11:29 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Detail finished. Results written to /usr/src/outputFaban/1.
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../xslt/summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="Sample Search Workload" version="0.3">
+        <runId>1</runId>
+        <startTime>Tue Jul 19 03:07:59 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:11:29 UTC 2022</endTime>
+        <metric unit="ops/sec">49.633</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="SearchDriver">
+        <metric unit="ops/sec">49.633</metric>
+        <startTime>Tue Jul 19 03:07:59 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:11:29 UTC 2022</endTime>
+        <totalOps unit="operations">2978</totalOps>
+        <users>100</users>
+        <rtXtps>93.8166</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0000">
+            <operation name="GET">
+                <successes>2978</successes>
+                <failures>0</failures>
+                <mix>1.0000</mix>
+                <requiredMix>1.0000</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="GET" r90th="0.500">
+                <avg>0.046</avg>
+                <max>0.336</max>
+                <sd>0.048</sd>
+                <p90th>0.113</p90th>
+                <passed>true</passed>
+                <p99th>0.205</p99th>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="GET" type="cycleTime">
+                <targetedAvg>1.956</targetedAvg>
+                <actualAvg>1.956</actualAvg>
+                <min>0.004</min>
+                <max>10.000</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+    </driverSummary>
+</benchResults>
+Starting Faban Server
+Please point your browser to http://fa8d1c91222b:9980/
+Buildfile: /usr/src/faban/search/build.xml
+
+init:
+    [mkdir] Created dir: /usr/src/faban/search/build/classes
+
+compile:
+    [javac] /usr/src/faban/search/build.xml:35: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 1 source file to /usr/src/faban/search/build/classes
+    [javac] 
+    [javac]           WARNING
+    [javac] 
+    [javac] The -source switch defaults to 1.7 in JDK 1.7.
+    [javac] If you specify -target 1.5 you now must also specify -source 1.5.
+    [javac] Ant will implicitly add -source 1.5 for you.  Please change your build file.
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] 1 warning
+
+bench.jar:
+    [mkdir] Created dir: /usr/src/faban/search/build/lib
+      [jar] Building jar: /usr/src/faban/search/build/lib/search.jar
+
+deploy.jar:
+      [jar] Building jar: /usr/src/faban/search/build/search.jar
+
+deploy:
+
+BUILD SUCCESSFUL
+Total time: 12 seconds
+Print= 172.18.0.3:1
+Jul 19, 2022 3:11:50 AM com.sun.faban.common.RegistryImpl main
+INFO: Registry started.
+Jul 19, 2022 3:11:53 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering SearchDriver.1 (type: SearchDriverAgent) on 172.18.0.3
+Jul 19, 2022 3:11:53 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering Master on 172.18.0.3
+Jul 19, 2022 3:11:53 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: RunID for this run is : 1
+Jul 19, 2022 3:11:53 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: Output directory for this run is : /usr/src/outputFaban/1
+Jul 19, 2022 3:11:53 AM com.sun.faban.common.RegistryImpl getServices
+INFO: Get services by type: SearchDriverAgent
+Jul 19, 2022 3:11:53 AM com.sun.faban.driver.engine.MasterImpl configureAgents
+INFO: Configuring 1 SearchDriverAgents...
+Jul 19, 2022 3:11:53 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Performing idle timer check
+Jul 19, 2022 3:11:55 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Idle timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=49.0518,
+max. invocation cost=265,
+variance of invocation cost=64.47611675999991.
+Jul 19, 2022 3:11:57 AM com.sun.faban.driver.engine.AgentImpl run
+INFO: SearchDriverAgent[1]: Successfully started 100 driver threads.
+Jul 19, 2022 3:12:04 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Started all threads; run commences in 2997 ms
+Jul 19, 2022 3:12:52 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Performing busy timer check
+Jul 19, 2022 3:12:53 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Busy timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=46.6488,
+max. invocation cost=427,
+variance of invocation cost=35.413258560000166.
+Jul 19, 2022 3:13:37 AM com.sun.faban.driver.util.Timer$SleepCalibrator run
+INFO: SearchDriverAgent[1]: Calibration succeeded. Sleep time deviation: 0.12471628478118876 ms, compensation: 1 ms.
+Jul 19, 2022 3:13:37 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp up completed
+Jul 19, 2022 3:14:37 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Steady state completed
+Jul 19, 2022 3:15:37 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp down completed
+Jul 19, 2022 3:15:37 AM com.sun.faban.driver.engine.MasterImpl getDriverMetrics
+INFO: Gathering SearchDriverStats ...
+Jul 19, 2022 3:15:37 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Printing Summary report ...
+Jul 19, 2022 3:15:37 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Summary finished. Now printing detail ...
+Jul 19, 2022 3:15:37 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Detail finished. Results written to /usr/src/outputFaban/1.
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../xslt/summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="Sample Search Workload" version="0.3">
+        <runId>1</runId>
+        <startTime>Tue Jul 19 03:12:07 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:15:37 UTC 2022</endTime>
+        <metric unit="ops/sec">51.333</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="SearchDriver">
+        <metric unit="ops/sec">51.333</metric>
+        <startTime>Tue Jul 19 03:12:07 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:15:37 UTC 2022</endTime>
+        <totalOps unit="operations">3080</totalOps>
+        <users>100</users>
+        <rtXtps>93.9614</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0000">
+            <operation name="GET">
+                <successes>3080</successes>
+                <failures>0</failures>
+                <mix>1.0000</mix>
+                <requiredMix>1.0000</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="GET" r90th="0.500">
+                <avg>0.044</avg>
+                <max>0.319</max>
+                <sd>0.046</sd>
+                <p90th>0.110</p90th>
+                <passed>true</passed>
+                <p99th>0.188</p99th>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="GET" type="cycleTime">
+                <targetedAvg>1.888</targetedAvg>
+                <actualAvg>1.888</actualAvg>
+                <min>0.003</min>
+                <max>10.000</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+    </driverSummary>
+</benchResults>
+OpenJDK 64-Bit Server VM warning: Starting Faban Server
+Please point your browser to http://701ac322d4df:9980/
+Buildfile: /usr/src/faban/search/build.xml
+
+init:
+    [mkdir] Created dir: /usr/src/faban/search/build/classes
+
+compile:
+    [javac] /usr/src/faban/search/build.xml:35: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 1 source file to /usr/src/faban/search/build/classes
+    [javac] 
+    [javac]           WARNING
+    [javac] 
+    [javac] The -source switch defaults to 1.7 in JDK 1.7.
+    [javac] If you specify -target 1.5 you now must also specify -source 1.5.
+    [javac] Ant will implicitly add -source 1.5 for you.  Please change your build file.
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] 1 warning
+
+bench.jar:
+    [mkdir] Created dir: /usr/src/faban/search/build/lib
+      [jar] Building jar: /usr/src/faban/search/build/lib/search.jar
+
+deploy.jar:
+      [jar] Building jar: /usr/src/faban/search/build/search.jar
+
+deploy:
+
+BUILD SUCCESSFUL
+Total time: 13 seconds
+Print= 172.18.0.3:1
+Jul 19, 2022 3:15:58 AM com.sun.faban.common.RegistryImpl main
+INFO: Registry started.
+Jul 19, 2022 3:16:01 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering Master on 172.18.0.3
+Jul 19, 2022 3:16:01 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering SearchDriver.1 (type: SearchDriverAgent) on 172.18.0.3
+Jul 19, 2022 3:16:01 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: RunID for this run is : 1
+Jul 19, 2022 3:16:01 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: Output directory for this run is : /usr/src/outputFaban/1
+Jul 19, 2022 3:16:02 AM com.sun.faban.common.RegistryImpl getServices
+INFO: Get services by type: SearchDriverAgent
+Jul 19, 2022 3:16:02 AM com.sun.faban.driver.engine.MasterImpl configureAgents
+INFO: Configuring 1 SearchDriverAgents...
+Jul 19, 2022 3:16:02 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Performing idle timer check
+Jul 19, 2022 3:16:03 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Idle timer characteristics:
+Accuracy=3,
+min. invocation cost=44,
+med. invocation cost (math)=46.0,
+med. invocation cost (phys)=46,
+avg. invocation cost=48.8504,
+max. invocation cost=252,
+variance of invocation cost=69.08481984000124.
+Jul 19, 2022 3:16:06 AM com.sun.faban.driver.engine.AgentImpl run
+INFO: SearchDriverAgent[1]: Successfully started 100 driver threads.
+Jul 19, 2022 3:16:17 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Started all threads; run commences in 2997 ms
+Jul 19, 2022 3:17:05 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Performing busy timer check
+Jul 19, 2022 3:17:06 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Busy timer characteristics:
+Accuracy=3,
+min. invocation cost=44,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=48.4824,
+max. invocation cost=279,
+variance of invocation cost=42.81949023999982.
+Jul 19, 2022 3:17:50 AM com.sun.faban.driver.util.Timer$SleepCalibrator run
+INFO: SearchDriverAgent[1]: Calibration succeeded. Sleep time deviation: 0.12779744228274967 ms, compensation: 1 ms.
+Jul 19, 2022 3:17:50 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp up completed
+Jul 19, 2022 3:18:50 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Steady state completed
+Jul 19, 2022 3:19:50 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp down completed
+Jul 19, 2022 3:19:50 AM com.sun.faban.driver.engine.MasterImpl getDriverMetrics
+INFO: Gathering SearchDriverStats ...
+Jul 19, 2022 3:19:50 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Printing Summary report ...
+Jul 19, 2022 3:19:50 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Summary finished. Now printing detail ...
+Jul 19, 2022 3:19:50 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Detail finished. Results written to /usr/src/outputFaban/1.
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../xslt/summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="Sample Search Workload" version="0.3">
+        <runId>1</runId>
+        <startTime>Tue Jul 19 03:16:20 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:19:50 UTC 2022</endTime>
+        <metric unit="ops/sec">51.283</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="SearchDriver">
+        <metric unit="ops/sec">51.283</metric>
+        <startTime>Tue Jul 19 03:16:20 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:19:50 UTC 2022</endTime>
+        <totalOps unit="operations">3077</totalOps>
+        <users>100</users>
+        <rtXtps>93.6352</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0000">
+            <operation name="GET">
+                <successes>3077</successes>
+                <failures>0</failures>
+                <mix>1.0000</mix>
+                <requiredMix>1.0000</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="GET" r90th="0.500">
+                <avg>0.044</avg>
+                <max>0.332</max>
+                <sd>0.046</sd>
+                <p90th>0.105</p90th>
+                <passed>true</passed>
+                <p99th>0.198</p99th>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="GET" type="cycleTime">
+                <targetedAvg>1.885</targetedAvg>
+                <actualAvg>1.886</actualAvg>
+                <min>0.004</min>
+                <max>10.000</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+    </driverSummary>
+</benchResults>
+Starting Faban Server
+Please point your browser to http://1b81a0c1ed21:9980/
+Buildfile: /usr/src/faban/search/build.xml
+
+init:
+    [mkdir] Created dir: /usr/src/faban/search/build/classes
+
+compile:
+    [javac] /usr/src/faban/search/build.xml:35: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 1 source file to /usr/src/faban/search/build/classes
+    [javac] 
+    [javac]           WARNING
+    [javac] 
+    [javac] The -source switch defaults to 1.7 in JDK 1.7.
+    [javac] If you specify -target 1.5 you now must also specify -source 1.5.
+    [javac] Ant will implicitly add -source 1.5 for you.  Please change your build file.
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] 1 warning
+
+bench.jar:
+    [mkdir] Created dir: /usr/src/faban/search/build/lib
+      [jar] Building jar: /usr/src/faban/search/build/lib/search.jar
+
+deploy.jar:
+      [jar] Building jar: /usr/src/faban/search/build/search.jar
+
+deploy:
+
+BUILD FAILED
+/usr/src/faban/search/build.xml:69: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:197)
+	at java.net.SocketInputStream.read(SocketInputStream.java:122)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:235)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:254)
+	at org.apache.commons.httpclient.HttpParser.readRawLine(HttpParser.java:78)
+	at org.apache.commons.httpclient.HttpParser.readLine(HttpParser.java:106)
+	at org.apache.commons.httpclient.HttpConnection.readLine(HttpConnection.java:1116)
+	at org.apache.commons.httpclient.HttpMethodBase.readStatusLine(HttpMethodBase.java:1973)
+	at org.apache.commons.httpclient.HttpMethodBase.readResponse(HttpMethodBase.java:1735)
+	at org.apache.commons.httpclient.HttpMethodBase.execute(HttpMethodBase.java:1098)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:398)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:323)
+	at com.sun.faban.harness.util.DeployTask.execute(DeployTask.java:147)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:293)
+	at sun.reflect.GeneratedMethodAccessor4.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:435)
+	at org.apache.tools.ant.Target.performTasks(Target.java:456)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1405)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1376)
+	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1260)
+	at org.apache.tools.ant.Main.runBuild(Main.java:853)
+	at org.apache.tools.ant.Main.startAnt(Main.java:235)
+	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:285)
+	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:112)
+
+Total time: 4 seconds
+Print= 172.18.0.3:1
+Jul 19, 2022 3:20:02 AM com.sun.faban.common.RegistryImpl main
+INFO: Registry started.
+Jul 19, 2022 3:20:06 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering SearchDriver.1 (type: SearchDriverAgent) on 172.18.0.3
+Jul 19, 2022 3:20:06 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering Master on 172.18.0.3
+Jul 19, 2022 3:20:06 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: RunID for this run is : 1
+Jul 19, 2022 3:20:06 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: Output directory for this run is : /usr/src/outputFaban/1
+Jul 19, 2022 3:20:06 AM com.sun.faban.common.RegistryImpl getServices
+INFO: Get services by type: SearchDriverAgent
+Jul 19, 2022 3:20:06 AM com.sun.faban.driver.engine.MasterImpl configureAgents
+INFO: Configuring 1 SearchDriverAgents...
+Jul 19, 2022 3:20:06 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Performing idle timer check
+Jul 19, 2022 3:20:07 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Idle timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=48.9838,
+max. invocation cost=566,
+variance of invocation cost=91.30433755999853.
+Jul 19, 2022 3:20:10 AM com.sun.faban.driver.engine.AgentImpl run
+INFO: SearchDriverAgent[1]: Successfully started 100 driver threads.
+Jul 19, 2022 3:20:23 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Started all threads; run commences in 2997 ms
+Jul 19, 2022 3:21:11 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Performing busy timer check
+Jul 19, 2022 3:21:11 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Busy timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=47.0598,
+max. invocation cost=421,
+variance of invocation cost=87.22702396000042.
+Jul 19, 2022 3:21:56 AM com.sun.faban.driver.util.Timer$SleepCalibrator run
+INFO: SearchDriverAgent[1]: Calibration succeeded. Sleep time deviation: 0.11815434794938919 ms, compensation: 1 ms.
+Jul 19, 2022 3:21:56 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp up completed
+Jul 19, 2022 3:22:56 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Steady state completed
+Jul 19, 2022 3:23:56 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp down completed
+Jul 19, 2022 3:23:56 AM com.sun.faban.driver.engine.MasterImpl getDriverMetrics
+INFO: Gathering SearchDriverStats ...
+Jul 19, 2022 3:23:56 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Printing Summary report ...
+Jul 19, 2022 3:23:56 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Summary finished. Now printing detail ...
+Jul 19, 2022 3:23:56 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Detail finished. Results written to /usr/src/outputFaban/1.
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../xslt/summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="Sample Search Workload" version="0.3">
+        <runId>1</runId>
+        <startTime>Tue Jul 19 03:20:26 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:23:56 UTC 2022</endTime>
+        <metric unit="ops/sec">49.500</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="SearchDriver">
+        <metric unit="ops/sec">49.500</metric>
+        <startTime>Tue Jul 19 03:20:26 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:23:56 UTC 2022</endTime>
+        <totalOps unit="operations">2970</totalOps>
+        <users>100</users>
+        <rtXtps>94.3795</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0000">
+            <operation name="GET">
+                <successes>2970</successes>
+                <failures>0</failures>
+                <mix>1.0000</mix>
+                <requiredMix>1.0000</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="GET" r90th="0.500">
+                <avg>0.047</avg>
+                <max>0.307</max>
+                <sd>0.047</sd>
+                <p90th>0.113</p90th>
+                <passed>true</passed>
+                <p99th>0.200</p99th>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="GET" type="cycleTime">
+                <targetedAvg>1.971</targetedAvg>
+                <actualAvg>1.971</actualAvg>
+                <min>0.003</min>
+                <max>10.000</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+    </driverSummary>
+</benchResults>
+Starting Faban Server
+Please point your browser to http://161535dd3099:9980/
+Buildfile: /usr/src/faban/search/build.xml
+
+init:
+    [mkdir] Created dir: /usr/src/faban/search/build/classes
+
+compile:
+    [javac] /usr/src/faban/search/build.xml:35: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 1 source file to /usr/src/faban/search/build/classes
+    [javac] 
+    [javac]           WARNING
+    [javac] 
+    [javac] The -source switch defaults to 1.7 in JDK 1.7.
+    [javac] If you specify -target 1.5 you now must also specify -source 1.5.
+    [javac] Ant will implicitly add -source 1.5 for you.  Please change your build file.
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] 1 warning
+
+bench.jar:
+    [mkdir] Created dir: /usr/src/faban/search/build/lib
+      [jar] Building jar: /usr/src/faban/search/build/lib/search.jar
+
+deploy.jar:
+      [jar] Building jar: /usr/src/faban/search/build/search.jar
+
+deploy:
+
+BUILD SUCCESSFUL
+Total time: 13 seconds
+Print= 172.18.0.3:1
+Jul 19, 2022 3:24:16 AM com.sun.faban.common.RegistryImpl main
+INFO: Registry started.
+Jul 19, 2022 3:24:20 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering SearchDriver.1 (type: SearchDriverAgent) on 172.18.0.3
+Jul 19, 2022 3:24:20 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering Master on 172.18.0.3
+Jul 19, 2022 3:24:20 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: RunID for this run is : 1
+Jul 19, 2022 3:24:20 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: Output directory for this run is : /usr/src/outputFaban/1
+Jul 19, 2022 3:24:20 AM com.sun.faban.common.RegistryImpl getServices
+INFO: Get services by type: SearchDriverAgent
+Jul 19, 2022 3:24:20 AM com.sun.faban.driver.engine.MasterImpl configureAgents
+INFO: Configuring 1 SearchDriverAgents...
+Jul 19, 2022 3:24:20 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Performing idle timer check
+Jul 19, 2022 3:24:21 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Idle timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=49.3994,
+max. invocation cost=235,
+variance of invocation cost=67.83187964000176.
+Jul 19, 2022 3:24:24 AM com.sun.faban.driver.engine.AgentImpl run
+INFO: SearchDriverAgent[1]: Successfully started 100 driver threads.
+Jul 19, 2022 3:24:37 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Started all threads; run commences in 2997 ms
+Jul 19, 2022 3:25:25 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Performing busy timer check
+Jul 19, 2022 3:25:26 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Busy timer characteristics:
+Accuracy=3,
+min. invocation cost=44,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=47.045,
+max. invocation cost=387,
+variance of invocation cost=19.739974999999788.
+Jul 19, 2022 3:26:10 AM com.sun.faban.driver.util.Timer$SleepCalibrator run
+INFO: SearchDriverAgent[1]: Calibration succeeded. Sleep time deviation: 0.1428122076004343 ms, compensation: 1 ms.
+Jul 19, 2022 3:26:10 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp up completed
+Jul 19, 2022 3:27:10 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Steady state completed
+Jul 19, 2022 3:28:10 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp down completed
+Jul 19, 2022 3:28:10 AM com.sun.faban.driver.engine.MasterImpl getDriverMetrics
+INFO: Gathering SearchDriverStats ...
+Jul 19, 2022 3:28:10 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Printing Summary report ...
+Jul 19, 2022 3:28:10 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Summary finished. Now printing detail ...
+Jul 19, 2022 3:28:10 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Detail finished. Results written to /usr/src/outputFaban/1.
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../xslt/summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="Sample Search Workload" version="0.3">
+        <runId>1</runId>
+        <startTime>Tue Jul 19 03:24:40 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:28:10 UTC 2022</endTime>
+        <metric unit="ops/sec">51.033</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="SearchDriver">
+        <metric unit="ops/sec">51.033</metric>
+        <startTime>Tue Jul 19 03:24:40 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:28:10 UTC 2022</endTime>
+        <totalOps unit="operations">3062</totalOps>
+        <users>100</users>
+        <rtXtps>94.3750</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0000">
+            <operation name="GET">
+                <successes>3062</successes>
+                <failures>0</failures>
+                <mix>1.0000</mix>
+                <requiredMix>1.0000</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="GET" r90th="0.500">
+                <avg>0.043</avg>
+                <max>0.358</max>
+                <sd>0.047</sd>
+                <p90th>0.105</p90th>
+                <passed>true</passed>
+                <p99th>0.190</p99th>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="GET" type="cycleTime">
+                <targetedAvg>1.910</targetedAvg>
+                <actualAvg>1.910</actualAvg>
+                <min>0.002</min>
+                <max>10.000</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+    </driverSummary>
+</benchResults>
+OpenJDK 64-Bit Server VM warning: Exception java.lang.OutOfMemoryError occurred dispatching signal SIGHUP to handler- the VM may need to be forcibly terminated
+Starting Faban Server
+Please point your browser to http://b08daea560b0:9980/
+Buildfile: /usr/src/faban/search/build.xml
+
+init:
+    [mkdir] Created dir: /usr/src/faban/search/build/classes
+
+compile:
+    [javac] /usr/src/faban/search/build.xml:35: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 1 source file to /usr/src/faban/search/build/classes
+    [javac] 
+    [javac]           WARNING
+    [javac] 
+    [javac] The -source switch defaults to 1.7 in JDK 1.7.
+    [javac] If you specify -target 1.5 you now must also specify -source 1.5.
+    [javac] Ant will implicitly add -source 1.5 for you.  Please change your build file.
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] 1 warning
+
+bench.jar:
+    [mkdir] Created dir: /usr/src/faban/search/build/lib
+      [jar] Building jar: /usr/src/faban/search/build/lib/search.jar
+
+deploy.jar:
+      [jar] Building jar: /usr/src/faban/search/build/search.jar
+
+deploy:
+
+BUILD SUCCESSFUL
+Total time: 12 seconds
+Print= 172.18.0.3:1
+Jul 19, 2022 3:28:31 AM com.sun.faban.common.RegistryImpl main
+INFO: Registry started.
+Jul 19, 2022 3:28:34 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering Master on 172.18.0.3
+Jul 19, 2022 3:28:34 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering SearchDriver.1 (type: SearchDriverAgent) on 172.18.0.3
+Jul 19, 2022 3:28:34 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: RunID for this run is : 1
+Jul 19, 2022 3:28:34 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: Output directory for this run is : /usr/src/outputFaban/1
+Jul 19, 2022 3:28:34 AM com.sun.faban.common.RegistryImpl getServices
+INFO: Get services by type: SearchDriverAgent
+Jul 19, 2022 3:28:34 AM com.sun.faban.driver.engine.MasterImpl configureAgents
+INFO: Configuring 1 SearchDriverAgents...
+Jul 19, 2022 3:28:34 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Performing idle timer check
+Jul 19, 2022 3:28:36 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Idle timer characteristics:
+Accuracy=3,
+min. invocation cost=44,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=48.8722,
+max. invocation cost=454,
+variance of invocation cost=94.14386715999959.
+Jul 19, 2022 3:28:38 AM com.sun.faban.driver.engine.AgentImpl run
+INFO: SearchDriverAgent[1]: Successfully started 100 driver threads.
+Jul 19, 2022 3:28:46 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Started all threads; run commences in 2996 ms
+Jul 19, 2022 3:29:34 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Performing busy timer check
+Jul 19, 2022 3:29:34 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Busy timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=46.9327,
+max. invocation cost=128,
+variance of invocation cost=9.033170710000235.
+Jul 19, 2022 3:30:19 AM com.sun.faban.driver.util.Timer$SleepCalibrator run
+INFO: SearchDriverAgent[1]: Calibration succeeded. Sleep time deviation: 0.13685572523405182 ms, compensation: 1 ms.
+Jul 19, 2022 3:30:19 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp up completed
+Jul 19, 2022 3:31:19 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Steady state completed
+Jul 19, 2022 3:32:19 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp down completed
+Jul 19, 2022 3:32:19 AM com.sun.faban.driver.engine.MasterImpl getDriverMetrics
+INFO: Gathering SearchDriverStats ...
+Jul 19, 2022 3:32:19 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Printing Summary report ...
+Jul 19, 2022 3:32:19 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Summary finished. Now printing detail ...
+Jul 19, 2022 3:32:19 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Detail finished. Results written to /usr/src/outputFaban/1.
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../xslt/summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="Sample Search Workload" version="0.3">
+        <runId>1</runId>
+        <startTime>Tue Jul 19 03:28:49 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:32:19 UTC 2022</endTime>
+        <metric unit="ops/sec">50.483</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="SearchDriver">
+        <metric unit="ops/sec">50.483</metric>
+        <startTime>Tue Jul 19 03:28:49 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:32:19 UTC 2022</endTime>
+        <totalOps unit="operations">3029</totalOps>
+        <users>100</users>
+        <rtXtps>93.4025</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0000">
+            <operation name="GET">
+                <successes>3029</successes>
+                <failures>0</failures>
+                <mix>1.0000</mix>
+                <requiredMix>1.0000</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="GET" r90th="0.500">
+                <avg>0.044</avg>
+                <max>0.290</max>
+                <sd>0.046</sd>
+                <p90th>0.110</p90th>
+                <passed>true</passed>
+                <p99th>0.185</p99th>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="GET" type="cycleTime">
+                <targetedAvg>1.912</targetedAvg>
+                <actualAvg>1.912</actualAvg>
+                <min>0.006</min>
+                <max>9.999</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+    </driverSummary>
+</benchResults>
+OpenJDK 64-Bit Server VM warning: Starting Faban Server
+Please point your browser to http://d7bed965ef39:9980/
+Buildfile: /usr/src/faban/search/build.xml
+
+init:
+    [mkdir] Created dir: /usr/src/faban/search/build/classes
+
+compile:
+    [javac] /usr/src/faban/search/build.xml:35: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 1 source file to /usr/src/faban/search/build/classes
+    [javac] 
+    [javac]           WARNING
+    [javac] 
+    [javac] The -source switch defaults to 1.7 in JDK 1.7.
+    [javac] If you specify -target 1.5 you now must also specify -source 1.5.
+    [javac] Ant will implicitly add -source 1.5 for you.  Please change your build file.
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] 1 warning
+
+bench.jar:
+    [mkdir] Created dir: /usr/src/faban/search/build/lib
+      [jar] Building jar: /usr/src/faban/search/build/lib/search.jar
+
+deploy.jar:
+      [jar] Building jar: /usr/src/faban/search/build/search.jar
+
+deploy:
+
+BUILD FAILED
+/usr/src/faban/search/build.xml:69: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:197)
+	at java.net.SocketInputStream.read(SocketInputStream.java:122)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:235)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:254)
+	at org.apache.commons.httpclient.HttpParser.readRawLine(HttpParser.java:78)
+	at org.apache.commons.httpclient.HttpParser.readLine(HttpParser.java:106)
+	at org.apache.commons.httpclient.HttpConnection.readLine(HttpConnection.java:1116)
+	at org.apache.commons.httpclient.HttpMethodBase.readStatusLine(HttpMethodBase.java:1973)
+	at org.apache.commons.httpclient.HttpMethodBase.readResponse(HttpMethodBase.java:1735)
+	at org.apache.commons.httpclient.HttpMethodBase.execute(HttpMethodBase.java:1098)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:398)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:323)
+	at com.sun.faban.harness.util.DeployTask.execute(DeployTask.java:147)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:293)
+	at sun.reflect.GeneratedMethodAccessor4.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:435)
+	at org.apache.tools.ant.Target.performTasks(Target.java:456)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1405)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1376)
+	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1260)
+	at org.apache.tools.ant.Main.runBuild(Main.java:853)
+	at org.apache.tools.ant.Main.startAnt(Main.java:235)
+	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:285)
+	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:112)
+
+Total time: 4 seconds
+Print= 172.18.0.3:1
+Jul 19, 2022 3:32:31 AM com.sun.faban.common.RegistryImpl main
+INFO: Registry started.
+Jul 19, 2022 3:32:34 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering Master on 172.18.0.3
+Jul 19, 2022 3:32:34 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering SearchDriver.1 (type: SearchDriverAgent) on 172.18.0.3
+Jul 19, 2022 3:32:34 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: RunID for this run is : 1
+Jul 19, 2022 3:32:34 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: Output directory for this run is : /usr/src/outputFaban/1
+Jul 19, 2022 3:32:34 AM com.sun.faban.common.RegistryImpl getServices
+INFO: Get services by type: SearchDriverAgent
+Jul 19, 2022 3:32:34 AM com.sun.faban.driver.engine.MasterImpl configureAgents
+INFO: Configuring 1 SearchDriverAgents...
+Jul 19, 2022 3:32:35 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Performing idle timer check
+Jul 19, 2022 3:32:36 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Idle timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=49.0325,
+max. invocation cost=207,
+variance of invocation cost=60.831843750000594.
+Jul 19, 2022 3:32:39 AM com.sun.faban.driver.engine.AgentImpl run
+INFO: SearchDriverAgent[1]: Successfully started 100 driver threads.
+Jul 19, 2022 3:32:51 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Started all threads; run commences in 2997 ms
+Jul 19, 2022 3:33:39 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Performing busy timer check
+Jul 19, 2022 3:33:39 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Busy timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=52.5213,
+max. invocation cost=406,
+variance of invocation cost=106.78194630999896.
+Jul 19, 2022 3:34:24 AM com.sun.faban.driver.util.Timer$SleepCalibrator run
+INFO: SearchDriverAgent[1]: Calibration succeeded. Sleep time deviation: 0.11413867896440129 ms, compensation: 1 ms.
+Jul 19, 2022 3:34:24 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp up completed
+Jul 19, 2022 3:35:24 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Steady state completed
+Jul 19, 2022 3:36:24 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp down completed
+Jul 19, 2022 3:36:24 AM com.sun.faban.driver.engine.MasterImpl getDriverMetrics
+INFO: Gathering SearchDriverStats ...
+Jul 19, 2022 3:36:24 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Printing Summary report ...
+Jul 19, 2022 3:36:24 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Summary finished. Now printing detail ...
+Jul 19, 2022 3:36:24 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Detail finished. Results written to /usr/src/outputFaban/1.
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../xslt/summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="Sample Search Workload" version="0.3">
+        <runId>1</runId>
+        <startTime>Tue Jul 19 03:32:54 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:36:24 UTC 2022</endTime>
+        <metric unit="ops/sec">50.817</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="SearchDriver">
+        <metric unit="ops/sec">50.817</metric>
+        <startTime>Tue Jul 19 03:32:54 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:36:24 UTC 2022</endTime>
+        <totalOps unit="operations">3049</totalOps>
+        <users>100</users>
+        <rtXtps>93.7919</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0000">
+            <operation name="GET">
+                <successes>3049</successes>
+                <failures>0</failures>
+                <mix>1.0000</mix>
+                <requiredMix>1.0000</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="GET" r90th="0.500">
+                <avg>0.045</avg>
+                <max>0.318</max>
+                <sd>0.047</sd>
+                <p90th>0.108</p90th>
+                <passed>true</passed>
+                <p99th>0.193</p99th>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="GET" type="cycleTime">
+                <targetedAvg>1.908</targetedAvg>
+                <actualAvg>1.908</actualAvg>
+                <min>0.004</min>
+                <max>10.000</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+    </driverSummary>
+</benchResults>
+Starting Faban Server
+Please point your browser to http://35c61c1ce581:9980/
+Buildfile: /usr/src/faban/search/build.xml
+
+init:
+    [mkdir] Created dir: /usr/src/faban/search/build/classes
+
+compile:
+    [javac] /usr/src/faban/search/build.xml:35: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 1 source file to /usr/src/faban/search/build/classes
+    [javac] 
+    [javac]           WARNING
+    [javac] 
+    [javac] The -source switch defaults to 1.7 in JDK 1.7.
+    [javac] If you specify -target 1.5 you now must also specify -source 1.5.
+    [javac] Ant will implicitly add -source 1.5 for you.  Please change your build file.
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] 1 warning
+
+bench.jar:
+    [mkdir] Created dir: /usr/src/faban/search/build/lib
+      [jar] Building jar: /usr/src/faban/search/build/lib/search.jar
+
+deploy.jar:
+      [jar] Building jar: /usr/src/faban/search/build/search.jar
+
+deploy:
+
+BUILD SUCCESSFUL
+Total time: 13 seconds
+Print= 172.18.0.3:1
+Jul 19, 2022 3:36:44 AM com.sun.faban.common.RegistryImpl main
+INFO: Registry started.
+Jul 19, 2022 3:36:47 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering Master on 172.18.0.3
+Jul 19, 2022 3:36:47 AM com.sun.faban.common.RegistryImpl reregister
+INFO: Registering SearchDriver.1 (type: SearchDriverAgent) on 172.18.0.3
+Jul 19, 2022 3:36:48 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: RunID for this run is : 1
+Jul 19, 2022 3:36:48 AM com.sun.faban.driver.engine.MasterImpl runBenchmark
+INFO: Output directory for this run is : /usr/src/outputFaban/1
+Jul 19, 2022 3:36:48 AM com.sun.faban.common.RegistryImpl getServices
+INFO: Get services by type: SearchDriverAgent
+Jul 19, 2022 3:36:48 AM com.sun.faban.driver.engine.MasterImpl configureAgents
+INFO: Configuring 1 SearchDriverAgents...
+Jul 19, 2022 3:36:48 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Performing idle timer check
+Jul 19, 2022 3:36:49 AM com.sun.faban.driver.util.Timer idleTimerCheck
+INFO: SearchDriverAgent[1]: Idle timer characteristics:
+Accuracy=3,
+min. invocation cost=43,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=49.0328,
+max. invocation cost=387,
+variance of invocation cost=78.2173241599999.
+Jul 19, 2022 3:36:52 AM com.sun.faban.driver.engine.AgentImpl run
+INFO: SearchDriverAgent[1]: Successfully started 100 driver threads.
+Jul 19, 2022 3:37:03 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Started all threads; run commences in 2996 ms
+Jul 19, 2022 3:37:51 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Performing busy timer check
+Jul 19, 2022 3:37:52 AM com.sun.faban.driver.util.Timer$BusyTimerMeter run
+INFO: SearchDriverAgent[1]: Busy timer characteristics:
+Accuracy=3,
+min. invocation cost=44,
+med. invocation cost (math)=47.0,
+med. invocation cost (phys)=47,
+avg. invocation cost=47.2198,
+max. invocation cost=1759,
+variance of invocation cost=306.23428796000013.
+Jul 19, 2022 3:38:36 AM com.sun.faban.driver.util.Timer$SleepCalibrator run
+INFO: SearchDriverAgent[1]: Calibration succeeded. Sleep time deviation: 0.1120910077186964 ms, compensation: 1 ms.
+Jul 19, 2022 3:38:36 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp up completed
+Jul 19, 2022 3:39:36 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Steady state completed
+Jul 19, 2022 3:40:36 AM com.sun.faban.driver.engine.MasterImpl executeRun
+INFO: Ramp down completed
+Jul 19, 2022 3:40:36 AM com.sun.faban.driver.engine.MasterImpl getDriverMetrics
+INFO: Gathering SearchDriverStats ...
+Jul 19, 2022 3:40:36 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Printing Summary report ...
+Jul 19, 2022 3:40:36 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Summary finished. Now printing detail ...
+Jul 19, 2022 3:40:36 AM com.sun.faban.driver.engine.MasterImpl generateReports
+INFO: Detail finished. Results written to /usr/src/outputFaban/1.
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../xslt/summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="Sample Search Workload" version="0.3">
+        <runId>1</runId>
+        <startTime>Tue Jul 19 03:37:06 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:40:36 UTC 2022</endTime>
+        <metric unit="ops/sec">48.717</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="SearchDriver">
+        <metric unit="ops/sec">48.717</metric>
+        <startTime>Tue Jul 19 03:37:06 UTC 2022</startTime>
+        <endTime>Tue Jul 19 03:40:36 UTC 2022</endTime>
+        <totalOps unit="operations">2923</totalOps>
+        <users>100</users>
+        <rtXtps>93.6353</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0000">
+            <operation name="GET">
+                <successes>2923</successes>
+                <failures>0</failures>
+                <mix>1.0000</mix>
+                <requiredMix>1.0000</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="GET" r90th="0.500">
+                <avg>0.045</avg>
+                <max>0.378</max>
+                <sd>0.048</sd>
+                <p90th>0.110</p90th>
+                <passed>true</passed>
+                <p99th>0.200</p99th>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="GET" type="cycleTime">
+                <targetedAvg>1.988</targetedAvg>
+                <actualAvg>1.989</actualAvg>
+                <min>0.009</min>
+                <max>9.999</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+    </driverSummary>
+</benchResults>

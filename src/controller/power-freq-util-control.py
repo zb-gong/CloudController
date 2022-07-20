@@ -1,54 +1,6 @@
-# import os
-# import sys
-# import subprocess
-
-# SPEED_CONTROLLER = "/home/cc/PUPIL/tools/setspeed"
-# RAPL_POWER_CHK = "/home/cc/PUPIL/src/RAPL/RaplPowerCheck"
-
-# class ResourceControl:
-#   def __init__(self, argv):
-#     self.app_name = argv[2:]
-#     self.pwr_cap = float(argv[1])
-#     self.app_util = {}
-#     for app in self.app_name:
-#       self.app_util[app] = {}
-#   def Run(self):
-#     # PowerFileName = "socket_power.txt"
-#     # os.system("sudo " + RAPL_POWER_MON + " &")
-
-#     power_cmd = "sudo " + RAPL_POWER_CHK
-#     output = subprocess.check_output(power_cmd, shell=True)
-#     power = float(output.decode("UTF-8"))
-#     print(power)
-
-#     for app in self.app_name:
-#       util_cmd = "pgrep " + app + " | xargs -I {} ps -p {} -L -o psr,pcpu"
-#       output = subprocess.check_output(util_cmd, shell=True)
-#       for ele in output.decode("UTF-8").split("\n"):
-#         if ele and ele[0] != 'P':
-#           util_per_core = ele.split()
-#           core = int(util_per_core[0])
-#           util = float(util_per_core[1])
-#           if core in self.app_util[app]:
-#             self.app_util[app][core] += util
-#           else:
-#             self.app_util[app][core] = util
-#     print(self.app_util)
-
-#     # pgrep_proc = subprocess.Popen(["pgrep"]+ self.app_name, stdout=subprocess.PIPE)
-#     # ps_proc = subprocess.Popen("xargs -I {} ps -p {} -L -o psr,pcpu".split(), stdin=pgrep_proc.stdout, stdout=subprocess.PIPE)
-#     # pgrep_proc.stdout.close()
-#     # output = ps_proc.communicate()[0]
-      
-
-# if __name__ == "__main__":
-#   # command line: controller pwrcap app1 app2 ...
-#   RC = ResourceControl(sys.argv)
-#   RC.Run()
-
-
 import os
 import sys
+import time
 import subprocess
 import statistics
 
@@ -61,22 +13,79 @@ class ResourceControl:
   def __init__(self, argv):
     self.pwr_cap = float(argv[1])
     self.num_cores = int(argv[2])
-    self.docker_containers = argv[3:]
-    self.app_util = {}
-    for app in self.docker_containers:
-      self.app_util[app] = {}
-    freq_cmd = "sudo ../../tools/setspeed -a -f 2000"
-    os.system(freq_cmd)
+    self.docker_ctr = argv[3]
+    self.docker_pid = 0
+    self.app_util = 0
+    self.curr_power = 0
     self.curr_freq = 2000
+    # set the cores affinity
+    self.UpdateCores()
+    # get the containers pid
+    self.GetDockerPID()
+    # pre-set the frequency to be 2000MHz
+    self.UpdateFreq()
+    # get current frequency
+    self.curr_power = self.GetPower()
+    # get the initial application utilization
+    tmp_utils = [0.] * 3
+    for i in range(3):
+      tmp_utils[i] = self.GetUtil()
+    self.app_util = statistics.median(tmp_utils)
+
+  def UpdateCores(self):
+    docker_cores_cmd = "sudo docker update --cpuset-cpus 0-" + str(self.num_cores-1) + " " + self.docker_ctr
+    os.sytem(docker_cores_cmd)
+
+  def GetDockerPID(self):
+    docker_ps_cmd = "sudo docker top " + self.docker_ctr + " | tail -1"
+    output = subprocess.check_output(docker_ps_cmd, shell=True).decode("UTF-8").split()
+    self.docker_pid = output[0][1]
+  
+  def UpdateFreq(self):
+    freq_cmd = "sudo ../../tools/setspeed -a -f " + str(self.curr_freq)
+    os.system(freq_cmd)
+
   def GetUtil(self):
-    for app in self.docker_containers:
-      tmp_utils = [0,0,0]
-      # util_cmd = "sudo docker stats --no-stream " + app + " | tail -1 | awk '{print $3}'"
-      util_cmd = "sudo top -b -n 2 -d 0.2 -p " + app + " | tail -1 | awk '{print $9}'"
+    util_cmd = "sudo top -b -n 2 -d 0.2 -p " + self.docker_pid + " | tail -1 | awk '{print $9}'"
+    output = subprocess.check_output(util_cmd, shell=True).decode("UTF-8").split()
+    return float(output[0]) / self.num_cores
+  
+  def GetPower(self):
+    power_cmd = "sudo " + RAPL_POWER_CHK
+    output = subprocess.check_output(power_cmd, shell=True)
+    return float(output.decode("UTF-8"))
+
+  def SelectCores(self):
+    while self.app_util > 50:
+      if self.app_util > 80:
+        self.num_cores += 2
+      else:
+        self.num_cores += 1
+      self.UpdateCores()
+
+      time.sleep(1)
+
+      tmp_utils = [0.] * 3
       for i in range(3):
-        output = subprocess.check_output(util_cmd, shell=True).decode("UTF-8").split()
-        tmp_utils[i] = float(output[0])
-      self.app_util[app] = statistics.median(tmp_utils) / self.num_cores
+        tmp_utils[i] = self.GetUtil()
+        if tmp_utils[i] > 80.:
+          self.app_util = tmp_utils[i]
+          break
+      if i == 2:
+        self.app_util = statistics.median(tmp_utils)
+
+  def SelectFreq(self):
+    while True:
+      self.curr_power = self.GetPower()
+      if self.curr_power < self.pwr_cap:
+        self.curr_freq += 100
+        self.UpdateFreq()
+        time.sleep(1)
+      else:
+        self.curr_freq -= 100
+        self.UpdateFreq
+        break
+
   def Schedule(self):
     for app in self.docker_containers:
       # if self.app_util[app] >= 10. and self.app_util[app] < 20.:
@@ -105,18 +114,8 @@ class ResourceControl:
         os.system(freq_cmd)
 
   def Run(self):
-    # PowerFileName = "socket_power.txt"
-    # os.system("sudo " + RAPL_POWER_MON + " &")
-
-    power_cmd = "sudo " + RAPL_POWER_CHK
-    output = subprocess.check_output(power_cmd, shell=True)
-    power = float(output.decode("UTF-8"))
-    print(power)
-
-    while True:
-      self.GetUtil()
-      self.Schedule()
-      print(self.app_util, "current freq:", self.curr_freq)
+    self.SelectCores()
+    self.SelectFreq()
 
     # pgrep_proc = subprocess.Popen(["pgrep"]+ self.app_name, stdout=subprocess.PIPE)
     # ps_proc = subprocess.Popen("xargs -I {} ps -p {} -L -o psr,pcpu".split(), stdin=pgrep_proc.stdout, stdout=subprocess.PIPE)

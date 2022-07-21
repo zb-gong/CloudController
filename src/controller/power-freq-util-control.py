@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import numpy as np
 import subprocess
 import statistics
 
@@ -65,19 +66,37 @@ class ResourceControl:
     # print("power_cmd:", power_cmd)
     output = subprocess.check_output(power_cmd, shell=True)
     return float(output.decode("UTF-8"))
+  
+  def GetMedianUtil(self):
+    tmp_total_utils = [0., 0., 0.]
+    for i in range(len(tmp_total_utils)):
+      tmp_total_utils[i] = self.GetUtil()
+    return statistics.median(tmp_total_utils)
 
+  def GetMeanUtil(self):
+    tmp_total_utils = [0., 0., 0., 0., 0.]
+    for i in range(len(tmp_total_utils)):
+      tmp_total_utils[i] = self.GetUtil()
+    sum_total_util = sum(tmp_total_utils)
+    len_total_util = len(tmp_total_utils)
+    avg_total_util = sum_total_util / len_total_util
+    variance = np.var(tmp_total_utils)
+    for util in tmp_total_utils:
+      if util > avg_total_util + 3 * variance or util < avg_total_util - 3 * variance:
+        sum_total_util -= util
+        len_total_util -= 1
+    return sum_total_util / len_total_util
+    
   def SelectCores(self):
     # wait for the applications running
-    tmp_total_utils = [0., 0., 0.]
     while self.app_util < 15.:
       self.total_util = self.GetUtil()
       self.app_util = self.total_util / self.num_cores
 
-    time.sleep(4)
+    time.sleep(2)
 
-    for i in range(len(tmp_total_utils)):
-      tmp_total_utils[i] = self.GetUtil()
-    self.total_util = statistics.median(tmp_total_utils)
+    # self.total_util = self.GetMedianUtil()
+    self.total_util = self.GetMeanUtil()
     self.app_util = self.total_util / self.num_cores
     # print("total util2:", self.total_util)
 
@@ -89,19 +108,22 @@ class ResourceControl:
         self.num_cores += 1
       self.UpdateCores()
 
-      time.sleep(2)
+      time.sleep(0.5)
 
-      tmp_total_utils = [0., 0., 0.]
-      for i in range(len(tmp_total_utils)):
-        tmp_total_utils[i] = self.GetUtil()
-        tmp_utils = tmp_total_utils[i] / self.num_cores
-        if tmp_utils > 80.:
-          self.total_util = tmp_total_utils[i]
-          self.app_util = tmp_utils
-          break
-      if i == len(tmp_total_utils) - 1:
-        self.total_util = statistics.median(tmp_total_utils)
-        self.app_util = self.total_util / self.num_cores
+      # check the util after updating the cores
+      self.total_util = self.GetMeanUtil()
+      self.app_util = self.total_util / self.num_cores
+      # tmp_total_utils = [0., 0., 0.]
+      # for i in range(len(tmp_total_utils)):
+      #   tmp_total_utils[i] = self.GetUtil()
+      #   tmp_utils = tmp_total_utils[i] / self.num_cores
+      #   if tmp_utils > 80.:
+      #     self.total_util = tmp_total_utils[i]
+      #     self.app_util = tmp_utils
+      #     break
+      # if i == len(tmp_total_utils) - 1:
+      #   self.total_util = statistics.median(tmp_total_utils)
+      #   self.app_util = self.total_util / self.num_cores
         # print("total util3:", tmp_total_utils[i])
 
     # choose the cores where util stays less than 50 #
@@ -109,6 +131,9 @@ class ResourceControl:
     if self.num_cores != target_cores:
       self.num_cores = target_cores
       self.UpdateCores()
+    time.sleep(0.5)
+    self.total_util = self.GetMeanUtil()
+    self.app_util = self.total_util / self.num_cores
     print("number of cores:", self.num_cores)
 
   def SelectFreq(self):
@@ -117,9 +142,16 @@ class ResourceControl:
       if self.curr_power < self.pwr_cap:
         if self.curr_freq == HIGH_FREQ:
           break
+        # prev_util = self.total_util
         self.curr_freq += 100
         self.UpdateFreq()
-        time.sleep(1)
+        # time.sleep(1)
+        # curr_util = self.GetMedianUtil()
+        curr_util = self.GetMeanUtil()
+        # if (curr_util - prev_util) / prev_util < 0.01:
+        #   self.curr_freq -= 100
+        #   self.UpdateFreq()
+        #   break
       else:
         if self.curr_freq == LOW_FREQ:
           break

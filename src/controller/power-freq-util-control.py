@@ -115,19 +115,16 @@ class ResourceControl:
     while True:
       self.curr_power = self.GetPower()
       if self.curr_power < self.pwr_cap:
+        if self.curr_freq == HIGH_FREQ:
+          break
         self.curr_freq += 100
         self.UpdateFreq()
-        if self.curr_freq > HIGH_FREQ:
-          self.curr_freq = HIGH_FREQ
-          self.UpdateFreq()
-          break
         time.sleep(1)
       else:
+        if self.curr_freq == LOW_FREQ:
+          break
         self.curr_freq -= 100
         self.UpdateFreq()
-        if self.curr_freq < LOW_FREQ:
-          self.curr_freq = LOW_FREQ
-          self.UpdateFreq()
         break
     print("frequency:", self.curr_freq)
 

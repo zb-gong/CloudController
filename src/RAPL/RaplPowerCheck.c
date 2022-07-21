@@ -230,6 +230,6 @@ void main(int argc, char **argv) {
             1000000;
   long double SocketPower = power1 + power2;
 
-  printf("%lf\n", SocketPower);
+  printf("%LF\n", SocketPower);
   // sleep(1);
 }

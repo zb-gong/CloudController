@@ -33,11 +33,11 @@ void resetCPUSpeed(int core) {
   f = fopen(buf, "r");
   status = fscanf(f, "%s", governor);
   fclose(f);
-  // if (strcmp(governor, "powersave") != 0) {
+  if (strcmp(governor, "powersave") != 0) {
     f = fopen(buf, "w");
-    fprintf(f, "performance");
+    fprintf(f, "powersave");
     fclose(f);
-  // }
+  }
 }
 
 int main(int argc, char *argv[]) {

@@ -51,7 +51,7 @@ class ResourceControl:
     self.docker_pid = output[1]
   
   def UpdateFreq(self):
-    freq_cmd = "sudo ../../tools/setspeed -a -f " + str(self.curr_freq)
+    freq_cmd = "sudo /home/cc/PUPIL//tools/setspeed -a -f " + str(self.curr_freq)
     # print("freq_cmd:", freq_cmd)
     os.system(freq_cmd)
 
@@ -93,7 +93,7 @@ class ResourceControl:
       self.total_util = self.GetUtil()
       self.app_util = self.total_util / self.num_cores
 
-    time.sleep(2)
+    time.sleep(4)
 
     # self.total_util = self.GetMedianUtil()
     self.total_util = self.GetMeanUtil()

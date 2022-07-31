@@ -9,6 +9,7 @@ SPEED_CONTROLLER = "/home/cc/PUPIL/tools/setspeed"
 RAPL_POWER_CHK = "/home/cc/PUPIL/src/RAPL/RaplPowerCheck"
 LOW_FREQ = 1000
 HIGH_FREQ = 3700
+MAX_CORES = 48
 
 class ResourceControl:
   def __init__(self, argv):
@@ -29,7 +30,7 @@ class ResourceControl:
     # get the containers pid
     self.GetDockerPID()
     # pre-set the frequency to be 1000MHz
-    self.UpdateFreq()
+    # self.UpdateFreq()
     # get current frequency
     self.curr_power = self.GetPower()
     # get the initial application utilization
@@ -93,7 +94,7 @@ class ResourceControl:
       self.total_util = self.GetUtil()
       self.app_util = self.total_util / self.num_cores
 
-    time.sleep(4)
+    time.sleep(8)
 
     # self.total_util = self.GetMedianUtil()
     self.total_util = self.GetMeanUtil()
@@ -104,6 +105,8 @@ class ResourceControl:
     while self.app_util > 50.:
       if self.app_util > 80.:
         self.num_cores += 2
+        if self.num_cores > MAX_CORES:
+          self.num_cores = MAX_CORES
       else:
         self.num_cores += 1
       self.UpdateCores()
@@ -125,6 +128,8 @@ class ResourceControl:
       #   self.total_util = statistics.median(tmp_total_utils)
       #   self.app_util = self.total_util / self.num_cores
         # print("total util3:", tmp_total_utils[i])
+      if self.num_cores == MAX_CORES:
+        return
 
     # choose the cores where util stays less than 50 #
     target_cores = int(self.total_util / 50) + 1
@@ -162,9 +167,12 @@ class ResourceControl:
 
   def Run(self):
     self.SelectCores()
-    self.SelectFreq()
-
+    # self.SelectFreq()
     print("docker ctr:", self.docker_ctr, " docker pid:", self.docker_pid, " current cores:", self.num_cores, " curr power:", self.curr_power, " curr freq", self.curr_freq)
+    time.sleep(8)
+    self.SelectCores()
+    print("docker ctr:", self.docker_ctr, " docker pid:", self.docker_pid, " current cores:", self.num_cores, " curr power:", self.curr_power, " curr freq", self.curr_freq)
+
       
 if __name__ == "__main__":
   # command line: controller pwrcap cores app1 app2 ...

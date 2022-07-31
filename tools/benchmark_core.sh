@@ -1,4 +1,4 @@
-for i in {0..6..1} 
+for i in {8..15..1} 
 do
   echo "-------------start core: $i----------------"
   sudo docker update --cpuset-cpus 0-$i 96edd256c25b

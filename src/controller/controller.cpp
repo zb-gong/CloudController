@@ -53,13 +53,14 @@ Controller::Controller() {
     exit(1);
   }
   std::getline(max_short_file, str);
-  cpu_max_rl_short = 1.0 * std::stoi(str) / 1000000;
+  cpu_max_short_pc = 1.0 * std::stoi(str) / 1000000;
   str.clear();
   std::getline(max_long_file, str);
-  cpu_max_rl_long = 1.0 * std::stoi(str) / 1000000;
+  cpu_max_long_pc = 1.0 * std::stoi(str) / 1000000;
   str.clear();
   if (raplcap_pd_get_limits(&rc, 0, 0, RAPLCAP_ZONE_PACKAGE, &rl_long, &rl_short)) {
     perror("raplcap_pd_get_limits");
+    exit(1);
   }
 
   // file close and gb
@@ -106,13 +107,14 @@ Controller::Controller(governor cpu_governor, double cpu_long_pc = 0, double cpu
     exit(1);
   }
   std::getline(max_short_file, str);
-  cpu_max_rl_short = 1.0 * std::stoi(str) / 1000000;
+  cpu_max_short_pc = 1.0 * std::stoi(str) / 1000000;
   str.clear();
   std::getline(max_long_file, str);
-  cpu_max_rl_long = 1.0 * std::stoi(str) / 1000000;
+  cpu_max_long_pc = 1.0 * std::stoi(str) / 1000000;
   str.clear();
   if (raplcap_pd_get_limits(&rc, 0, 0, RAPLCAP_ZONE_PACKAGE, &rl_long, &rl_short)) {
     perror("raplcap_pd_get_limits");
+    exit(1);
   }
 
   // cpu governor config
@@ -193,6 +195,12 @@ void Controller::SetCPUGovernor(const char *gov) {
 int Controller::SetCPUPowercap(double cpu_long_pc, double cpu_short_pc = 0) {
   if (cpu_long_pc == 0)
     return 0;
+  if (cpu_long_pc < 0 || cpu_long_pc > cpu_max_long_pc || 
+      cpu_short_pc < 0 || cpu_short_pc > cpu_max_short_pc) {
+    perror("invalid powercap");
+    return 1;
+  }
+
   rl_long.watts = cpu_long_pc;
   for (int i=0; i<cpu_pkgs; i++) {
     for (int j=0; j<cpu_dies; j++) {
@@ -202,9 +210,16 @@ int Controller::SetCPUPowercap(double cpu_long_pc, double cpu_short_pc = 0) {
       }
     }
   }
+  for (int i=0; i<cpu_pkgs; i++) {
+    for (int j=0; j<cpu_dies; j++) {
+      if (raplcap_pd_set_zone_enabled(&rc, i, j, RAPLCAP_ZONE_PACKAGE, 1)) {
+        perror("raplcap_pd_set_zone_enabled");
+        return 1;
+      }
+    }
+  }
   return 0;
 }
-
 
 int Controller::GetMaxCPUFreq() {
   return cpu_max_freq;
@@ -220,6 +235,7 @@ int Controller::GetCPUFreq() {
   std::getline(cur_freq_file, str);
   cpu_freq = std::stoi(str);
   str.clear();
+  cur_freq_file.close();
   return cpu_freq;
 }
 
@@ -239,4 +255,8 @@ double Controller::GetCPUShortWindow() {
   return rl_short.seconds;
 }
 
-Controller::~Controller() {}
+Controller::~Controller() {
+  if (raplcap_destroy(&rc)) {
+    perror("raplcap_destroy");
+  }
+}

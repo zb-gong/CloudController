@@ -5,6 +5,7 @@
 #include <omp.h>
 #include <getopt.h>
 #include <iostream>
+#include "controller.h"
 
 int main(int argc, char *argv[]) {
   Controller c;

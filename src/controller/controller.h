@@ -30,8 +30,8 @@ private:
   // constants
   static int cpu_max_freq;
   static int cpu_min_freq;
-  static double cpu_max_rl_short;
-  static double cpu_max_rl_long;
+  static double cpu_max_short_pc;
+  static double cpu_max_long_pc;
 
   // config
   int cpu_cores;

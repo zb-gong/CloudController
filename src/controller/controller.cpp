@@ -8,6 +8,20 @@
 #include <string>
 #include "controller.h"
 #include <raplcap.h>
+#include <sys/ioctl.h>
+#include <linux/perf_event.h>
+#include <asm/unistd.h>
+
+/**
+ * perf event wrapper
+ */
+static long perf_event_open(struct perf_event_attr *hw_event, pid_t pid,
+			    int cpu, int group_fd, unsigned long flags) {
+	int ret;
+	ret = syscall(__NR_perf_event_open, hw_event, pid, cpu,
+	               group_fd, flags);
+	return ret;
+}
 
 /**
  * Defualt cpu governor is powersave.
@@ -31,6 +45,9 @@ Controller::Controller() {
   cpu_min_freq = std::stoi(str);
   str.clear();
   GetCPUFreq();
+
+  // process config
+  pid = 815086;
   
   // set defualt governor to be powersave
   SetCPUGovernor("powersave");
@@ -89,6 +106,9 @@ Controller::Controller(governor cpu_governor, double cpu_long_pc = 0, double cpu
   cpu_min_freq = std::stoi(str);
   str.clear();
   GetCPUFreq();
+
+  // process config
+  pid = 815086;
 
   // rapl config
   cpu_pkgs = raplcap_get_num_packages(NULL);
@@ -253,6 +273,50 @@ double Controller::GetCPULongWindow() {
 
 double Controller::GetCPUShortWindow() {
   return rl_short.seconds;
+}
+
+double Controller::GetCPUUtil() {
+  char tmp_buf[10];
+  char util_cmd[128];
+  sprintf(util_cmd, "top -b -n 2 -d 0.2 -p %d | tail -1 | awk '{print $9}'", pid);
+  FILE *fp = popen(util_cmd, "r");
+  while (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
+    sscanf(tmp_buf, "%f", &cpu_util);
+  }
+  pclose(fp);
+  return cpu_util;
+}
+
+double Controller::GetCPUIPC() {
+  char tmp_buf[256];
+  char ipc_cmd[256];
+  sprintf(ipc_cmd, "sudo perf stat -e cycles,instructions -p %d sleep 0.2 2>&1 | awk 'NR==5{print}'", pid);
+  FILE *fp = popen(ipc_cmd, "r");
+  while (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
+    char *token = strtok(tmp_buf, " ");
+    for (int i=0; i<3; i++) {
+      token = strtok(NULL, " ");
+    }
+    sscanf(token, "%f", &cpu_ipc);
+  }
+  pclose(fp);
+  return cpu_ipc;
+}
+
+double Controller::GetCPUCacheMissRate() {
+  char tmp_buf[256];
+  char cache_cmd[256];
+  sprintf(cache_cmd, "sudo perf stat -e cache-misses,cache-references -p %d sleep 0.6 2>&1 | awk 'NR==4{print}'", pid);
+  FILE *fp = popen(cache_cmd, "r");
+  while (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
+    char *token = strtok(tmp_buf, " ");
+    for (int i=0; i<3; i++) {
+      token = strtok(NULL, " ");
+    }
+    sscanf(token, "%f", &cpu_miss_rate);
+  }
+  pclose(fp);
+  return cpu_miss_rate;
 }
 
 Controller::~Controller() {

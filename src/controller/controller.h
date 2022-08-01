@@ -33,7 +33,10 @@ private:
   static double cpu_max_short_pc;
   static double cpu_max_long_pc;
 
-  // config
+  // app config TODO: docker multiple app multiple names
+  int pid;
+
+  // hardware config
   int cpu_cores;
   int cpu_pkgs;
   int cpu_dies;
@@ -52,8 +55,8 @@ private:
 
   // counters
   double cpu_util;
-  double ipc;
-  double cache_ref;
+  double cpu_ipc;
+  double cpu_miss_rate;
 public:
   Controller();
   Controller(governor cpu_governor, double cpu_long_pc, double cpu_short_pc, int cpu_freq);
@@ -67,6 +70,9 @@ public:
   double GetCPUShortPowerCap();
   double GetCPULongWindow();
   double GetCPUShortWindow();
+  double GetCPUUtil();
+  double GetCPUIPC();
+  double GetCPUCacheMissRate();
   ~Controller();
 };
 

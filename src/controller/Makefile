@@ -1,6 +1,6 @@
 EXEC := controller
 CXX = g++
-CXXFLAGS = -Wall -O3 $(shell pkg-config --cflags raplcap-powercap)
+CXXFLAGS = -Wall -O3 -std=c++11 $(shell pkg-config --cflags raplcap-powercap)
 LDFLAGS = $(shell pkg-config --libs --static raplcap-powercap)
 
 .PHONY: clean

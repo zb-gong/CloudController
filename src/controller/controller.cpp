@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <math.h>
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include "controller.h"
 #include <raplcap.h>
 #include <sys/ioctl.h>
@@ -259,6 +261,10 @@ int Controller::GetCPUFreq() {
   return cpu_freq;
 }
 
+double Controller::GetCPUCurPower() {
+  
+}
+
 double Controller::GetCPULongPowerCap() {
   return rl_long.watts;
 }
@@ -285,6 +291,33 @@ double Controller::GetCPUUtil() {
   }
   pclose(fp);
   return cpu_util;
+}
+
+double Controller::GetCPUMeanUtil() {
+  std::vector<double> tmp_total_utils(5, 0.);
+  int len_total_util = tmp_total_utils.size();
+  double sum_total_util = 0.;
+  double mean_total_util = 0.;
+  double tmp_acc = 0.;
+  double variance = 0.;
+  
+  for (auto &x:tmp_total_utils) {
+    x = GetCPUUtil();
+    sum_total_util += x;
+  }
+  mean_total_util = sum_total_util / len_total_util;
+  std::for_each (tmp_total_utils.begin(), tmp_total_utils.end(), [&](const double d) {
+    tmp_acc += (d-mean_total_util) * (d-mean_total_util);
+  });
+  variance = sqrt(tmp_acc / (len_total_util - 1));
+
+  for (auto &x:tmp_total_utils) {
+    if (x > mean_total_util + 3*variance || x < mean_total_util - 3 * variance) {
+      sum_total_util -= x;
+      len_total_util--;
+    }
+  }
+  return sum_total_util / len_total_util;
 }
 
 double Controller::GetCPUIPC() {
@@ -317,6 +350,13 @@ double Controller::GetCPUCacheMissRate() {
   }
   pclose(fp);
   return cpu_miss_rate;
+}
+
+void Controller::Schedule() {
+  double cpu_cur_power = 
+  while (true) {
+    cpu_
+  }
 }
 
 Controller::~Controller() {

@@ -31,27 +31,32 @@ int main(int argc, char *argv[]) {
 
   // for each package die, set a power cap of 100 Watts for short_term and 50 Watts for long_term constraints
   // a time window of 0 leaves the time window unchanged
-  rl_short.watts = 100.0;
-  rl_short.seconds = 0.0;
-  rl_long.watts = 50.0;
-  rl_long.seconds = 0.0;
-  for (i = 0; i < n; i++) {
-    for (j = 0; j < d; j++) {
-      if (raplcap_pd_set_limits(&rc, i, j, RAPLCAP_ZONE_PACKAGE, &rl_long, &rl_short)) {
-        perror("raplcap_pd_set_limits");
-      }
-    }
-  }
+  // rl_short.watts = 100.0;
+  // rl_short.seconds = 0.0;
+  // rl_long.watts = 50.0;
+  // rl_long.seconds = 0.0;
+  // for (i = 0; i < n; i++) {
+  //   for (j = 0; j < d; j++) {
+  //     if (raplcap_pd_set_limits(&rc, i, j, RAPLCAP_ZONE_PACKAGE, &rl_long, &rl_short)) {
+  //       perror("raplcap_pd_set_limits");
+  //     }
+  //   }
+  // }
 
-  // for each package die, enable the power caps
-  // this could be done before setting caps, at the risk of enabling unknown power cap values first
-  for (i = 0; i < n; i++) {
-    for (j = 0; j < d; j++) {
-      if (raplcap_pd_set_zone_enabled(&rc, i, j, RAPLCAP_ZONE_PACKAGE, 1)) {
-        perror("raplcap_pd_set_zone_enabled");
-      }
-    }
-  }
+  // // for each package die, enable the power caps
+  // // this could be done before setting caps, at the risk of enabling unknown power cap values first
+  // for (i = 0; i < n; i++) {
+  //   for (j = 0; j < d; j++) {
+  //     if (raplcap_pd_set_zone_enabled(&rc, i, j, RAPLCAP_ZONE_PACKAGE, 1)) {
+  //       perror("raplcap_pd_set_zone_enabled");
+  //     }
+  //   }
+  // }
+
+  double energy = raplcap_pd_get_energy_counter(&rc, 0, 0, RAPLCAP_ZONE_PACKAGE);
+  printf("energy:%f\n", energy);
+  raplcap_pd_get_limits(&rc, 0, 0, RAPLCAP_ZONE_PACKAGE, &rl_long, &rl_short);
+  printf("rl_long:(power:%f, time:%f)\n", rl_long.watts, rl_long.seconds);
 
   // cleanup
   if (raplcap_destroy(&rc)) {

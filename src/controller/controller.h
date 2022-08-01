@@ -22,7 +22,7 @@ enum class governor{
 /**
  * A resource controller
  * 
- * knobs include: cpu frequency (unit is Hz), cpu powercap (long term and short term)
+ * knobs include: cpu frequency (unit is Hz) cpu powercap (long/short term.)
  * feedback counter include: cpu util, cache reference, ipc
  */
 class Controller {
@@ -47,6 +47,7 @@ private:
   // knobs
   int cpu_freq;
   double cpu_powercap;
+  double cpu_cur_power;
   // uint gpu_freq;
   // double gpu_powercap;
   // uint dram_pstate;
@@ -66,13 +67,16 @@ public:
   int GetMaxCPUFreq();
   int GetMinCPUFreq();
   int GetCPUFreq();
+  double GetCPUCurPower();
   double GetCPULongPowerCap();
   double GetCPUShortPowerCap();
   double GetCPULongWindow();
   double GetCPUShortWindow();
   double GetCPUUtil();
+  double GetCPUMeanUtil();
   double GetCPUIPC();
   double GetCPUCacheMissRate();
+  void Schedule();
   ~Controller();
 };
 

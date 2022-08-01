@@ -8,8 +8,10 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "controller.h"
 #include <raplcap.h>
+#include <sys/time.h>
 #include <sys/ioctl.h>
 #include <linux/perf_event.h>
 #include <asm/unistd.h>
@@ -61,14 +63,14 @@ Controller::Controller() {
     perror("raplcap_get_num_packages");
     exit(1);
   }
-  if (raplcap_init(&rc)) {
+  if (raplcap_init(&cpu_rc)) {
     perror("raplcap_init");
     exit(1);
   }
-  cpu_dies = raplcap_get_num_die(&rc, 0);
+  cpu_dies = raplcap_get_num_die(&cpu_rc, 0);
   if (cpu_dies == 0) {
     perror("raplcap_get_num_die");
-    raplcap_destroy(&rc);
+    raplcap_destroy(&cpu_rc);
     exit(1);
   }
   std::getline(max_short_file, str);
@@ -77,10 +79,12 @@ Controller::Controller() {
   std::getline(max_long_file, str);
   cpu_max_long_pc = 1.0 * std::stoi(str) / 1000000;
   str.clear();
-  if (raplcap_pd_get_limits(&rc, 0, 0, RAPLCAP_ZONE_PACKAGE, &rl_long, &rl_short)) {
+  if (raplcap_pd_get_limits(&cpu_rc, 0, 0, RAPLCAP_ZONE_PACKAGE, &cpu_long_pc, &cpu_short_pc)) {
     perror("raplcap_pd_get_limits");
     exit(1);
   }
+  cpu_total_long_pc = cpu_long_pc.watts * cpu_pkgs * cpu_dies;
+  cpu_total_short_pc = cpu_short_pc.watts * cpu_pkgs * cpu_dies;
 
   // file close and gb
   max_freq_file.close();
@@ -91,7 +95,7 @@ Controller::Controller() {
   // cur_long_file.close();
 }
 
-Controller::Controller(governor cpu_governor, double cpu_long_pc = 0, double cpu_short_pc = 0, int cpu_freq = 0) {
+Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0, double cpu_total_short_pc = 0, int cpu_freq = 0) {
   cpu_cores = sysconf(_SC_NPROCESSORS_ONLN);
 
   std::string str;
@@ -118,14 +122,14 @@ Controller::Controller(governor cpu_governor, double cpu_long_pc = 0, double cpu
     perror("raplcap_get_num_packages");
     exit(1);
   }
-  if (raplcap_init(&rc)) {
+  if (raplcap_init(&cpu_rc)) {
     perror("raplcap_init");
     exit(1);
   }
-  cpu_dies = raplcap_get_num_die(&rc, 0);
+  cpu_dies = raplcap_get_num_die(&cpu_rc, 0);
   if (cpu_dies == 0) {
     perror("raplcap_get_num_die");
-    raplcap_destroy(&rc);
+    raplcap_destroy(&cpu_rc);
     exit(1);
   }
   std::getline(max_short_file, str);
@@ -134,10 +138,12 @@ Controller::Controller(governor cpu_governor, double cpu_long_pc = 0, double cpu
   std::getline(max_long_file, str);
   cpu_max_long_pc = 1.0 * std::stoi(str) / 1000000;
   str.clear();
-  if (raplcap_pd_get_limits(&rc, 0, 0, RAPLCAP_ZONE_PACKAGE, &rl_long, &rl_short)) {
+  if (raplcap_pd_get_limits(&cpu_rc, 0, 0, RAPLCAP_ZONE_PACKAGE, &cpu_long_pc, &cpu_short_pc)) {
     perror("raplcap_pd_get_limits");
     exit(1);
   }
+  this->cpu_total_long_pc = cpu_long_pc.watts * cpu_pkgs * cpu_dies;
+  this->cpu_total_short_pc = cpu_short_pc.watts * cpu_pkgs * cpu_dies;
 
   // cpu governor config
   switch (cpu_governor) {
@@ -162,7 +168,7 @@ Controller::Controller(governor cpu_governor, double cpu_long_pc = 0, double cpu
   }
 
   // set powercap
-  if (SetCPUPowercap(cpu_long_pc, cpu_short_pc))
+  if (SetCPUPowercap(cpu_total_long_pc, cpu_total_short_pc))
     exit(1);
   
   max_freq_file.close();
@@ -184,12 +190,18 @@ int Controller::SetCPUFreq(int cpu_freq) {
   #pragma omp parallel for
   for (int i=0; i<cpu_cores; i++) {
     cpupower_cmd << "sudo cpupower -c " << i << " frequency-set -u " 
-                 << cpu_freq << "hz > /dev/null";
+                 << cpu_freq << "khz > /dev/null";
     status = system(cpupower_cmd.str().c_str());
+    if (status == -1) {
+      perror("system cpupower");
+    }
     cpupower_cmd.clear();
     cpupower_cmd << "sudo cpupower -c " << i << " frequency-set -d " 
-                 << cpu_freq << "hz > /dev/null";
+                 << cpu_freq << "khz > /dev/null";
     status = system(cpupower_cmd.str().c_str());
+    if (status == -1) {
+      perror("system cpupower");
+    }
     cpupower_cmd.clear();
   }
   this->cpu_freq = cpu_freq;
@@ -214,19 +226,27 @@ void Controller::SetCPUGovernor(const char *gov) {
   free(gov_file);
 }
 
-int Controller::SetCPUPowercap(double cpu_long_pc, double cpu_short_pc = 0) {
-  if (cpu_long_pc == 0)
+int Controller::SetCPUPowercap(double cpu_total_long_pc, double cpu_total_short_pc = 0) {
+  if (cpu_total_long_pc == 0)
     return 0;
-  if (cpu_long_pc < 0 || cpu_long_pc > cpu_max_long_pc || 
-      cpu_short_pc < 0 || cpu_short_pc > cpu_max_short_pc) {
+
+  double cpu_long_pc_each =  cpu_total_long_pc / cpu_pkgs / cpu_dies;
+  double cpu_short_pc_each =  cpu_total_short_pc / cpu_pkgs / cpu_dies;
+  if (cpu_long_pc_each < 0 || cpu_long_pc_each > cpu_max_long_pc || 
+      cpu_short_pc_each < 0 || cpu_short_pc_each > cpu_max_short_pc) {
     perror("invalid powercap");
     return 1;
   }
 
-  rl_long.watts = cpu_long_pc;
+  this->cpu_total_long_pc = cpu_total_long_pc;
+  cpu_long_pc.watts = cpu_long_pc_each;
+  if (cpu_total_short_pc) {
+    this->cpu_total_short_pc = cpu_total_short_pc;
+    cpu_short_pc.watts = cpu_short_pc_each;
+  }
   for (int i=0; i<cpu_pkgs; i++) {
     for (int j=0; j<cpu_dies; j++) {
-      if (raplcap_pd_set_limits(&rc, i, j, RAPLCAP_ZONE_PACKAGE, &rl_long, &rl_short)) {
+      if (raplcap_pd_set_limits(&cpu_rc, i, j, RAPLCAP_ZONE_PACKAGE, &cpu_long_pc, &cpu_short_pc)) {
         perror("raplcap_pd_set_limits");
         return 1;
       }
@@ -234,7 +254,7 @@ int Controller::SetCPUPowercap(double cpu_long_pc, double cpu_short_pc = 0) {
   }
   for (int i=0; i<cpu_pkgs; i++) {
     for (int j=0; j<cpu_dies; j++) {
-      if (raplcap_pd_set_zone_enabled(&rc, i, j, RAPLCAP_ZONE_PACKAGE, 1)) {
+      if (raplcap_pd_set_zone_enabled(&cpu_rc, i, j, RAPLCAP_ZONE_PACKAGE, 1)) {
         perror("raplcap_pd_set_zone_enabled");
         return 1;
       }
@@ -262,23 +282,41 @@ int Controller::GetCPUFreq() {
 }
 
 double Controller::GetCPUCurPower() {
-  
+  timeval start_time, end_time;
+  timespec interval;
+  interval.tv_sec = 0;
+  interval.tv_nsec = 100000000; // 100ms
+
+  double energy1_before = raplcap_pd_get_energy_counter(&cpu_rc, 0, 0, RAPLCAP_ZONE_PACKAGE);
+  double energy2_before = raplcap_pd_get_energy_counter(&cpu_rc, 1, 0, RAPLCAP_ZONE_PACKAGE);
+  gettimeofday(&start_time, NULL);
+
+  nanosleep(&interval, NULL);
+
+  double energy1_after = raplcap_pd_get_energy_counter(&cpu_rc, 0, 0, RAPLCAP_ZONE_PACKAGE);
+  double energy2_after = raplcap_pd_get_energy_counter(&cpu_rc, 1, 0, RAPLCAP_ZONE_PACKAGE); 
+  gettimeofday(&end_time, NULL);
+
+  double diff_time = (end_time.tv_usec - start_time.tv_usec) + (end_time.tv_sec - start_time.tv_sec) * 1000000;
+  double power1 = (energy1_after - energy1_before) / diff_time * 1000000;
+  double power2 = (energy2_after - energy2_before) / diff_time * 1000000;
+  return power1+power2;
 }
 
 double Controller::GetCPULongPowerCap() {
-  return rl_long.watts;
+  return cpu_long_pc.watts;
 }
 
 double Controller::GetCPUShortPowerCap() {
-  return rl_short.watts;
+  return cpu_short_pc.watts;
 }
 
 double Controller::GetCPULongWindow() {
-  return rl_long.seconds;
+  return cpu_long_pc.seconds;
 }
 
 double Controller::GetCPUShortWindow() {
-  return rl_short.seconds;
+  return cpu_short_pc.seconds;
 }
 
 double Controller::GetCPUUtil() {
@@ -287,7 +325,7 @@ double Controller::GetCPUUtil() {
   sprintf(util_cmd, "top -b -n 2 -d 0.2 -p %d | tail -1 | awk '{print $9}'", pid);
   FILE *fp = popen(util_cmd, "r");
   while (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
-    sscanf(tmp_buf, "%f", &cpu_util);
+    sscanf(tmp_buf, "%lf", &cpu_util);
   }
   pclose(fp);
   return cpu_util;
@@ -330,7 +368,7 @@ double Controller::GetCPUIPC() {
     for (int i=0; i<3; i++) {
       token = strtok(NULL, " ");
     }
-    sscanf(token, "%f", &cpu_ipc);
+    sscanf(token, "%lf", &cpu_ipc);
   }
   pclose(fp);
   return cpu_ipc;
@@ -346,21 +384,40 @@ double Controller::GetCPUCacheMissRate() {
     for (int i=0; i<3; i++) {
       token = strtok(NULL, " ");
     }
-    sscanf(token, "%f", &cpu_miss_rate);
+    sscanf(token, "%lf", &cpu_miss_rate);
   }
   pclose(fp);
   return cpu_miss_rate;
 }
 
 void Controller::Schedule() {
-  double cpu_cur_power = 
+  if (cpu_governor != governor::MANUAL)
+    return;
+
+  double cpu_cur_power;
   while (true) {
-    cpu_
+    cpu_cur_power = GetCPUCurPower();
+    if (cpu_cur_power < cpu_total_long_pc) {
+      if (cpu_freq == cpu_max_freq)
+        break;
+      
+      cpu_freq += 100000;
+      if (SetCPUFreq(cpu_freq))
+        exit(1);
+      sleep(0.5);
+    } else {
+      if (cpu_freq == cpu_min_freq)
+        break;
+      cpu_freq -= 100000;
+      if (SetCPUFreq(cpu_freq))
+        exit(1);
+      break;
+    }
   }
 }
 
 Controller::~Controller() {
-  if (raplcap_destroy(&rc)) {
+  if (raplcap_destroy(&cpu_rc)) {
     perror("raplcap_destroy");
   }
 }

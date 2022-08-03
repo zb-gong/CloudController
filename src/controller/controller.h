@@ -3,18 +3,6 @@
 
 #include <raplcap.h>
 
-// constant file path
-static const char MAX_FREQ_FILE[] = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-static const char MIN_FREQ_FILE[] = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-static const char CUR_FREQ_FILE[] = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq";
-static const char CUR_GOV_FILE[] = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-static const char MAX_PWR_SHORT_FILE[] = "/sys/devices/virtual/powercap/intel-rapl/intel-rapl\\:0/constraint_1_max_power_uw";
-static const char MAX_PWR_LONG_FILE[] = "/sys/devices/virtual/powercap/intel-rapl/intel-rapl\\:0/constraint_0_max_power_uw";
-// static const char CUR_PWR_SHORT_FILE[] = "/sys/devices/virtual/powercap/intel-rapl/intel-rapl\:0/constraint_1_power_limit_uw ";
-// static const char CUR_PWR_LONG_FILE[] = "/sys/devices/virtual/powercap/intel-rapl/intel-rapl\:0/constraint_0_power_limit_uw ";
-// static const char CUR_WIN_SHORT_FILE[] = "/sys/devices/virtual/powercap/intel-rapl/intel-rapl\:0/constraint_1_power_limit_uw ";
-// static const char CUR_WIN_LONG_FILE[] = "/sys/devices/virtual/powercap/intel-rapl/intel-rapl\:0/constraint_0_power_limit_uw ";
-
 enum class governor{
   POWERSAVE = 0,
   PERFORMANCE = 1,
@@ -51,6 +39,7 @@ private:
   double cpu_total_long_pc;
   double cpu_total_short_pc;
   double cpu_cur_power;
+  int uncore_freq;
   // uint gpu_freq;
   // double gpu_powercap;
   // uint dram_pstate;
@@ -61,24 +50,33 @@ private:
   double cpu_util;
   double cpu_ipc;
   double cpu_miss_rate;
+
 public:
   Controller();
   Controller(governor cpu_governor, double cpu_total_long_pc, double cpu_total_short_pc, int cpu_freq);
+  // CPU freq related
   int SetCPUFreq(int cpu_freq);
-  int SetCPUPowercap(double cpu_total_long_pc, double cpu_total_short_pc);
-  void SetCPUGovernor(const char *cpu_governor);
   int GetMaxCPUFreq();
   int GetMinCPUFreq();
   int GetCPUFreq();
+  // CPU powercap related
+  int SetCPUPowercap(double cpu_total_long_pc, double cpu_total_short_pc);
   double GetCPUCurPower();
   double GetCPULongPowerCap();
   double GetCPUShortPowerCap();
   double GetCPULongWindow();
   double GetCPUShortWindow();
+  // CPU utuilization related
   double GetCPUUtil();
   double GetCPUMeanUtil();
+  // CPU counter related
   double GetCPUIPC();
   double GetCPUCacheMissRate();
+  // uncore freq related
+  int SetUncoreFreq(int uncore_freq);
+  int GetUncoreFreq();
+  // misc
+  void SetCPUGovernor(const char *cpu_governor);
   void Schedule();
   ~Controller();
 };

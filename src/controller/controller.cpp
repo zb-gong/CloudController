@@ -15,6 +15,9 @@
 #include <sys/ioctl.h>
 #include <linux/perf_event.h>
 #include <asm/unistd.h>
+#include "util.h"
+// #include <asm/msr.h>
+
 
 /**
  * perf event wrapper
@@ -28,6 +31,8 @@ static long perf_event_open(struct perf_event_attr *hw_event, pid_t pid,
 }
 
 /**
+ * Controller default Constructor
+ * 
  * Defualt cpu governor is powersave.
  */
 Controller::Controller() {
@@ -95,6 +100,12 @@ Controller::Controller() {
   // cur_long_file.close();
 }
 
+/**
+ * Controller constructor
+ * 
+ * DVFS governor settings: manual or intel_pstate(performance or powersave)
+ * Set cpu freq and cpu powercap (long/short term)
+ */
 Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0, double cpu_total_short_pc = 0, int cpu_freq = 0) {
   cpu_cores = sysconf(_SC_NPROCESSORS_ONLN);
 
@@ -177,9 +188,10 @@ Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0, doub
   max_long_file.close();
 }
 
+/************************ CPU freq related ******************************/
 int Controller::SetCPUFreq(int cpu_freq) {
   if (cpu_freq == 0)
-    cpu_freq = cpu_min_freq;
+    cpu_freq =  ;
   if (cpu_freq < cpu_min_freq || cpu_freq > cpu_max_freq) {
     perror("input frequency invalid");
     return 1;
@@ -208,24 +220,25 @@ int Controller::SetCPUFreq(int cpu_freq) {
   return 0;
 }
 
-void Controller::SetCPUGovernor(const char *gov) {
-  std::string str;
-  std::fstream cur_gov_file;
-  char *gov_file = (char *)malloc(strlen(CUR_GOV_FILE) + 1);
-
-  #pragma omp parallel for
-  for (int i=0; i<cpu_cores; i++) {
-    sprintf(gov_file, "/sys/devices/system/cpu/cpu%d/cpufreq/scaling_max_freq", i);
-    cur_gov_file.open(gov_file);
-    std::getline(cur_gov_file, str);
-    if (str != gov)
-      cur_gov_file << gov;
-    str.clear();
-    cur_gov_file.close();
-  }
-  free(gov_file);
+int Controller::GetMaxCPUFreq() {
+  return cpu_max_freq;
 }
 
+int Controller::GetMinCPUFreq() {
+  return cpu_min_freq;
+}
+
+int Controller::GetCPUFreq() {
+  std::string str;
+  std::ifstream cur_freq_file(CUR_FREQ_FILE);
+  std::getline(cur_freq_file, str);
+  cpu_freq = std::stoi(str);
+  str.clear();
+  cur_freq_file.close();
+  return cpu_freq;
+}
+
+/****************************  cpu powercap related ******************************/
 int Controller::SetCPUPowercap(double cpu_total_long_pc, double cpu_total_short_pc = 0) {
   if (cpu_total_long_pc == 0)
     return 0;
@@ -261,24 +274,6 @@ int Controller::SetCPUPowercap(double cpu_total_long_pc, double cpu_total_short_
     }
   }
   return 0;
-}
-
-int Controller::GetMaxCPUFreq() {
-  return cpu_max_freq;
-}
-
-int Controller::GetMinCPUFreq() {
-  return cpu_min_freq;
-}
-
-int Controller::GetCPUFreq() {
-  std::string str;
-  std::ifstream cur_freq_file(CUR_FREQ_FILE);
-  std::getline(cur_freq_file, str);
-  cpu_freq = std::stoi(str);
-  str.clear();
-  cur_freq_file.close();
-  return cpu_freq;
 }
 
 double Controller::GetCPUCurPower() {
@@ -319,6 +314,7 @@ double Controller::GetCPUShortWindow() {
   return cpu_short_pc.seconds;
 }
 
+/**************************** CPU utilization ****************************/
 double Controller::GetCPUUtil() {
   char tmp_buf[10];
   char util_cmd[128];
@@ -358,6 +354,7 @@ double Controller::GetCPUMeanUtil() {
   return sum_total_util / len_total_util;
 }
 
+/*************************** CPU counter related **************************/
 double Controller::GetCPUIPC() {
   char tmp_buf[256];
   char ipc_cmd[256];
@@ -389,6 +386,44 @@ double Controller::GetCPUCacheMissRate() {
   pclose(fp);
   return cpu_miss_rate;
 }
+
+/******************************* uncore freq related ***********************/
+int Controller::SetUncoreFreq(int uncore_freq) {
+  int fd = open_msr(0);
+  uint64_t results = read_msr(fd, UNCORE_RATIO_LIMIT);
+  uint64_t other_bits = results >> 7;
+  int ratio = uncore_freq / UNCORE_BASE_FREQ;
+  uint64_t reg = other_bits << 7 | ratio;
+  write_msr(fd, UNCORE_RATIO_LIMIT, reg);
+  return 0;
+}
+
+int Controller::GetUncoreFreq() {
+  int fd = open_msr(0);
+  uint64_t results = read_msr(fd, UNCORE_RATIO_LIMIT);
+  int ratio = results & 0x7F;
+  return UNCORE_BASE_FREQ * ratio;
+}
+
+/********************************** misc **************************************/
+void Controller::SetCPUGovernor(const char *gov) {
+  std::string str;
+  std::fstream cur_gov_file;
+  char *gov_file = (char *)malloc(strlen(CUR_GOV_FILE) + 1);
+
+  #pragma omp parallel for
+  for (int i=0; i<cpu_cores; i++) {
+    sprintf(gov_file, "/sys/devices/system/cpu/cpu%d/cpufreq/scaling_max_freq", i);
+    cur_gov_file.open(gov_file);
+    std::getline(cur_gov_file, str);
+    if (str != gov)
+      cur_gov_file << gov;
+    str.clear();
+    cur_gov_file.close();
+  }
+  free(gov_file);
+}
+
 
 void Controller::Schedule() {
   if (cpu_governor != governor::MANUAL)

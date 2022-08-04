@@ -1,6 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#include <iostream>
+
 #define UNCORE_RATIO_LIMIT 0x620
 #define UNCORE_BASE_FREQ 100000
 
@@ -16,6 +18,10 @@ static const char MAX_PWR_LONG_FILE[] = "/sys/devices/virtual/powercap/intel-rap
 // static const char CUR_WIN_SHORT_FILE[] = "/sys/devices/virtual/powercap/intel-rapl/intel-rapl\:0/constraint_1_power_limit_uw ";
 // static const char CUR_WIN_LONG_FILE[] = "/sys/devices/virtual/powercap/intel-rapl/intel-rapl\:0/constraint_0_power_limit_uw ";
 
+// common util
+void parser(int argc, char *argv[], int &cpu_freq, int &uncore_freq, double &cpu_power, std::string &cid);
+
+// msr related
 int open_msr(int core);
 uint64_t read_msr(int fd, uint64_t which);
 void write_msr(int fd, uint64_t which, uint64_t data);

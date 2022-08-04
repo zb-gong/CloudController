@@ -88,6 +88,9 @@ Controller::Controller() {
   cpu_total_long_pc = cpu_long_pc.watts * cpu_pkgs * cpu_dies;
   cpu_total_short_pc = cpu_short_pc.watts * cpu_pkgs * cpu_dies;
 
+  // uncore freq config
+  uncore_freq = GetUncoreFreq();
+
   // file close and gb
   max_freq_file.close();
   min_freq_file.close();
@@ -103,7 +106,7 @@ Controller::Controller() {
  * DVFS governor settings: manual or intel_pstate(performance or powersave)
  * Set cpu freq and cpu powercap (long/short term)
  */
-Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0, double cpu_total_short_pc = 0, int cpu_freq = 0) {
+Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0., double cpu_total_short_pc = 0., int cpu_freq = 0., int uncore_freq = 0.) {
   Controller();
   
   // cpu governor config
@@ -120,6 +123,8 @@ Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0, doub
     SetCPUGovernor("performance");
     this->cpu_governor = governor::MANUAL;
     if (SetCPUFreq(cpu_freq))
+      exit(1);
+    if (SetUncoreFreq(uncore_freq))
       exit(1);
     break;
   }
@@ -141,6 +146,18 @@ void Controller::BindContainer(std::string container_id = "96edd256c25b") {
   GetCurCPUCores();
 }
 
+int Controller::GetContainerPID(std::string container_id) {
+  char tmp_buf[32];
+  std::ostringstream docker_top_ps;
+  docker_top_ps << "sudo docker top " << container_id << " | tail -1";
+  FILE *fp = popen(docker_top_ps.str().c_str(), "r");
+  if (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
+    sscanf(tmp_buf, "%d", &pid);
+  }
+  pclose(fp);
+  return pid;
+}
+
 /************************ CPU cores related *****************************/
 int Controller::BindCPUCores() {
   std::ostringstream docker_cores_cmd;
@@ -158,7 +175,7 @@ int Controller::GetCurCPUCores() {
   char tmp_buf[64];
   std::ostringstream docker_cores_cmd;
   docker_cores_cmd << "sudo docker inspect " << cid << " | grep CpusetCpus";
-  FILE *fp = popen(docker_cores_cmd, "r");
+  FILE *fp = popen(docker_cores_cmd.str().c_str(), "r");
   if (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
     std::string str = tmp_buf;
     std::size_t found = str.find('-');
@@ -257,6 +274,7 @@ int Controller::SetCPUPowercap(double cpu_total_long_pc, double cpu_total_short_
   return 0;
 }
 
+// TODO: this is only long term power; consider short term power -> msr 
 double Controller::GetCPUCurPower() {
   timeval start_time, end_time;
   timespec interval;
@@ -370,16 +388,21 @@ double Controller::GetCPUCacheMissRate() {
 
 /******************************* uncore freq related ***********************/
 int Controller::SetUncoreFreq(int uncore_freq) {
+  if (uncore_freq == 0)
+    return 0;
   int fd = open_msr(0);
   uint64_t results = read_msr(fd, UNCORE_RATIO_LIMIT);
   uint64_t other_bits = results >> 7;
   int ratio = uncore_freq / UNCORE_BASE_FREQ;
   uint64_t reg = other_bits << 7 | ratio;
   write_msr(fd, UNCORE_RATIO_LIMIT, reg);
+  this->uncore_freq = uncore_freq;
   return 0;
 }
 
 int Controller::GetUncoreFreq() {
+  if (uncore_freq)
+    return uncore_freq;
   int fd = open_msr(0);
   uint64_t results = read_msr(fd, UNCORE_RATIO_LIMIT);
   int ratio = results & 0x7F;
@@ -403,18 +426,6 @@ void Controller::SetCPUGovernor(const char *gov) {
     cur_gov_file.close();
   }
   free(gov_file);
-}
-
-int Controller::GetContainerPID(std::string container_id) {
-  char tmp_buf[32];
-  std::ostringstream docker_top_ps;
-  docker_top_ps << "sudo docker top " << container_id << " | tail -1";
-  FILE *fp = popen(docker_top_ps, "r");
-  if (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
-    sscanf(tmp_buf, "%d", &pid);
-  }
-  pclose(fp);
-  return pid;
 }
 
 void Controller::Schedule() {

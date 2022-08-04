@@ -10,7 +10,89 @@
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
+#include <getopt.h>
+#include <iostream>
+#include <string>
 #include "util.h"
+
+/************************* common **********************************/
+void parser(int argc, char *argv[], int &cpu_freq, int &uncore_freq, double &cpu_power, std::string &cid) {
+  int o; 
+  
+  static struct option long_option[] = {
+    {"cfreq", required_argument, NULL, 'c'},
+    {"ufreq", required_argument, NULL, 'u'},
+    {"cpower", required_argument, NULL, 'C'},
+    {"cid", required_argument, NULL, 0},
+    {"help", no_argument, NULL, 'h'},
+    {0,0,0,0}
+  };
+
+  while ((o = getopt_long(argc, argv, "hc:f:C:", long_option, NULL)) != -1) {
+    switch(o) {
+      case 0:
+        if (optarg) {
+          cid = optarg;
+        } else {
+          perror("--cid should include at least one arg");
+          exit(1);
+        }
+        break;
+      case 'c': {
+        if (optarg) {
+          int tmp_freq = atoi(optarg);
+          if (tmp_freq < 10) {
+            tmp_freq *= 1000000; // input is GHz
+          } else if (tmp_freq < 10000) {
+            tmp_freq *= 1000; // input is MHz
+          } else if (tmp_freq >= 10000000) {
+            perror("input cpu freq is invalid, GHz, MHz, kHz are supported");
+            exit(1);
+          }
+          cpu_freq = tmp_freq;
+        } else {
+          perror("--cfreq should include at least one arg");
+          exit(1);
+        }
+        break;
+      }
+      case 'u': {
+        if (optarg) {
+          int tmp_freq = atoi(optarg);
+          if (tmp_freq < 10) {
+            tmp_freq *= 1000000; // input is GHz
+          } else if (tmp_freq < 10000) {
+            tmp_freq *= 1000; // input is MHz
+          } else if (tmp_freq >= 10000000) {
+            perror("input uncore freq is invalid, GHz, MHz, kHz are supported");
+            exit(1);
+          }
+          uncore_freq = tmp_freq;
+        } else {
+          perror("--ufreq should include at least one arg");
+          exit(1);
+        }
+        break;
+      }
+      case 'C': {
+        if (optarg) {
+          cpu_power = atof(optarg);
+        } else {
+          perror("--cpower should include at least one arg");
+          exit(1);
+        }
+        break;
+      }
+      default: {
+        perror("usage: controller -[-c|--cfreq] 1000000 [-u|--ufreq] 2000000 [-C|--cpower 70\n"
+        "-c|--cfreq: specify cpu frequency (support unit: GHz MHz KHz)\n"
+        "-u|--ufreq: specify uncore frequency (support unit: GHz MHz KHz\n"
+        "-C|--cpower: specify cpu powercap (total long term)\n");
+        exit(0);
+      }
+    }
+  }
+}
 
 /************************* msr related *****************************/
 int open_msr(int core) {

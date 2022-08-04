@@ -24,7 +24,7 @@ private:
   double cpu_max_short_pc;
   double cpu_max_long_pc;
 
-  // app config TODO: docker multiple app multiple names
+  // app config TODO: multiple App
   int pid;
   std::string cid;
 
@@ -34,14 +34,13 @@ private:
   int cpu_dies;
   governor cpu_governor;
   raplcap cpu_rc;
-  raplcap_limit cpu_short_pc, cpu_long_pc;
+  raplcap_limit cpu_short_pc, cpu_long_pc; // per package powercap
 
-  // knobs
+  // knobs TODO: specify cpu cores index (index array)
   int cpu_cur_cores;
   int cpu_freq;
   double cpu_total_long_pc;
   double cpu_total_short_pc;
-  double cpu_cur_power;
   int uncore_freq;
   // uint gpu_freq;
   // double gpu_powercap;
@@ -57,7 +56,7 @@ private:
 public:
   // constructors
   Controller();
-  Controller(governor cpu_governor, double cpu_total_long_pc, double cpu_total_short_pc, int cpu_cores, int cpu_freq);
+  Controller(governor cpu_governor, double cpu_total_long_pc, double cpu_total_short_pc, int cpu_freq, int uncore_freq);
   // container related
   void BindContainer(std::string container_id);
   int GetContainerPID(std::string container_id);

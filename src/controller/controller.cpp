@@ -339,7 +339,7 @@ double Controller::GetCPUMeanUtil() {
 double Controller::GetCPUIPC() {
   char tmp_buf[256];
   char ipc_cmd[256];
-  sprintf(ipc_cmd, "sudo perf stat -e cycles,instructions -p %d sleep 0.2 2>&1 | awk 'NR==5{print}'", pid);
+  sprintf(ipc_cmd, "sudo perf stat -e cycles,instructions -p %d --cpu 0-%d sleep 0.2 2>&1 | awk 'NR==5{print}'", pid, cpu_cur_cores-1);
   FILE *fp = popen(ipc_cmd, "r");
   if (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
     char *token = strtok(tmp_buf, " ");
@@ -355,7 +355,7 @@ double Controller::GetCPUIPC() {
 double Controller::GetCPUCacheMissRate() {
   char tmp_buf[256];
   char cache_cmd[256];
-  sprintf(cache_cmd, "sudo perf stat -e cache-misses,cache-references -p %d sleep 0.6 2>&1 | awk 'NR==4{print}'", pid);
+  sprintf(cache_cmd, "sudo perf stat -e cache-misses,cache-references -p %d --cpu 0-%d sleep 0.6 2>&1 | awk 'NR==4{print}'", pid, cpu_cur_cores-1);
   FILE *fp = popen(cache_cmd, "r");
   if (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
     char *token = strtok(tmp_buf, " ");

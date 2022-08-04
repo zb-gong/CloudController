@@ -55,6 +55,9 @@ Controller::Controller() {
   str.clear();
   GetCPUFreq();
 
+  // bind the container
+  BindContainer();
+
   // set defualt governor to be powersave
   SetCPUGovernor("powersave");
   cpu_governor = governor::POWERSAVE;
@@ -106,9 +109,8 @@ Controller::Controller() {
  * DVFS governor settings: manual or intel_pstate(performance or powersave)
  * Set cpu freq and cpu powercap (long/short term)
  */
-Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0., double cpu_total_short_pc = 0., int cpu_freq = 0., int uncore_freq = 0.) {
-  Controller();
-  
+Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0., double cpu_total_short_pc = 0.,
+                       int cpu_freq = 0., int uncore_freq = 0.) : Controller() {
   // cpu governor config
   switch (cpu_governor) {
   case governor::POWERSAVE: {
@@ -140,22 +142,34 @@ Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0., dou
 }
 
 /************************ container related *****************************/
-void Controller::BindContainer(std::string container_id = "96edd256c25b") {
-  cid = container_id;
-  GetContainerPID(cid);
+void Controller::BindContainer() {
+  cid = "96edd256c25b";
+  GetPIDFromCID(cid);
   GetCurCPUCores();
 }
 
-int Controller::GetContainerPID(std::string container_id) {
+void Controller::BindContainer(std::string container_id) {
+  cid = container_id;
+  GetPIDFromCID(cid);
+  GetCurCPUCores();
+}
+
+int Controller::GetPIDFromCID(std::string container_id) {
   char tmp_buf[32];
   std::ostringstream docker_top_ps;
   docker_top_ps << "sudo docker top " << container_id << " | tail -1";
   FILE *fp = popen(docker_top_ps.str().c_str(), "r");
   if (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
-    sscanf(tmp_buf, "%d", &pid);
+    char *token = strtok(tmp_buf, " ");
+    token = strtok(NULL, " ");
+    sscanf(token, "%d", &pid);
   }
   pclose(fp);
   return pid;
+}
+
+std::string Controller::GetContainerID() {
+  return cid;
 }
 
 /************************ CPU cores related *****************************/
@@ -170,7 +184,7 @@ int Controller::BindCPUCores() {
 }
 
 int Controller::GetCurCPUCores() {
-  if (cpu_cur_cores)
+  if (cpu_cur_cores > 0 && cpu_cur_cores < cpu_total_cores)
     return cpu_cur_cores;
   char tmp_buf[64];
   std::ostringstream docker_cores_cmd;
@@ -195,16 +209,18 @@ int Controller::SetCPUFreq(int cpu_freq) {
     return 1;
   }
   
-  int status;
-  std::ostringstream cpupower_cmd;
-  #pragma omp parallel for
+  // #pragma omp parallel for
   for (int i=0; i<cpu_cur_cores; i++) {
+    int status;
+    std::ostringstream cpupower_cmd;
+
     cpupower_cmd << "sudo cpupower -c " << i << " frequency-set -u " 
                  << cpu_freq << "khz > /dev/null";
     status = system(cpupower_cmd.str().c_str());
     if (status == -1) {
       perror("system cpupower");
     }
+    cpupower_cmd.str("");
     cpupower_cmd.clear();
     cpupower_cmd << "sudo cpupower -c " << i << " frequency-set -d " 
                  << cpu_freq << "khz > /dev/null";
@@ -212,6 +228,7 @@ int Controller::SetCPUFreq(int cpu_freq) {
     if (status == -1) {
       perror("system cpupower");
     }
+    cpupower_cmd.str("");
     cpupower_cmd.clear();
   }
   this->cpu_freq = cpu_freq;
@@ -411,13 +428,13 @@ int Controller::GetUncoreFreq() {
 
 /********************************** misc **************************************/
 void Controller::SetCPUGovernor(const char *gov) {
-  std::string str;
-  std::fstream cur_gov_file;
-  char *gov_file = (char *)malloc(strlen(CUR_GOV_FILE) + 1);
-
   #pragma omp parallel for
   for (int i=0; i<cpu_cur_cores; i++) {
-    sprintf(gov_file, "/sys/devices/system/cpu/cpu%d/cpufreq/scaling_max_freq", i);
+    std::string str;
+    std::fstream cur_gov_file;
+    char gov_file[128];
+
+    sprintf(gov_file, "/sys/devices/system/cpu/cpu%d/cpufreq/scaling_governor", i);
     cur_gov_file.open(gov_file);
     std::getline(cur_gov_file, str);
     if (str != gov)
@@ -425,7 +442,10 @@ void Controller::SetCPUGovernor(const char *gov) {
     str.clear();
     cur_gov_file.close();
   }
-  free(gov_file);
+}
+
+int Controller::GetPID() {
+  return pid;
 }
 
 void Controller::Schedule() {

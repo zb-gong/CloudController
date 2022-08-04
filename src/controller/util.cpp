@@ -84,9 +84,9 @@ void parser(int argc, char *argv[], int &cpu_freq, int &uncore_freq, double &cpu
         break;
       }
       default: {
-        perror("usage: controller -[-c|--cfreq] 1000000 [-u|--ufreq] 2000000 [-C|--cpower 70\n"
+        fprintf(stdout, "usage: controller -[-c|--cfreq] 1000000 [-u|--ufreq] 2000000 [-C|--cpower 70\n"
         "-c|--cfreq: specify cpu frequency (support unit: GHz MHz KHz)\n"
-        "-u|--ufreq: specify uncore frequency (support unit: GHz MHz KHz\n"
+        "-u|--ufreq: specify uncore frequency (support unit: GHz MHz KHz)\n"
         "-C|--cpower: specify cpu powercap (total long term)\n");
         exit(0);
       }

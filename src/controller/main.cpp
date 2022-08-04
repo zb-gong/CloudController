@@ -15,6 +15,11 @@ int main(int argc, char *argv[]) {
     std::string container_id;
     parser(argc, argv, cpu_freq, uncore_freq, cpu_power, container_id);
     Controller c(governor::MANUAL, cpu_power, 0., cpu_freq, uncore_freq);
+    auto s = c.GetCPUCacheMissRate();
+    std::cout << "cur miss rate:" << s << std::endl;
+    auto t = c.GetCPUFreq();
+    std::cout << "cur max power:" << t << std::endl;
+  } else {
+    Controller c;
   }
-  Controller c;
 }

@@ -36,7 +36,7 @@ static long perf_event_open(struct perf_event_attr *hw_event, pid_t pid,
  * Defualt cpu governor is powersave.
  */
 Controller::Controller() {
-  cpu_cores = sysconf(_SC_NPROCESSORS_ONLN);
+  cpu_total_cores = sysconf(_SC_NPROCESSORS_ONLN);
 
   std::string str;
   std::ifstream max_freq_file(MAX_FREQ_FILE);
@@ -55,9 +55,6 @@ Controller::Controller() {
   str.clear();
   GetCPUFreq();
 
-  // process config
-  pid = 815086;
-  
   // set defualt governor to be powersave
   SetCPUGovernor("powersave");
   cpu_governor = governor::POWERSAVE;
@@ -107,70 +104,24 @@ Controller::Controller() {
  * Set cpu freq and cpu powercap (long/short term)
  */
 Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0, double cpu_total_short_pc = 0, int cpu_freq = 0) {
-  cpu_cores = sysconf(_SC_NPROCESSORS_ONLN);
-
-  std::string str;
-  std::ifstream max_freq_file(MAX_FREQ_FILE);
-  std::ifstream min_freq_file(MIN_FREQ_FILE);
-  std::ifstream max_short_file(MAX_PWR_SHORT_FILE);
-  std::ifstream max_long_file(MAX_PWR_LONG_FILE);
-
-  // cpu freq config
-  std::getline(max_freq_file, str);
-  cpu_max_freq = std::stoi(str);
-  str.clear();
-  std::getline(min_freq_file, str);
-  cpu_min_freq = std::stoi(str);
-  str.clear();
-  GetCPUFreq();
-
-  // process config
-  pid = 815086;
-
-  // rapl config
-  cpu_pkgs = raplcap_get_num_packages(NULL);
-  if (cpu_pkgs == 0) {
-    perror("raplcap_get_num_packages");
-    exit(1);
-  }
-  if (raplcap_init(&cpu_rc)) {
-    perror("raplcap_init");
-    exit(1);
-  }
-  cpu_dies = raplcap_get_num_die(&cpu_rc, 0);
-  if (cpu_dies == 0) {
-    perror("raplcap_get_num_die");
-    raplcap_destroy(&cpu_rc);
-    exit(1);
-  }
-  std::getline(max_short_file, str);
-  cpu_max_short_pc = 1.0 * std::stoi(str) / 1000000;
-  str.clear();
-  std::getline(max_long_file, str);
-  cpu_max_long_pc = 1.0 * std::stoi(str) / 1000000;
-  str.clear();
-  if (raplcap_pd_get_limits(&cpu_rc, 0, 0, RAPLCAP_ZONE_PACKAGE, &cpu_long_pc, &cpu_short_pc)) {
-    perror("raplcap_pd_get_limits");
-    exit(1);
-  }
-  this->cpu_total_long_pc = cpu_long_pc.watts * cpu_pkgs * cpu_dies;
-  this->cpu_total_short_pc = cpu_short_pc.watts * cpu_pkgs * cpu_dies;
-
+  Controller();
+  
   // cpu governor config
   switch (cpu_governor) {
   case governor::POWERSAVE: {
-    SetCPUGovernor("powersave");
-    this->cpu_governor = governor::POWERSAVE;
+    break;
   }
   case governor::PERFORMANCE: {
     SetCPUGovernor("performance");
     this->cpu_governor = governor::PERFORMANCE;
+    break;
   }
   case governor::MANUAL: {
     SetCPUGovernor("performance");
     this->cpu_governor = governor::MANUAL;
     if (SetCPUFreq(cpu_freq))
       exit(1);
+    break;
   }
   default: {
     perror("input governor invalid");
@@ -181,17 +132,47 @@ Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0, doub
   // set powercap
   if (SetCPUPowercap(cpu_total_long_pc, cpu_total_short_pc))
     exit(1);
-  
-  max_freq_file.close();
-  min_freq_file.close();
-  max_short_file.close();
-  max_long_file.close();
+}
+
+/************************ container related *****************************/
+void Controller::BindContainer(std::string container_id = "96edd256c25b") {
+  cid = container_id;
+  GetContainerPID(cid);
+  GetCurCPUCores();
+}
+
+/************************ CPU cores related *****************************/
+int Controller::BindCPUCores() {
+  std::ostringstream docker_cores_cmd;
+  docker_cores_cmd << "sudo docker update --cpuset-cpus 0-" << cpu_cur_cores-1 << " " << cid << " > /dev/null";
+  if (system(docker_cores_cmd.str().c_str()) == -1) {
+    perror("system docker update");
+    return 1;
+  }
+  return 0;
+}
+
+int Controller::GetCurCPUCores() {
+  if (cpu_cur_cores)
+    return cpu_cur_cores;
+  char tmp_buf[64];
+  std::ostringstream docker_cores_cmd;
+  docker_cores_cmd << "sudo docker inspect " << cid << " | grep CpusetCpus";
+  FILE *fp = popen(docker_cores_cmd, "r");
+  if (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
+    std::string str = tmp_buf;
+    std::size_t found = str.find('-');
+    std::string core_str = str.substr(found+1, str.length()-found-3);
+    cpu_cur_cores = std::stoi(core_str);
+  }
+  pclose(fp);
+  return cpu_cur_cores;
 }
 
 /************************ CPU freq related ******************************/
 int Controller::SetCPUFreq(int cpu_freq) {
   if (cpu_freq == 0)
-    cpu_freq =  ;
+    cpu_freq =  cpu_min_freq;
   if (cpu_freq < cpu_min_freq || cpu_freq > cpu_max_freq) {
     perror("input frequency invalid");
     return 1;
@@ -200,7 +181,7 @@ int Controller::SetCPUFreq(int cpu_freq) {
   int status;
   std::ostringstream cpupower_cmd;
   #pragma omp parallel for
-  for (int i=0; i<cpu_cores; i++) {
+  for (int i=0; i<cpu_cur_cores; i++) {
     cpupower_cmd << "sudo cpupower -c " << i << " frequency-set -u " 
                  << cpu_freq << "khz > /dev/null";
     status = system(cpupower_cmd.str().c_str());
@@ -320,7 +301,7 @@ double Controller::GetCPUUtil() {
   char util_cmd[128];
   sprintf(util_cmd, "top -b -n 2 -d 0.2 -p %d | tail -1 | awk '{print $9}'", pid);
   FILE *fp = popen(util_cmd, "r");
-  while (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
+  if (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
     sscanf(tmp_buf, "%lf", &cpu_util);
   }
   pclose(fp);
@@ -360,7 +341,7 @@ double Controller::GetCPUIPC() {
   char ipc_cmd[256];
   sprintf(ipc_cmd, "sudo perf stat -e cycles,instructions -p %d sleep 0.2 2>&1 | awk 'NR==5{print}'", pid);
   FILE *fp = popen(ipc_cmd, "r");
-  while (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
+  if (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
     char *token = strtok(tmp_buf, " ");
     for (int i=0; i<3; i++) {
       token = strtok(NULL, " ");
@@ -376,7 +357,7 @@ double Controller::GetCPUCacheMissRate() {
   char cache_cmd[256];
   sprintf(cache_cmd, "sudo perf stat -e cache-misses,cache-references -p %d sleep 0.6 2>&1 | awk 'NR==4{print}'", pid);
   FILE *fp = popen(cache_cmd, "r");
-  while (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
+  if (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
     char *token = strtok(tmp_buf, " ");
     for (int i=0; i<3; i++) {
       token = strtok(NULL, " ");
@@ -412,7 +393,7 @@ void Controller::SetCPUGovernor(const char *gov) {
   char *gov_file = (char *)malloc(strlen(CUR_GOV_FILE) + 1);
 
   #pragma omp parallel for
-  for (int i=0; i<cpu_cores; i++) {
+  for (int i=0; i<cpu_cur_cores; i++) {
     sprintf(gov_file, "/sys/devices/system/cpu/cpu%d/cpufreq/scaling_max_freq", i);
     cur_gov_file.open(gov_file);
     std::getline(cur_gov_file, str);
@@ -424,6 +405,17 @@ void Controller::SetCPUGovernor(const char *gov) {
   free(gov_file);
 }
 
+int Controller::GetContainerPID(std::string container_id) {
+  char tmp_buf[32];
+  std::ostringstream docker_top_ps;
+  docker_top_ps << "sudo docker top " << container_id << " | tail -1";
+  FILE *fp = popen(docker_top_ps, "r");
+  if (fgets(tmp_buf, sizeof(tmp_buf), fp)) {
+    sscanf(tmp_buf, "%d", &pid);
+  }
+  pclose(fp);
+  return pid;
+}
 
 void Controller::Schedule() {
   if (cpu_governor != governor::MANUAL)

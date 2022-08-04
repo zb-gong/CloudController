@@ -2,6 +2,7 @@
 #define CONTROLLER_H
 
 #include <raplcap.h>
+#include <iostream>
 
 enum class governor{
   POWERSAVE = 0,
@@ -25,9 +26,10 @@ private:
 
   // app config TODO: docker multiple app multiple names
   int pid;
+  std::string cid;
 
   // hardware config
-  int cpu_cores;
+  int cpu_total_cores;
   int cpu_pkgs;
   int cpu_dies;
   governor cpu_governor;
@@ -35,6 +37,7 @@ private:
   raplcap_limit cpu_short_pc, cpu_long_pc;
 
   // knobs
+  int cpu_cur_cores;
   int cpu_freq;
   double cpu_total_long_pc;
   double cpu_total_short_pc;
@@ -52,8 +55,15 @@ private:
   double cpu_miss_rate;
 
 public:
+  // constructors
   Controller();
-  Controller(governor cpu_governor, double cpu_total_long_pc, double cpu_total_short_pc, int cpu_freq);
+  Controller(governor cpu_governor, double cpu_total_long_pc, double cpu_total_short_pc, int cpu_cores, int cpu_freq);
+  // container related
+  void BindContainer(std::string container_id);
+  int GetContainerPID(std::string container_id);
+  //CPU cores related
+  int BindCPUCores();
+  int GetCurCPUCores();
   // CPU freq related
   int SetCPUFreq(int cpu_freq);
   int GetMaxCPUFreq();

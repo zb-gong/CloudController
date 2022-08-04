@@ -16,6 +16,7 @@ static const char MAX_PWR_LONG_FILE[] = "/sys/devices/virtual/powercap/intel-rap
 // static const char CUR_WIN_SHORT_FILE[] = "/sys/devices/virtual/powercap/intel-rapl/intel-rapl\:0/constraint_1_power_limit_uw ";
 // static const char CUR_WIN_LONG_FILE[] = "/sys/devices/virtual/powercap/intel-rapl/intel-rapl\:0/constraint_0_power_limit_uw ";
 
+int open_msr(int core);
 uint64_t read_msr(int fd, uint64_t which);
 void write_msr(int fd, uint64_t which, uint64_t data);
 int32_t wrmsr(int fd, uint64_t msr_number, uint64_t value);

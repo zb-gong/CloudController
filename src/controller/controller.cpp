@@ -194,7 +194,7 @@ int Controller::GetCurCPUCores() {
     std::string str = tmp_buf;
     std::size_t found = str.find('-');
     std::string core_str = str.substr(found+1, str.length()-found-3);
-    cpu_cur_cores = std::stoi(core_str);
+    cpu_cur_cores = std::stoi(core_str) + 1;
   }
   pclose(fp);
   return cpu_cur_cores;
@@ -243,13 +243,17 @@ int Controller::GetMinCPUFreq() {
   return cpu_min_freq;
 }
 
-int Controller::GetCPUFreq() {
+int Controller::GetRealCPUFreq() {
   std::string str;
   std::ifstream cur_freq_file(CUR_FREQ_FILE);
   std::getline(cur_freq_file, str);
   cpu_freq = std::stoi(str);
   str.clear();
   cur_freq_file.close();
+  return cpu_freq;
+}
+
+int Controller::GetCPUFreq() {
   return cpu_freq;
 }
 
@@ -296,7 +300,7 @@ double Controller::GetCPUCurPower() {
   timeval start_time, end_time;
   timespec interval;
   interval.tv_sec = 0;
-  interval.tv_nsec = 100000000; // 100ms
+  interval.tv_nsec = cpu_long_pc.seconds * 1000000000;
 
   double energy1_before = raplcap_pd_get_energy_counter(&cpu_rc, 0, 0, RAPLCAP_ZONE_PACKAGE);
   double energy2_before = raplcap_pd_get_energy_counter(&cpu_rc, 1, 0, RAPLCAP_ZONE_PACKAGE);
@@ -409,12 +413,24 @@ int Controller::SetUncoreFreq(int uncore_freq) {
     return 0;
   int fd = open_msr(0);
   uint64_t results = read_msr(fd, UNCORE_RATIO_LIMIT);
-  uint64_t other_bits = results >> 7;
+  uint64_t reserved_bit = results >> 7 & 1;
   int ratio = uncore_freq / UNCORE_BASE_FREQ;
-  uint64_t reg = other_bits << 7 | ratio;
+  uint64_t reg = ratio << 8 | reserved_bit << 7 | ratio;
   write_msr(fd, UNCORE_RATIO_LIMIT, reg);
+
+  fd = open_msr(1);
+  write_msr(fd, UNCORE_RATIO_LIMIT, reg);
+
   this->uncore_freq = uncore_freq;
   return 0;
+}
+
+int Controller::GetRealUncoreFreq() {
+  int fd = open_msr(0);
+  uint64_t results1 = read_msr(fd, MSR_U_PMON_UCLK_FIXED_CTR);
+  sleep(1);
+  uint64_t results2 = read_msr(fd, MSR_U_PMON_UCLK_FIXED_CTR);
+  return int(results2 - results1);
 }
 
 int Controller::GetUncoreFreq() {

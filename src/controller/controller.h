@@ -71,6 +71,7 @@ public:
   int SetCPUFreq(int cpu_freq);
   int GetMaxCPUFreq();
   int GetMinCPUFreq();
+  int GetRealCPUFreq();
   int GetCPUFreq();
   // CPU powercap related
   int SetCPUPowercap(double cpu_total_long_pc, double cpu_total_short_pc);
@@ -87,6 +88,7 @@ public:
   double GetCPUCacheMissRate();
   // uncore freq related
   int SetUncoreFreq(int uncore_freq);
+  int GetRealUncoreFreq();
   int GetUncoreFreq();
   // misc
   void SetCPUGovernor(const char *cpu_governor);

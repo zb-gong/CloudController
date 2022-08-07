@@ -4,7 +4,8 @@
 #include <iostream>
 
 #define UNCORE_RATIO_LIMIT 0x620
-#define UNCORE_BASE_FREQ 100000
+#define MSR_U_PMON_UCLK_FIXED_CTR 0x704
+#define UNCORE_BASE_FREQ 200000
 
 // constant file path
 static const char MAX_FREQ_FILE[] = "/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq";

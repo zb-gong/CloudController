@@ -46,7 +46,7 @@ Controller::Controller() {
   // std::ifstream cur_short_file(CUR_PWR_SHORT_FILE);
   // std::ifstream cur_long_file(CUR_PWR_LONG_FILE);
 
-  // cpu freq config
+  /* cpu freq config */
   std::getline(max_freq_file, str);
   cpu_max_freq = std::stoi(str);
   str.clear();
@@ -55,14 +55,14 @@ Controller::Controller() {
   str.clear();
   GetCPUFreq();
 
-  // bind the container
+  /* bind the container */
   BindContainer();
 
-  // set defualt governor to be powersave
+  /* set defualt governor to be powersave */
   SetCPUGovernor("powersave");
   cpu_governor = governor::POWERSAVE;
 
-  // rapl config
+  /* rapl config */
   cpu_pkgs = raplcap_get_num_packages(NULL);
   if (cpu_pkgs == 0) {
     perror("raplcap_get_num_packages");
@@ -91,10 +91,10 @@ Controller::Controller() {
   cpu_total_long_pc = cpu_long_pc.watts * cpu_pkgs * cpu_dies;
   cpu_total_short_pc = cpu_short_pc.watts * cpu_pkgs * cpu_dies;
 
-  // uncore freq config
+  /* uncore freq config */
   uncore_freq = GetUncoreFreq();
 
-  // file close and gb
+  /* file close and gb */
   max_freq_file.close();
   min_freq_file.close();
   max_short_file.close();
@@ -111,7 +111,7 @@ Controller::Controller() {
  */
 Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0., double cpu_total_short_pc = 0.,
                        int cpu_freq = 0., int uncore_freq = 0.) : Controller() {
-  // cpu governor config
+  /* cpu governor config */
   switch (cpu_governor) {
   case governor::POWERSAVE: {
     break;
@@ -136,7 +136,7 @@ Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0., dou
   }
   }
 
-  // set powercap
+  /* set powercap */
   if (SetCPUPowercap(cpu_total_long_pc, cpu_total_short_pc))
     exit(1);
 }
@@ -209,7 +209,7 @@ int Controller::SetCPUFreq(int cpu_freq) {
     return 1;
   }
   
-  // #pragma omp parallel for
+  #pragma omp parallel for
   for (int i=0; i<cpu_cur_cores; i++) {
     int status;
     std::ostringstream cpupower_cmd;
@@ -413,7 +413,7 @@ int Controller::SetUncoreFreq(int uncore_freq) {
     return 0;
   int fd = open_msr(0);
   uint64_t results = read_msr(fd, UNCORE_RATIO_LIMIT);
-  uint64_t reserved_bit = results >> 7 & 1;
+  uint64_t reserved_bit = results >> 7 & 0x1;
   int ratio = uncore_freq / UNCORE_BASE_FREQ;
   uint64_t reg = ratio << 8 | reserved_bit << 7 | ratio;
   write_msr(fd, UNCORE_RATIO_LIMIT, reg);
@@ -430,7 +430,7 @@ int Controller::GetRealUncoreFreq() {
   uint64_t results1 = read_msr(fd, MSR_U_PMON_UCLK_FIXED_CTR);
   sleep(1);
   uint64_t results2 = read_msr(fd, MSR_U_PMON_UCLK_FIXED_CTR);
-  return int(results2 - results1);
+  return (int)(results2 - results1);
 }
 
 int Controller::GetUncoreFreq() {
@@ -440,6 +440,49 @@ int Controller::GetUncoreFreq() {
   uint64_t results = read_msr(fd, UNCORE_RATIO_LIMIT);
   int ratio = results & 0x7F;
   return UNCORE_BASE_FREQ * ratio;
+}
+
+/* dram power related */
+int Controller::SetDRAMPowercap(double dram_pc) {
+  int fd = open_msr(0);
+  uint64_t result = read_msr(MSR_DRAM_POWER_LIMIT)
+  // double power_limit = (result & 0x7FFF) * msr_config.power_unit * 1000000;
+  uint64_t set_point = dram_pc / msr_config.power_unit;
+  uint64_t reg = (result & ~0x7FFF) | set_point;
+  write_msr(fd, MSR_DRAM_POWER_LIMIT, reg);
+
+  fd = open_msr(1);
+  write_msr(fd, MSR_DRAM_POWER_LIMIT, reg);
+  return 0;
+}
+
+double Controller::GetDRAMCurPower() {
+  /* get dram power limit */
+  // int fd = open_msr(0);
+  // uint64_t result = read_msr(MSR_DRAM_POWER_LIMIT)
+  // double power_limit = (result & 0x7FFF) * msr_config.power_unit * 1000000;
+
+  timeval start_time, end_time;
+  timespec interval;
+  interval.tv_sec = 0;
+  interval.tv_nsec = 100000000; // 100ms
+
+  int fd1 = open_msr(0);
+  int fd2 = open_msr(1);
+  double energy1_before = (read_msr(fd1, MSR_DRAM_ENERGY_STATUS) & 0xFFFFFFFF) * msr_config.energy_unit;
+  double energy2_before = (read_msr(fd2, MSR_DRAM_ENERGY_STATUS) & 0xFFFFFFFF) * msr_config.energy_unit;
+  gettimeofday(&start_time, NULL);
+
+  nanosleep(&interval, NULL);
+
+  double energy1_after = (read_msr(fd1, MSR_DRAM_ENERGY_STATUS) & 0xFFFFFFFF) * msr_config.energy_unit;
+  double energy2_after = (read_msr(fd2, MSR_DRAM_ENERGY_STATUS) & 0xFFFFFFFF) * msr_config.energy_unit;
+  gettimeofday(&end_time, NULL);
+
+  double diff_time = (end_time.tv_usec - start_time.tv_usec) + (end_time.tv_sec - start_time.tv_sec) * 1000000;
+  double power1 = (energy1_after - energy1_before) / diff_time * 1000000;
+  double power2 = (energy2_after - energy2_before) / diff_time * 1000000;
+  return power1+power2;
 }
 
 /********************************** misc **************************************/

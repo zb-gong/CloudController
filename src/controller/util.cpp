@@ -94,6 +94,26 @@ void parser(int argc, char *argv[], int &cpu_freq, int &uncore_freq, double &cpu
   }
 }
 
+Msrconfig::Msrconfig() {
+  uint64_t rapl_power_unit = read_msr(MSR_RAPL_POWER_UNIT);
+  uint64_t pkg_power_info = read_msr(MSR_PKG_POWER_INFO);
+  uint64_t dram_power_info = read_msr(MSR_DRAM_POWER_INFO);
+
+  power_unit = pow(0.5, (double)(rapl_power_unit & 0xF));
+  energy_unit = pow(0.5, (double)((rapl_power_unit >> 8) & 0x1F));
+  time_unit = pow(0.5, (double)((rapl_power_unit >> 16) & 0xF));
+
+  pkg_thermal_spec_power = (pkg_power_info & 0x7FFF) * power_unit;
+  pkg_minimum_power = ((pkg_power_info >> 16) & 0x7FFF) * power_unit;
+  pkg_maximum_power = ((pkg_power_info >> 32) & 0x7FFF) * power_unit;
+  pkg_maximum_time_windows = ((pkg_power_info >> 48) & 0x3F) * time_unit;
+
+  dram_thermal_spec_power = (dram_power_info & 0x7FFF) * power_unit;
+  dram_minimum_power = ((dram_power_info >> 16) & 0x7FFF) * power_unit;
+  dram_maximum_power = ((dram_power_info >> 32) & 0x7FFF) * power_unit;
+  dram_maximum_time_windows = ((dram_power_info >> 48) & 0x3F) * time_unit;
+}
+
 /************************* msr related *****************************/
 int open_msr(int core) {
 

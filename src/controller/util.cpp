@@ -95,9 +95,10 @@ void parser(int argc, char *argv[], int &cpu_freq, int &uncore_freq, double &cpu
 }
 
 Msrconfig::Msrconfig() {
-  uint64_t rapl_power_unit = read_msr(MSR_RAPL_POWER_UNIT);
-  uint64_t pkg_power_info = read_msr(MSR_PKG_POWER_INFO);
-  uint64_t dram_power_info = read_msr(MSR_DRAM_POWER_INFO);
+  int fd = open_msr(0);
+  uint64_t rapl_power_unit = read_msr(fd, MSR_RAPL_POWER_UNIT);
+  uint64_t pkg_power_info = read_msr(fd, MSR_PKG_POWER_INFO);
+  uint64_t dram_power_info = read_msr(fd, MSR_DRAM_POWER_INFO);
 
   power_unit = pow(0.5, (double)(rapl_power_unit & 0xF));
   energy_unit = pow(0.5, (double)((rapl_power_unit >> 8) & 0x1F));
@@ -163,4 +164,8 @@ int32_t wrmsr(int fd, uint64_t msr_number, uint64_t value) {
 
 int32_t rdmsr(int fd, uint64_t msr_number, uint64_t *value) {
   return pread(fd, (void *)value, sizeof(uint64_t), msr_number);
+}
+
+int close_msr(int fd) {
+  return close(fd);
 }

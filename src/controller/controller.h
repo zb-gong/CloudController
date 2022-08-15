@@ -64,7 +64,7 @@ public:
   Controller(governor cpu_governor, double cpu_total_long_pc, double cpu_total_short_pc, int cpu_freq, int uncore_freq);
   /* container related */
   void BindContainer();
-  void BindContainer(std::string container_id)
+  void BindContainer(std::string container_id);
   int GetPIDFromCID(std::string container_id);
   std::string GetContainerID();
   /* CPU cores related */

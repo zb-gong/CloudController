@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#define MSR_RAPL_POWER_UNIT = 0x606
+#define MSR_RAPL_POWER_UNIT 0x606
 /* Package RAPL Domain */
 #define MSR_PKG_RAPL_POWER_LIMIT 0x610
 #define MSR_PKG_ENERGY_STATUS 0x611
@@ -26,7 +26,7 @@
 #define MSR_DRAM_ENERGY_STATUS 0x619
 #define MSR_DRAM_PERF_STATUS 0x61B
 #define MSR_DRAM_POWER_INFO 0x61C
-#define UNCORE_BASE_FREQ 200000
+#define UNCORE_BASE_FREQ 20000
 
 /* Uncore Freq Domain */
 #define UNCORE_RATIO_LIMIT 0x620
@@ -72,5 +72,6 @@ uint64_t read_msr(int fd, uint64_t which);
 void write_msr(int fd, uint64_t which, uint64_t data);
 int32_t wrmsr(int fd, uint64_t msr_number, uint64_t value);
 int32_t rdmsr(int fd, uint64_t msr_number, uint64_t *value);
+int close_msr(int fd);
 
 #endif

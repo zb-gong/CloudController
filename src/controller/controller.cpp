@@ -417,10 +417,11 @@ int Controller::SetUncoreFreq(int uncore_freq) {
   int ratio = uncore_freq / UNCORE_BASE_FREQ;
   uint64_t reg = ratio << 8 | reserved_bit << 7 | ratio;
   write_msr(fd, UNCORE_RATIO_LIMIT, reg);
+  close_msr(fd);
 
   fd = open_msr(1);
   write_msr(fd, UNCORE_RATIO_LIMIT, reg);
-
+  close_msr(fd);
   this->uncore_freq = uncore_freq;
   return 0;
 }
@@ -430,6 +431,7 @@ int Controller::GetRealUncoreFreq() {
   uint64_t results1 = read_msr(fd, MSR_U_PMON_UCLK_FIXED_CTR);
   sleep(1);
   uint64_t results2 = read_msr(fd, MSR_U_PMON_UCLK_FIXED_CTR);
+  close_msr(fd);
   return (int)(results2 - results1);
 }
 
@@ -438,6 +440,7 @@ int Controller::GetUncoreFreq() {
     return uncore_freq;
   int fd = open_msr(0);
   uint64_t results = read_msr(fd, UNCORE_RATIO_LIMIT);
+  close_msr(fd);
   int ratio = results & 0x7F;
   return UNCORE_BASE_FREQ * ratio;
 }
@@ -445,14 +448,16 @@ int Controller::GetUncoreFreq() {
 /* dram power related */
 int Controller::SetDRAMPowercap(double dram_pc) {
   int fd = open_msr(0);
-  uint64_t result = read_msr(MSR_DRAM_POWER_LIMIT)
+  uint64_t result = read_msr(fd, MSR_DRAM_POWER_LIMIT);
   // double power_limit = (result & 0x7FFF) * msr_config.power_unit * 1000000;
   uint64_t set_point = dram_pc / msr_config.power_unit;
   uint64_t reg = (result & ~0x7FFF) | set_point;
   write_msr(fd, MSR_DRAM_POWER_LIMIT, reg);
+  close_msr(fd);
 
   fd = open_msr(1);
   write_msr(fd, MSR_DRAM_POWER_LIMIT, reg);
+  close_msr(fd);
   return 0;
 }
 
@@ -482,6 +487,9 @@ double Controller::GetDRAMCurPower() {
   double diff_time = (end_time.tv_usec - start_time.tv_usec) + (end_time.tv_sec - start_time.tv_sec) * 1000000;
   double power1 = (energy1_after - energy1_before) / diff_time * 1000000;
   double power2 = (energy2_after - energy2_before) / diff_time * 1000000;
+
+  close_msr(fd1);
+  close_msr(fd2);
   return power1+power2;
 }
 

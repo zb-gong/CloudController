@@ -1,7 +1,7 @@
 EXEC := controller
 OBJDIR = build
 CXX = g++
-CXXFLAGS = -Wall -O3 -g -std=c++11 $(shell pkg-config --cflags raplcap-powercap) -fopenmp
+CXXFLAGS = -Wall -O3 -g -std=c++11 $(shell pkg-config --cflags raplcap-powercap) -fopenmp -lm
 LDFLAGS = -g $(shell pkg-config --libs --static raplcap-powercap)
 
 OBJS = $(OBJDIR)/main.o $(OBJDIR)/util.o $(OBJDIR)/controller.o 

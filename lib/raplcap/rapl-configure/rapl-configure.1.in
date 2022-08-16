@@ -1,0 +1,206 @@
+.TH "rapl-configure-@RAPL_LIB@" "1" "2021-07-23" "RAPLCap @PROJECT_VERSION@" "RAPLCap Utilities"
+.SH "NAME"
+.LP
+rapl\-configure\-@RAPL_LIB@ \- get or set Intel RAPL configurations
+.SH "SYNPOSIS"
+.LP
+\fBrapl\-configure\-@RAPL_LIB@\fP [\fIOPTION\fP]...
+.SH "DESCRIPTION"
+.LP
+Intel Running Average Power Limit (RAPL) configures \fIpower limits\fP on
+hardware that are respected on average over a \fItime window\fP.
+An Intel\*R Sandy Bridge (2nd generation Intel\*R Core) or newer processor is
+required.
+Users are expected to have some familiarity with RAPL before using this tool.
+Refer to the "Intel\*R 64 and IA-32 Architectures Software Developer Manual,
+Volume 3: System Programming Guide" for more technical information.
+This description is only a short summary.
+.LP
+RAPL control is structured into \fIzones\fP, also known as \fIdomains\fP.
+Currently supported zones are:
+.IP \[bu] 2
+\fIPackage\fP: a processor package die, including cores and other shared
+resources like the uncore components below and a DRAM controller.
+.IP \[bu]
+\fICore\fP: the processor core, like compute components and private caches
+(often L1 and L2).
+Core is also known as \fIPP0\fP, or Power Plane 0.
+.IP \[bu]
+\fIUncore\fP: non-core processor components like shared/last-level caches
+(often L3) and any integrated graphics hardware.
+Uncore is also known as \fIPP1\fP, or Power Plane 1, and is typically only
+available on client processors like those for desktops and laptops.
+.IP \[bu]
+\fIDRAM\fP: directly-attached main memory.
+DRAM power capping is typically only available on server systems, but has been
+spotted on some client hardware.
+.IP \[bu]
+\fIPSys\fP: the entire platform/system.
+PSys is also known as \fIPlatform\fP and is only available on Intel\*R Skylake
+(6th generation Intel\*R Core) and newer processors, and requires additional
+BIOS support.
+.LP
+Package and PSys zones support two power limits, or \fIconstraints\fP - \fIlong
+term\fP and \fIshort term\fP.
+Package zones may also support a \fIpeak power\fP constraint on some
+processors.
+Other zones support a single constraint (long term).
+.LP
+Actual power limit and time window values are system-dependent.
+Refer to your hardware's technical documentation, particularly for the Thermal
+Design Power (TDP).
+.LP
+Package, Core, Uncore, and DRAM zones may exist for each die in each processor
+package, although many systems only have a single package with a single die.
+.LP
+By default, rapl\-configure\-@RAPL_LIB@ uses the PACKAGE zone on package 0,
+die 0.
+Current values are printed if no flags, or only package, die, and/or zone flags
+are specified.
+Otherwise, specified values are set while other values remain unmodified.
+.SH "OPTIONS"
+.LP
+.TP
+\fB\-h,\fP \fB\-\-help\fP
+Print the help screen and exit
+.TP
+\fB\-n,\fP \fB\-\-npackages\fP
+Print the number of packages found and exit
+.TP
+\fB\-N,\fP \fB\-\-ndie\fP
+Print the number of die found for a package and exit
+.TP
+\fB\-c,\fP \fB\-\-package\fP=\fIPACKAGE\fP
+The processor package (0 by default)
+.TP
+\fB\-d,\fP \fB\-\-die\fP=\fIDIE\fP
+The package die (0 by default)
+.TP
+\fB\-z,\fP \fB\-\-zone\fP=\fIZONE\fP
+Which zone/domain use. Allowable values:
+.br
+PACKAGE \- a processor package (default)
+.br
+CORE \- core power plane
+.br
+UNCORE \- uncore power plane (client systems only)
+.br
+DRAM \- main memory (server systems only)
+.br
+PSYS \- the entire platform (Skylake and newer only)
+.TP
+\fB\-l,\fP \fB\-\-limit\fP=\fICONSTRAINT\fP
+Which limit/constraint to use. Allowable values:
+.br
+LONG \- long term (default)
+.br
+SHORT \- short term (PACKAGE & PSYS only)
+.br
+PEAK \- peak power (Tiger Lake PACKAGE only)
+.TP
+\fB\-t,\fP \fB\-\-time\fP=\fISECONDS\fP
+Constraint's time window
+.TP
+\fB\-p,\fP \fB\-\-power\fP=\fIWATTS\fP
+Constraint's power limit
+.TP
+\fB\-e,\fP \fB\-\-enabled\fP=\fI1|0\fP
+Enable/disable a zone
+.LP
+The following allow setting long and short term constraints simultaneously:
+.TP
+\fB\-s,\fP \fB\-\-seconds0\fP=\fISECONDS\fP
+Long term time window
+.TP
+\fB\-w,\fP \fB\-\-watts0\fP=\fIWATTS\fP
+Long term power limit
+.TP
+\fB\-S,\fP \fB\-\-seconds1\fP=\fISECONDS\fP
+Short term time window (PACKAGE & PSYS only)
+.TP
+\fB\-W,\fP \fB\-\-watts1\fP=\fIWATTS\fP
+Short term power limit (PACKAGE & PSYS only)
+.SH "EXAMPLES"
+.TP
+\fBrapl\-configure\-@RAPL_LIB@ \-n\fP
+Print the number of packages found on the system.
+.TP
+\fBrapl\-configure\-@RAPL_LIB@ \-N \-c 1\fP
+Print the number of die found for package 1 (requires multi-package system).
+.TP
+\fBrapl\-configure\-@RAPL_LIB@\fP
+Print PACKAGE zone information for package 0, die 0.
+.TP
+\fBrapl\-configure\-@RAPL_LIB@ \-d 1\fP
+Print PACKAGE zone information for package 0, die 1 (requires multi-die
+package).
+.TP
+\fBrapl\-configure\-@RAPL_LIB@ \-c 1\fP
+Print PACKAGE zone information for package 1, die 0 (requires multi-package
+system).
+.TP
+\fBrapl\-configure\-@RAPL_LIB@ \-z CORE\fP
+Print CORE zone information for package 0, die 0.
+.TP
+\fBrapl\-configure\-@RAPL_LIB@ \-c 1 \-z DRAM\fP
+Print DRAM zone information for package 1, die 0 (requires multi-package
+system).
+.TP
+\fBrapl\-configure\-@RAPL_LIB@ \-p 20\fP
+Set 20 Watt long term power constraint on PACKAGE zone for package 0, die 1
+without changing time window.
+The \fB\-w\fP option would work in place of \fB\-p\fP for this constraint.
+.TP
+\fBrapl\-configure\-@RAPL_LIB@ \-p 20 \-t 30\fP
+Set 20 Watt long term power constraint with 30 second time window on PACKAGE
+zone for package 0, die 0.
+The \fB\-w\fP and \fB\-s\fP options would work in place of \fB\-p\fP and
+\fB\-t\fP, respectively, for this constraint.
+.TP
+\fBrapl\-configure\-@RAPL_LIB@ \-l SHORT \-p 30 \-t 0.0025\fP
+Set 30 Watt short term power constraint with 2.5 millisecond time window on
+PACKAGE zone for package 0, die 0.
+The \fB\-W\fP and \fB\-S\fP options would work in place of \fB\-p\fP and
+\fB\-t\fP, respectively, for this constraint, in which case \fB\-l SHORT\fP
+would not be needed.
+.TP
+\fBrapl\-configure\-@RAPL_LIB@ \-w 20 \-s 30 \-W 30 \-S 0.0025\fP
+Set 20 Watt long term power constraint with 30 second time window and
+set 30 Watt short term power constraint with 2.5 millisecond time window on
+PACKAGE zone for package 0, die 0.
+.TP
+\fBrapl\-configure\-@RAPL_LIB@ \-l PEAK \-p 45\fP
+Set 45 Watt peak power constraint on PACKAGE zone for package 0, die 0.
+Peak power does not accept a time window value.
+.TP
+\fBrapl\-configure\-@RAPL_LIB@ \-z UNCORE \-p 10 \-e 1\fP
+Set 10 Watt long term power constraint on UNCORE zone for package 0, die 0
+without changing time window, and enable the zone.
+The \fB\-w\fP option would work in place of \fB\-p\fP for this constraint.
+.TP
+\fBrapl\-configure\-@RAPL_LIB@ \-z UNCORE \-e 0\fP
+Disable UNCORE zone for package 0, die 0.
+.SH "REMARKS"
+.LP
+Administrative (root) privileges are usually needed to access RAPL settings.
+.LP
+Not all zones are supported by all systems.
+Some systems may not allow configuring or enabling/disabling supported zones,
+even if they expose the configurations.
+.LP
+Power and time window values are not always stored exactly as specified.
+This is a result of how values are encoded in the Model-Specific Registers.
+When using the powercap backend, some accuracy may also be lost as the
+interface forces rounding values to microJoule and microsecond precision.
+.LP
+Historically, the term \fIsocket\fP was used interchangeably with \fIpackage\fP.
+While there used to only ever be a single processor package per socket, this
+symmetry no longer holds - sockets may contain multiple packages.
+.SH "BUGS"
+.LP
+Report bugs upstream at <https://github.com/powercap/raplcap>
+.SH "FILES"
+.nf
+\fI/dev/cpu/*/msr\fP
+\fI/sys/class/powercap/intel\-rapl:*/\fP
+.fi

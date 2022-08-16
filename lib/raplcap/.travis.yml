@@ -1,0 +1,49 @@
+os:
+  - linux
+  # - osx
+
+# osx_image: xcode13.1
+
+dist: focal
+
+matrix:
+  include:
+    - dist: focal
+      compiler: gcc
+    - dist: focal
+      compiler: clang
+
+language: c
+
+# Intel Power Gadget won't install in Travis - no point in running on OSX then...
+# Error - Intel Power Gadget does not currently support systems with more than one CPU package.
+# addons:
+#   homebrew:
+#     casks:
+#     - intel-power-gadget
+#     # update: true
+
+install:
+  # powercap dependency
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      git clone https://github.com/powercap/powercap.git libpowercap
+      mkdir libpowercap/_build
+      cd libpowercap/_build
+      cmake -DCMAKE_INSTALL_PREFIX=_install ..
+      cmake --build . --target install
+      cd -
+    fi
+
+script:
+  - mkdir _build
+  - cd _build
+  # Test build with stricter flags
+  - export CFLAGS="-D_FORTIFY_SOURCE=2 -fstack-protector -g3 -pedantic -Wall -Wextra -Wbad-function-cast -Wcast-align
+      -Wcast-qual -Wdisabled-optimization -Wendif-labels -Wfloat-conversion -Wfloat-equal -Wformat=2 -Wformat-nonliteral
+      -Winline -Wmissing-declarations -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wpointer-arith -Wshadow
+      -Wsign-conversion -Wstrict-prototypes -Wstack-protector -Wundef -Wwrite-strings
+      -Werror"
+  - cmake .. -DCMAKE_C_FLAGS="$CFLAGS" -DCMAKE_PREFIX_PATH="$(pwd)/../libpowercap/_build/_install/"
+  - cmake --build .
+  - ctest --verbose

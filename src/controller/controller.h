@@ -16,7 +16,7 @@ enum class governor{
 /**
  * A resource controller
  * 
- * knobs include: cpu frequency (unit is kHz) cpu powercap (long/short term.)
+ * knobs include: cpu frequency (unit is kHz) cpu powercap (long/short term.) uncore frequency (unit is kHz) dram powercap
  * feedback counter include: cpu util, cache reference, ipc
  */
 class Controller {

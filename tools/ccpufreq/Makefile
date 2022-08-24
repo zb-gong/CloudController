@@ -1,7 +1,7 @@
 all: setspeed resetspeed
 
 setspeed: CSetCPUSpeed.c
-	gcc -O3 -o $@ $< -fopenmp
+	gcc -g -O3 -o $@ $< -fopenmp
 
 resetspeed: CResetCPUSpeed.c
 	gcc -O3 -o $@ $< -fopenmp

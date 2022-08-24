@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     std::cout << "cur freq:" << t << std::endl;
   } else {
     Controller c;
-    c.Schedule();
+    // c.Schedule();
     auto s = c.GetCPUCurPower();
     std::cout << "cur power:" << s << std::endl;
     auto t = c.GetCPUFreq();

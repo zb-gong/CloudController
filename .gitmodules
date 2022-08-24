@@ -1,0 +1,3 @@
+[submodule "lib/powercap"]
+	path = lib/powercap
+	url = https://github.com/powercap/powercap.git

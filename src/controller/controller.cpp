@@ -53,7 +53,7 @@ Controller::Controller() {
   std::getline(min_freq_file, str);
   cpu_min_freq = std::stoi(str);
   str.clear();
-  GetCPUFreq();
+  GetRealCPUFreq();
 
   /* bind the container */
   BindContainer();
@@ -143,7 +143,7 @@ Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0., dou
 
 /************************ container related *****************************/
 void Controller::BindContainer() {
-  cid = "96edd256c25b";
+  cid = "ba4b5d0e96c3";
   GetPIDFromCID(cid);
   GetCurCPUCores();
 }

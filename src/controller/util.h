@@ -32,6 +32,9 @@
 #define UNCORE_RATIO_LIMIT 0x620
 #define MSR_U_PMON_UCLK_FIXED_CTR 0x704
 
+/* Size Constants */
+#define VM_ID_LIMIT 50
+
 /* constant file path */
 static const char MAX_FREQ_FILE[] = "/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq";
 static const char MIN_FREQ_FILE[] = "/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq";

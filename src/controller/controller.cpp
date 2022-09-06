@@ -143,7 +143,7 @@ Controller::Controller(governor cpu_governor, double cpu_total_long_pc = 0., dou
 
 /************************ container related *****************************/
 void Controller::BindContainer() {
-  cid = "ba4b5d0e96c3";
+  cid = "3e874384b986";
   GetPIDFromCID(cid);
   GetCurCPUCores();
 }

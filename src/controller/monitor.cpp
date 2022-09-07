@@ -210,10 +210,12 @@ void Monitor::Run() {
           << std::setw(15) << "cpu_power"
           << std::setw(20) << "cache_miss_rate"
           << std::setw(15) << "dram_power" << std::endl;
-    // while (true) {
+    #ifdef DEBUG
     for (int j=0; j<1; j++) {
+    #else
+    while (true) {
+    #endif
       double tmp_util = GetCPUUtilFromDomain(vm_domains[i]);
-      std::cout << tmp_util;
       double tmp_ipcs = GetIPCFromCores(vm_cpus[i]);
       double tmp_cpu_power = GetCPUPower();
       double tmp_cache_miss_rate = GetCacheMissRateFromCores(vm_cpus[i]);

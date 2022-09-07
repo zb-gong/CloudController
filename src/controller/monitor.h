@@ -35,14 +35,14 @@ public:
   raplcap cpu_rc;
 
   Monitor();
-  double GetCPUUtilFromDomain(virDomainPtr domain, double interval);
+  double GetCPUUtilFromDomain(virDomainPtr domain, double interval = 0.5);
   double GetIPCFromCores(std::vector<int> cores);
-  double GetCPUPowerFromCores(std::vector<int> cores, double interval);
+  double GetCPUPower(double interval = 0.1);
   double GetCacheMissRateFromCores(std::vector<int> cores);
-  double GetDRAMPower(double interval);
+  double GetDRAMPower(double interval = 0.1);
   void Run();
   #ifdef DEBUG
-  std::vector<double> GetAllCPUUtil(double interval);
+  std::vector<double> GetAllCPUUtil(double interval=0.05);
   #endif
   ~Monitor();
 };

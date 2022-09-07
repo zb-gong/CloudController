@@ -1,0 +1,2 @@
+vm_id     cpu_cores      cpu_util       cpu_ipcs       cpu_power      cache_miss_rate     dram_power     
+3         0-3            1.9971         0.31           27.0434        4.56                8.01731        

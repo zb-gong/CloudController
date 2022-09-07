@@ -4,6 +4,7 @@
 #include <string.h>
 #include <math.h>
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <fstream>
 #include <string>
@@ -11,6 +12,7 @@
 #include <algorithm>
 #include <sys/time.h>
 #include <libvirt/libvirt.h>
+#include <raplcap.h>
 #include "monitor.h"
 #include "util.h"
 
@@ -70,11 +72,11 @@ Monitor::Monitor() {
  * Get CPU utilization of a domain
  * 
  */
-double Monitor::GetCPUUtilFromDomain(virDomainPtr domain, double intv = 0.05) {
+double Monitor::GetCPUUtilFromDomain(virDomainPtr domain, double intv) {
   timeval start_time, end_time;
   timespec interval;
-  interval.tv_sec = 0;
-  interval.tv_nsec = intv * 1000000000;
+  interval.tv_sec = (int)intv;
+  interval.tv_nsec = (intv - (int)intv) * 1000000000;
   
   virDomainInfo info[2];
   virDomainGetInfo(domain, &info[0]);
@@ -86,7 +88,7 @@ double Monitor::GetCPUUtilFromDomain(virDomainPtr domain, double intv = 0.05) {
   gettimeofday(&end_time, NULL);
 
   double diff_time = (end_time.tv_usec - start_time.tv_usec) * 1000 + (end_time.tv_sec - start_time.tv_sec) * 1000000000;
-  return (info[1].cpuTime - info[0].cpuTime) / diff_time * 100; // virdomain return ns, percentage 100, difftime is ns
+  return (info[1].cpuTime - info[0].cpuTime) * 100. / diff_time; // virdomain return ns, percentage 100, difftime is ns
 }
 
 /**
@@ -115,11 +117,11 @@ double Monitor::GetIPCFromCores(std::vector<int> cores) {
  * Get CPU power from cores
  * 
  */
-double Monitor::GetCPUPowerFromCores(std::vector<int> cores, double intv = 1.) {
+double Monitor::GetCPUPower(double intv) {
   timeval start_time, end_time;
   timespec interval;
-  interval.tv_sec = 0;
-  interval.tv_nsec = intv * 1000000000;
+  interval.tv_sec = (int)intv;
+  interval.tv_nsec = (intv - (int)intv) * 1000000000;
 
   double energy1_before = raplcap_pd_get_energy_counter(&cpu_rc, 0, 0, RAPLCAP_ZONE_PACKAGE);
   double energy2_before = raplcap_pd_get_energy_counter(&cpu_rc, 1, 0, RAPLCAP_ZONE_PACKAGE);
@@ -164,11 +166,11 @@ double Monitor::GetCacheMissRateFromCores(std::vector<int> cores) {
  * Get DRAM power
  * 
  */
-double Monitor::GetDRAMPower(double intv = 0.1) {
+double Monitor::GetDRAMPower(double intv) {
   timeval start_time, end_time;
   timespec interval;
-  interval.tv_sec = 0;
-  interval.tv_nsec = intv * 1000000000;
+  interval.tv_sec = (int)intv;
+  interval.tv_nsec = (intv - (int)intv) * 1000000000;
 
   int fd1 = open_msr(0);
   int fd2 = open_msr(1);
@@ -200,17 +202,30 @@ void Monitor::Run() {
   #pragma omp parallel for num_threads(vm_count)
   for (int i=0; i<vm_count; i++) {
     std::ofstream log_f;
-    log_f.open(log_files[i]);
-    log_f << "vm_id\tcpu_cores\tcpu_util\tcpu_ipcs\tcpu_power\tcache_miss_rate\tdram_power\n";
-    while (true) {
+    log_f.open(log_files[i], std::ios::out | std::ios::trunc);
+    log_f << std::left << std::setw(10) << "vm_id" 
+          << std::setw(15) << "cpu_cores"
+          << std::setw(15) << "cpu_util"
+          << std::setw(15) << "cpu_ipcs"
+          << std::setw(15) << "cpu_power"
+          << std::setw(20) << "cache_miss_rate"
+          << std::setw(15) << "dram_power" << std::endl;
+    // while (true) {
+    for (int j=0; j<1; j++) {
       double tmp_util = GetCPUUtilFromDomain(vm_domains[i]);
+      std::cout << tmp_util;
       double tmp_ipcs = GetIPCFromCores(vm_cpus[i]);
-      double tmp_cpu_power = GetCPUPowerFromCores(vm_cpus[i]);
+      double tmp_cpu_power = GetCPUPower();
       double tmp_cache_miss_rate = GetCacheMissRateFromCores(vm_cpus[i]);
       double tmp_dram_power = GetDRAMPower();
-      log_f << vm_ids[i] << "\t" << vm_cpus[i][0] << "-" << vm_cpus[i][vm_cpus.size()-1] 
-            << "\t" << tmp_util << "\t" << tmp_ipcs << "\t" << tmp_cpu_power << "\t" 
-            << tmp_cache_miss_rate << "\t" << tmp_dram_power << std::endl;
+      std::string tmp_cores = std::to_string(vm_cpus[i][0]) + "-" + std::to_string(vm_cpus[i][vm_cpus[i].size()-1]);
+      log_f << std::left << std::setw(10) << vm_ids[i] 
+            << std::setw(15) << tmp_cores
+            << std::setw(15) << tmp_util 
+            << std::setw(15) << tmp_ipcs 
+            << std::setw(15) << tmp_cpu_power 
+            << std::setw(20) << tmp_cache_miss_rate 
+            << std::setw(15) << tmp_dram_power << std::endl;
     }
     log_f.close();
   }
@@ -234,7 +249,7 @@ Monitor::~Monitor() {
  * 
  * @return CPU utilization 
  */
-std::vector<double> Monitor::GetAllCPUUtil(double interval = 0.05) {
+std::vector<double> Monitor::GetAllCPUUtil(double interval) {
   std::vector<double> retv;
   for (int i=0; i<vm_count; i++) {
     retv.push_back(GetCPUUtilFromDomain(vm_domains[i], interval));

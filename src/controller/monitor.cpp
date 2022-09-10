@@ -27,7 +27,7 @@ Monitor::Monitor() {
   energy_unit = pow(0.5, (double)((rapl_power_unit >> 8) & 0x1F));
 
   vm_ptr = virConnectOpen(NULL);
-  cpu_cores_count = sysconf(_SC_NPROCESSORS_ONLN);
+  int cpu_cores_count = sysconf(_SC_NPROCESSORS_ONLN);
   int maplen = VIR_CPU_MAPLEN(cpu_cores_count);
   unsigned char *cpumap = (unsigned char *)calloc(maplen, 1);
   if (raplcap_init(&cpu_rc)) {
@@ -211,7 +211,7 @@ void Monitor::Run() {
           << std::setw(20) << "cache_miss_rate"
           << std::setw(15) << "dram_power" << std::endl;
     #ifdef DEBUG
-    for (int j=0; j<1; j++) {
+    for (int j=0; j<10; j++) {
     #else
     while (true) {
     #endif

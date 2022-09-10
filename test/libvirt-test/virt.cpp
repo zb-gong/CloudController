@@ -1,9 +1,56 @@
 #include <iostream>
 #include <vector>
+#include <queue>
+#include <deque>
 #include <libvirt/libvirt.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
 #include <string.h>
+#include <raplcap.h>
+#include <pthread.h>
+
+#define QUEUE_LEN 100
+
+template <typename T, int MaxLen, typename Container=std::deque<T>>
+class FixedQueue : public std::queue<T, Container> {
+public:
+  void push(const T& value);
+};
+
+template <typename T, int MaxLen, typename Container>
+void FixedQueue<T, MaxLen, Container>::push(const T& value) {
+ if (this->size() == MaxLen) {
+    this->c.pop_front();
+  }
+  std::queue<T, Container>::push(value);
+}
+
+struct WorkloadInfo {
+  FixedQueue<std::vector<double>, QUEUE_LEN> cpu_utils;
+  FixedQueue<std::vector<double>, QUEUE_LEN> ipcs;
+  FixedQueue<std::vector<double>, QUEUE_LEN> cpu_powers;
+  FixedQueue<std::vector<double>, QUEUE_LEN> cpu_cache_miss_rates;
+  FixedQueue<std::vector<double>, QUEUE_LEN> cpu_dram_powers;
+};
+
+class Ship {
+public:
+  inline static int b = 1;
+  WorkloadInfo w;
+  static void *hello(void *a) {
+    std::cout << "Hello, world!" << Ship::b << std::endl;
+    return NULL;
+  }
+  void ship() {
+    pthread_t t;
+    pthread_create(&t, NULL, hello, NULL);
+  }
+  void hehe() {
+    std::vector<double> tmp_utils(2);
+    w.cpu_utils.push(tmp_utils);
+  }
+};
 
 int main(int argc, char **argv) {
   virConnectPtr c;
@@ -14,6 +61,16 @@ int main(int argc, char **argv) {
   c = virConnectOpen(NULL);
   d = virDomainLookupByID(c, 3);
 
+  raplcap cpu_rc;
+  if (raplcap_init(&cpu_rc)) {
+    perror("raplcap_init");
+    exit(1);
+  }
+  double energy1_before = raplcap_pd_get_energy_counter(&cpu_rc, 0, 0, RAPLCAP_ZONE_PACKAGE);
+  printf("cpu power:%lf\n", energy1_before);
+
+  Ship s;
+  s.hehe();
 
   // virDomainGetInfo(d, &info);
   // printf("State:%d    ",info.state);  

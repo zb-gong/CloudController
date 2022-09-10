@@ -3,12 +3,12 @@ M_EXEC := monitor
 OBJDIR = build
 LOGDIR = log
 CXX = g++
-CXXFLAGS = -Wall -O3 -g -std=c++11 $(shell pkg-config --cflags raplcap-msr) $(shell pkg-config --cflags libvirt)-fopenmp -lm
+CXXFLAGS = -Wall -O3 -g -std=c++17 $(shell pkg-config --cflags raplcap-msr) $(shell pkg-config --cflags libvirt) -fopenmp -lm -lpthread
 LDFLAGS = $(shell pkg-config --libs --static raplcap-msr) $(shell pkg-config --libs libvirt)
 
 C_OBJS = $(OBJDIR)/cmain.o
 M_OBJS = $(OBJDIR)/mmain.o
-OBJS = $(OBJDIR)/util.o $(OBJDIR)/controller.o $(OBJDIR)/monitor.o
+OBJS = $(OBJDIR)/util.o $(OBJDIR)/monitor.o $(OBJDIR)/controller.o
  
 .PHONY: clean
 

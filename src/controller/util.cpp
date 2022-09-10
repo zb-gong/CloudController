@@ -12,6 +12,8 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <iostream>
+#include <queue>
+#include <deque>
 #include <string>
 #include "util.h"
 
@@ -113,6 +115,14 @@ Msrconfig::Msrconfig() {
   dram_minimum_power = ((dram_power_info >> 16) & 0x7FFF) * power_unit;
   dram_maximum_power = ((dram_power_info >> 32) & 0x7FFF) * power_unit;
   dram_maximum_time_windows = ((dram_power_info >> 48) & 0x3F) * time_unit;
+}
+
+template <typename T, int MaxLen, typename Container>
+void FixedQueue<T, MaxLen, Container>::push(const T& value) {
+ if (this->size() == MaxLen) {
+    this->c.pop_front();
+  }
+  std::queue<T, Container>::push(value);
 }
 
 /************************* msr related *****************************/

@@ -1,7 +1,7 @@
 EXECUTABLE := virt
 CC = g++
-CFLAGS = -Wall -O3
-LDFLAGS = $(shell pkg-config --libs libvirt)
+CFLAGS = -Wall -O3 -std=c++17 $(shell pkg-config --cflags raplcap-msr) -fopenmp -lpthread
+LDFLAGS = $(shell pkg-config --libs libvirt) $(shell pkg-config --libs --static raplcap-msr)
 
 .PHONY: clean
 

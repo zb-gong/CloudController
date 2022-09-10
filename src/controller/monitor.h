@@ -1,5 +1,5 @@
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
+#ifndef MONITOR_H
+#define MONITOR_H
 
 #include <iostream>
 #include <vector>
@@ -30,7 +30,6 @@ public:
   std::vector<virDomainPtr> vm_domains;
 
   /* cpu related */
-  int cpu_cores_count;
   std::vector<std::vector<int> > vm_cpus;
   raplcap cpu_rc;
 
@@ -42,7 +41,7 @@ public:
   double GetDRAMPower(double interval = 0.1);
   void Run();
   #ifdef DEBUG
-  std::vector<double> GetAllCPUUtil(double interval=0.05);
+  std::vector<double> GetAllCPUUtil(double interval = 0.05);
   #endif
   ~Monitor();
 };

@@ -2,6 +2,8 @@
 #define UTIL_H
 
 #include <iostream>
+#include <queue>
+#include <deque>
 
 #define MSR_RAPL_POWER_UNIT 0x606
 /* Package RAPL Domain */
@@ -34,6 +36,7 @@
 
 /* Size Constants */
 #define VM_ID_LIMIT 50
+#define QUEUE_LEN 100
 
 /* constant file path */
 static const char MAX_FREQ_FILE[] = "/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq";
@@ -50,8 +53,8 @@ static const char MAX_PWR_LONG_FILE[] = "/sys/devices/virtual/powercap/intel-rap
 /* common util */
 void parser(int argc, char *argv[], int &cpu_freq, int &uncore_freq, double &cpu_power, std::string &cid);
 
+/* package power config */
 struct Msrconfig {
-public:
   /* rapl unit related */
   double power_unit;
   double energy_unit;
@@ -67,6 +70,22 @@ public:
   double dram_maximum_power;
   double dram_maximum_time_windows;
   Msrconfig();
+};
+
+/* fixed size queue */
+template <typename T, int MaxLen, typename Container=std::deque<T>>
+class FixedQueue : public std::queue<T, Container> {
+public:
+  void push(const T& value);
+};
+
+/* workload information */
+struct WorkloadInfo {
+  FixedQueue<std::vector<double>, QUEUE_LEN> cpu_utils;
+  FixedQueue<std::vector<double>, QUEUE_LEN> ipcs;
+  FixedQueue<std::vector<double>, QUEUE_LEN> cpu_powers;
+  FixedQueue<std::vector<double>, QUEUE_LEN> cpu_cache_miss_rates;
+  FixedQueue<std::vector<double>, QUEUE_LEN> cpu_dram_powers;
 };
 
 /* msr related */
